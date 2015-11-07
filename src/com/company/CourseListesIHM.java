@@ -19,7 +19,7 @@ public class CourseListesIHM extends JPanel {
         this.setPreferredSize(fenSize);
 
         try {
-            client.curOut.writeInt(123);
+            client.curOut.writeUTF("je donne des ordres woulalala");
         } catch (IOException e) {
             e.printStackTrace();
         }
