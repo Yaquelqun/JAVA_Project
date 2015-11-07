@@ -51,6 +51,7 @@ public class Client extends JFrame {
 
         }
         catch (IOException e) {
+            infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
     }
@@ -67,7 +68,14 @@ public class Client extends JFrame {
 
         } catch (IOException e1) {
             // TODO Auto-generated catch block
+            infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }
+    }
+
+
+
+    public void infoBox(String infoMessage, String titleBar){
+        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 }
