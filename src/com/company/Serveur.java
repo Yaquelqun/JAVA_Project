@@ -78,9 +78,9 @@ public class Serveur extends JFrame implements Runnable {
             boolean connected = true ;
             // attente des ordres
             while (connected) {
-                int order = in.readInt();
+                String order = in.readUTF();
                 System.out.println("ordre reçu :" +order);
-                if(order == ORDER.DISCONNECT.ordinal()){
+                if(order.equals("disconnect")){
                     con.connected = false ;
                     ihm.deConnected(numClient);
                     displayAllClients() ;
