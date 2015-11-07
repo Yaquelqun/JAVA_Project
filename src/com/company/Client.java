@@ -47,7 +47,7 @@ public class Client extends JFrame {
             curOut = new DataOutputStream(sock.getOutputStream());
             curOut.writeUTF(nickName);
             connected = true;
-
+            pageListeCourses();
 
         }
         catch (IOException e) {
@@ -73,6 +73,11 @@ public class Client extends JFrame {
         }
     }
 
+    public void pageListeCourses(){
+        CourseListesIHM MenuPage = new CourseListesIHM(this);
+        setContentPane(MenuPage);
+        pack();
+    }
 
 
     public void infoBox(String infoMessage, String titleBar){
