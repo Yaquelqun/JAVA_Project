@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import static com.company.Constants.*;
-import libs.*;
 
 /**
  * Created by Sandjiv on 06/11/2015.
@@ -90,7 +89,6 @@ public class Serveur extends JFrame implements Runnable {
                 }
                 if(order.equals("MasterRequest")){
                     System.out.println(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
-                    org.json.JSONObject jsonObj = new libs.JS("{\"phonetype\":\"N95\",\"cat\":\"WP\"}");
                 }
             }
         } catch (IOException e) {
