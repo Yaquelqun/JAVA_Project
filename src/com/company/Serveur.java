@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
-
+import JSONLibrary.*;
 import static com.company.Constants.*;
 
 /**
@@ -88,7 +88,8 @@ public class Serveur extends JFrame implements Runnable {
                     connected=false ;
                 }
                 if(order.equals("MasterRequest")){
-                    System.out.println(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
+                    JSONArray test = new JSONArray(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
+                    System.out.println(test.get(2));
                 }
             }
         } catch (IOException e) {
