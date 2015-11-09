@@ -47,10 +47,11 @@ public class Client extends JFrame {
             curOut = new DataOutputStream(sock.getOutputStream());
             curOut.writeUTF(nickName);
             connected = true;
-
+            pageListeCourses();
 
         }
         catch (IOException e) {
+            infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
     }
@@ -60,14 +61,26 @@ public class Client extends JFrame {
      */
     void disconnect(String nickName) {
         try {
-            curOut.writeInt(ORDER.DISCONNECT.ordinal());
+            curOut.writeUTF("disconnect");
             connected = false ;
 
             sock.close();
 
         } catch (IOException e1) {
             // TODO Auto-generated catch block
+            infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }
+    }
+
+    public void pageListeCourses(){
+        CourseListesIHM MenuPage = new CourseListesIHM(this);
+        setContentPane(MenuPage);
+        pack();
+    }
+
+
+    public void infoBox(String infoMessage, String titleBar){
+        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 }
