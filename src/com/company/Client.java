@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class Client extends JFrame {
     Client() {
         ihm = new IHMClient(this);
         setContentPane(ihm);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        //setLocation((dim.width/2)-getWidth()/2,(dim.height/2)+getHeight()/2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack() ;
         setVisible(true);
@@ -41,13 +44,14 @@ public class Client extends JFrame {
      */
     void connect(String nickName) {
         try {
+            System.out.println(nickName+" tente de se connecter");
             sock = new Socket("localhost", PORT);
 
             curIn = new DataInputStream(sock.getInputStream());
             curOut = new DataOutputStream(sock.getOutputStream());
             curOut.writeUTF(nickName);
             connected = true;
-            pageListeCourses();
+            System.out.println(nickName+" est connecté");
 
         }
         catch (IOException e) {
@@ -76,6 +80,18 @@ public class Client extends JFrame {
     public void pageListeCourses(){
         CourseListesIHM MenuPage = new CourseListesIHM(this);
         setContentPane(MenuPage);
+        pack();
+    }
+
+    public void pageLogin(){
+        IHMClient loginPage = new IHMClient(this);
+        setContentPane(loginPage);
+        pack();
+    }
+
+    public void pageInscription(){
+        InscriptionIHM inscriptionPage = new InscriptionIHM(this);
+        setContentPane(inscriptionPage);
         pack();
     }
 
