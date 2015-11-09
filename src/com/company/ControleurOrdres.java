@@ -52,25 +52,22 @@ public class ControleurOrdres {
         try
         {
             FileReader fr = new FileReader("inscrit.json");
-
-
-
             BufferedReader input = new BufferedReader(fr);
             JSONArray inscrits = new JSONArray(input.readLine());
-
-
-
             System.out.println("ya tant de personnes : "+inscrits.length());
             for(int i =0;i<inscrits.length();i++){
                 if(inscrit.getString("login").equals( ((JSONObject) inscrits.get(i)).getString("login"))){
-                    System.out.println("ce login est déjà pris");
+                    System.out.println("ce login est déjà pris, j'écris false via "+con.sock.toString());
+
                     con.out.writeBoolean(false);
+                    System.out.println("c'est fait !");
                     return(true);
 
                 }
             }
-            System.out.println("wouhou login disponible");
+            System.out.println("wouhou login disponible, j'écris true ");
             con.out.writeBoolean(true);
+            System.out.println("c'est fait !");
             FileWriter fw = new FileWriter("inscrit.json", false);
             BufferedWriter output = new BufferedWriter(fw);
             inscrits.put(inscrit);
@@ -84,7 +81,7 @@ public class ControleurOrdres {
             System.out.print("Erreur : ");
             ioe.printStackTrace();
         }
-        return true;
+        return false;
     }
 
     private void checkLogin() {

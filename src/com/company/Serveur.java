@@ -83,7 +83,11 @@ public class Serveur extends JFrame implements Runnable {
                 String order = in.readUTF();
                 System.out.println("ordre reçu :" +order);
                 connected = interpreteur.setOrdre(order);
+
             }
+            con.connected = false ;
+            ihm.deConnected(numClient);
+            displayAllClients() ;
         } catch (IOException e) {
             con.connected = false ;
             ihm.deConnected(numClient);

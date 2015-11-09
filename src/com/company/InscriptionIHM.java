@@ -31,6 +31,7 @@ public class InscriptionIHM extends JPanel {
     public InscriptionIHM(final Client client) {
         //super(new BorderLayout());
         super.setPreferredSize(fenSize);
+        client.connect("pouet");
         setPreferredSize(fenSize);
 
         //TODO : trouver comment  mettre le texte en overlay (CMOCHE)
@@ -52,12 +53,21 @@ public class InscriptionIHM extends JPanel {
                     nouveauinscrit.accumulate("login",login.getText());
                     nouveauinscrit.accumulate("psw",psw.getText());
                     try {
-                        client.connect("pouet");
+
                         client.curOut.writeUTF("inscription/"+nouveauinscrit.toString());
-                        if(!client.curIn.readBoolean()){
+                        System.out.println("J attends une réponse ... via"+client.sock.toString());
+                        boolean unique = client.curIn.readBoolean();
+                        System.out.println("c'est fait !");
+                        if(!unique){
                             System.out.println("login existe déjà !!!");
+                            client.infoBox("ce login est déjà pris","dommage");
                         }
-                        client.disconnect("pouet");
+                        else{
+                            System.out.println("je déconnecte pouet");
+                            client.infoBox("inscription réussie","félicitation");
+                            client.disconnect("pouet");
+                            client.pageLogin();
+                        }
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -67,6 +77,7 @@ public class InscriptionIHM extends JPanel {
         Cancel = new JButton("Annuler");
         Cancel.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                if(!client.sock.isClosed()) client.disconnect("pouet");
                 client.pageLogin();
             }
         });
