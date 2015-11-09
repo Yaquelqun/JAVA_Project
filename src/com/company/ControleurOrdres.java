@@ -81,7 +81,7 @@ public class ControleurOrdres {
             System.out.print("Erreur : ");
             ioe.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     private void checkLogin() {
@@ -100,6 +100,10 @@ public class ControleurOrdres {
     }
 
     private boolean disconnect() {
+        if(con.name.equals("pouet"))
+        {
+            refServ.listConnected.remove(con);
+        }
         con.connected = false ;
         refServ.ihm.deConnected(indexClient);
         refServ.displayAllClients() ;
