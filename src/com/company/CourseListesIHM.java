@@ -28,7 +28,7 @@ public class CourseListesIHM extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            client.curOut.writeUTF("MasterRequest");
+            client.curOut.writeUTF("MasterRequest/");
         } catch (IOException p) {
             p.printStackTrace();
         }

@@ -65,7 +65,7 @@ public class Client extends JFrame {
      */
     void disconnect(String nickName) {
         try {
-            curOut.writeUTF("disconnect");
+            curOut.writeUTF("disconnect/"+nickName);
             connected = false ;
 
             sock.close();
