@@ -91,6 +91,38 @@ public class Serveur extends JFrame implements Runnable {
                     JSONArray test = new JSONArray(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
                     System.out.println(test.get(2));
                 }
+                if(order.substring(0,order.lastIndexOf('/')).equals("inscription")){
+                    System.out.println("quelqun s'inscrit");
+                    String jsonInscrit = order.substring(order.lastIndexOf('/')+1,order.length());
+                    JSONObject inscrit = new JSONObject(jsonInscrit);
+                    System.out.println("son login est :"+inscrit.getString("login")+ " et son pass est : "+inscrit.getString("psw"));
+                    try
+                    {
+                        FileReader fr = new FileReader("inscrit.json");
+                        FileWriter fw = new FileWriter("inscrit.json", true);
+
+                        // le BufferedWriter output auquel on donne comme argument le FileWriter fw cree juste au dessus
+                        BufferedReader input = new BufferedReader(fr);
+                        BufferedWriter output = new BufferedWriter(fw);
+
+                        input.read();
+                        JSONObject inscrits = new JSONObject(input.toString());
+                        //on marque dans le fichier ou plutot dans le BufferedWriter qui sert comme un tampon(stream)
+                        output.write(inscrit.toString());
+                        //on peut utiliser plusieurs fois methode write
+
+                        output.flush();
+                        //ensuite flush envoie dans le fichier, ne pas oublier cette methode pour le BufferedWriter
+
+                        output.close();
+                        //et on le ferme
+                        System.out.println("fichier créé");
+                    }
+                    catch(IOException ioe){
+                        System.out.print("Erreur : ");
+                        ioe.printStackTrace();
+                    }
+                }
             }
         } catch (IOException e) {
             con.connected = false ;
