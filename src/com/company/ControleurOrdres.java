@@ -36,7 +36,7 @@ public class ControleurOrdres {
         if(typeOrdre.equals("MasterRequest")){
             return masterTest();
         }
-        if(typeOrdre.equals("Inscription")){
+        if(typeOrdre.equals("inscription")){
             checkLogin();
             return Inscrire();
 
@@ -52,24 +52,33 @@ public class ControleurOrdres {
         try
         {
             FileReader fr = new FileReader("inscrit.json");
-            FileWriter fw = new FileWriter("inscrit.json", true);
 
-            // le BufferedWriter output auquel on donne comme argument le FileWriter fw cree juste au dessus
+
+
             BufferedReader input = new BufferedReader(fr);
-            BufferedWriter output = new BufferedWriter(fw);
+            JSONArray inscrits = new JSONArray(input.readLine());
 
-            input.read();
-            JSONObject inscrits = new JSONObject(input.toString());
-            //on marque dans le fichier ou plutot dans le BufferedWriter qui sert comme un tampon(stream)
-            output.write(inscrit.toString());
-            //on peut utiliser plusieurs fois methode write
+
+
+            System.out.println("ya tant de personnes : "+inscrits.length());
+            for(int i =0;i<inscrits.length();i++){
+                if(inscrit.getString("login").equals( ((JSONObject) inscrits.get(i)).getString("login"))){
+                    System.out.println("ce login est déjà pris");
+                    con.out.writeBoolean(false);
+                    return(true);
+
+                }
+            }
+            System.out.println("wouhou login disponible");
+            con.out.writeBoolean(true);
+            FileWriter fw = new FileWriter("inscrit.json", false);
+            BufferedWriter output = new BufferedWriter(fw);
+            inscrits.put(inscrit);
+            output.write(inscrits.toString());
 
             output.flush();
-            //ensuite flush envoie dans le fichier, ne pas oublier cette methode pour le BufferedWriter
 
             output.close();
-            //et on le ferme
-            System.out.println("fichier créé");
         }
         catch(IOException ioe){
             System.out.print("Erreur : ");

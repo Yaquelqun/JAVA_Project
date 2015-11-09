@@ -54,6 +54,9 @@ public class InscriptionIHM extends JPanel {
                     try {
                         client.connect("pouet");
                         client.curOut.writeUTF("inscription/"+nouveauinscrit.toString());
+                        if(!client.curIn.readBoolean()){
+                            System.out.println("login existe déjà !!!");
+                        }
                         client.disconnect("pouet");
                     } catch (IOException e1) {
                         e1.printStackTrace();
