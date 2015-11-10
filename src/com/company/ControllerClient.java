@@ -2,11 +2,6 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-import static com.company.Constants.*;
 
 public class ControllerClient extends JFrame {
 
@@ -39,7 +34,7 @@ public class ControllerClient extends JFrame {
     }
 
     public void pageLogin(){
-        IHMClient loginPage = new IHMClient(this);
+        LoginIHM loginPage = new LoginIHM(this);
         setContentPane(loginPage);
         pack();
     }

@@ -106,4 +106,22 @@ public class Client {
         if(!sock.isClosed()) disconnect("pouet");
         controllerClient.pageLogin();
     }
+
+    void login(String login, String psw){
+        if(!connected) {
+            connect(login) ;
+            controllerClient.pageListeCourses();
+        } else {
+            disconnect(login) ;
+        }
+        controllerClient.pack();
+    }
+
+    void requete(){
+        try {
+            curOut.writeUTF("MasterRequest/");
+        } catch (IOException p) {
+            p.printStackTrace();
+        }
+    }
 }

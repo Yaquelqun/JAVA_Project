@@ -27,10 +27,10 @@ public class CourseListesIHM extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            controllerClient.curOut.writeUTF("MasterRequest/");
-        } catch (IOException p) {
-            p.printStackTrace();
+        Object s = e.getSource();
+        if(s == request){
+            controllerClient.client.requete();
         }
+
     }
 }
