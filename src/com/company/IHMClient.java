@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  */
 public class IHMClient extends JPanel{
 
-    private Client client ;
+    private ControllerClient controllerClient;
     private JTextField nickNameF = new JTextField("Name", 10) ;
     private JTextField PassWord  = new JTextField("Password", 10);
     private JButton connectB = new JButton("Connect");
@@ -18,11 +18,11 @@ public class IHMClient extends JPanel{
     private JLabel logo = new JLabel(new ImageIcon("logo_fox.jpg"));
     /**
      *
-     * @param client
+     * @param controllerClient
      */
-    IHMClient(final Client client) {
+    IHMClient(final ControllerClient controllerClient) {
         super(new BorderLayout());
-        this.client= client;
+        this.controllerClient = controllerClient;
         JPanel panelNorth = new JPanel();
         JPanel panelCenter = new JPanel();
         panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.Y_AXIS));
@@ -37,20 +37,20 @@ public class IHMClient extends JPanel{
         add(panelSouth, BorderLayout.SOUTH);
         connectB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if(!client.connected) {
-                    client.connect(nickNameF.getText()) ;
-                    client.pageListeCourses();
+                if(!controllerClient.connected) {
+                    controllerClient.connect(nickNameF.getText()) ;
+                    controllerClient.pageListeCourses();
                 } else {
-                    client.disconnect(nickNameF.getText()) ;
+                    controllerClient.disconnect(nickNameF.getText()) ;
                     connectB.setText("Connect");
                 }
-                client.pack();
+                controllerClient.pack();
             }
         });
 
         inscription.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                client.pageInscription();
+                controllerClient.pageInscription();
             }
         });
     }
