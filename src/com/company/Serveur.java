@@ -78,20 +78,16 @@ public class Serveur extends JFrame implements Runnable {
 
             boolean connected = true ;
             // attente des ordres
+            ControleurOrdres interpreteur = new ControleurOrdres(this,con);
             while (connected) {
                 String order = in.readUTF();
                 System.out.println("ordre reçu :" +order);
-                if(order.equals("disconnect")){
-                    con.connected = false ;
-                    ihm.deConnected(numClient);
-                    displayAllClients() ;
-                    connected=false ;
-                }
-                if(order.equals("MasterRequest")){
-                    JSONArray test = new JSONArray(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
-                    System.out.println(test.get(2));
-                }
+                connected = interpreteur.setOrdre(order);
+
             }
+            con.connected = false ;
+            ihm.deConnected(numClient);
+            displayAllClients() ;
         } catch (IOException e) {
             con.connected = false ;
             ihm.deConnected(numClient);
@@ -106,7 +102,7 @@ public class Serveur extends JFrame implements Runnable {
     /**
      * display all clients
      */
-    private void displayAllClients() {
+    public void displayAllClients() {
         String con ;
         System.out.println("------ connected------");
         for(Connected n:listConnected) {
@@ -129,19 +125,6 @@ public class Serveur extends JFrame implements Runnable {
 
         return null ;
     }
-
-    public static String getHTML(String urlToRead) throws Exception {
-        StringBuilder result = new StringBuilder();
-        URL url = new URL(urlToRead);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String line;
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
-        rd.close();
-        return result.toString();
-    }
+    
 }
 
