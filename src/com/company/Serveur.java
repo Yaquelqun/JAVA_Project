@@ -62,13 +62,25 @@ public class Serveur extends JFrame implements Runnable {
 
 
             // readName
+            System.out.println("j'attends de recevoir le nom via "+sock.toString());
             name = in.readUTF() ;
-            System.out.println("New Connected : "+name);
+            System.out.println(" Done New Connected : "+name);
 
             // test if  connected before
             if ((con=searchList(name))!= null){
+                if(con.connected){
+                    //waaaaat
+                    System.out.println(name+" a essayé de se connecter illégallement !!!!!");
+                    out.writeBoolean(false);
+                    return;
+                }
+                out.writeBoolean(true);
                 con.connected = true ;
+                con.sock = sock;
+                con.out = out;
+                con.in = in;
             } else {
+                out.writeBoolean(true);
                 con = new Connected(sock, in, out, name, true);
                 listConnected.add(con) ;
                 ihm.addMsg(name +" connected");
@@ -79,12 +91,15 @@ public class Serveur extends JFrame implements Runnable {
             boolean connected = true ;
             // attente des ordres
             ControleurOrdres interpreteur = new ControleurOrdres(this,con);
+
             while (connected) {
                 String order = in.readUTF();
                 System.out.println("ordre reçu :" +order);
                 connected = interpreteur.setOrdre(order);
 
             }
+
+
             con.connected = false ;
             ihm.deConnected(numClient);
             displayAllClients() ;
