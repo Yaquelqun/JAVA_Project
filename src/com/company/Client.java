@@ -49,9 +49,20 @@ public class Client extends JFrame {
 
             curIn = new DataInputStream(sock.getInputStream());
             curOut = new DataOutputStream(sock.getOutputStream());
+            System.out.println("j'écris mon nom via "+sock.toString());
             curOut.writeUTF(nickName);
-            connected = true;
-            System.out.println(nickName+" est connecté");
+            System.out.println("done, j'attends un ordre via "+sock.toString());
+            if(!curIn.readBoolean()){
+                //TODO ya un problème là, faudrait renvoyer un false sinon le programme continue comme si de rien était
+                infoBox("cette personne est déjà connectée","illegal Login");
+                connected = false;
+                sock.close();
+                pageLogin();
+            }
+            else {
+                connected = true;
+                System.out.println(nickName + " est connecté");
+            }
 
         }
         catch (IOException e) {

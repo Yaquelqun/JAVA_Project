@@ -37,9 +37,7 @@ public class IHMClient extends JPanel{
         add(panelSouth, BorderLayout.SOUTH);
         connectB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                nickNameF.setEditable(!nickNameF.isEditable());
                 if(!client.connected) {
-                    connectB.setText("Disconnect");
                     client.connect(nickNameF.getText()) ;
                     client.pageListeCourses();
                 } else {
