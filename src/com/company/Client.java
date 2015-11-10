@@ -1,46 +1,34 @@
 package com.company;
 
-import javax.swing.*;
-import java.awt.*;
+import JSONLibrary.JSONObject;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import static com.company.Constants.*;
 
-public class Client extends JFrame {
+import static com.company.Constants.PORT;
 
-
-    IHMClient ihm ;
-
+/**
+ * Created by Loriane on 10/11/2015.
+ */
+public class Client {
+    ControllerClient controllerClient;
     Socket sock;
     DataInputStream curIn ;
     DataOutputStream curOut ;
     boolean connected = false ;
 
     /**
-     * start socket
-     */
-    Client() {
-        ihm = new IHMClient(this);
-        setContentPane(ihm);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        //setLocation((dim.width/2)-getWidth()/2,(dim.height/2)+getHeight()/2);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pack() ;
-        setVisible(true);
-    }
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        System.out.println("Lancement du Client");
-        new Client() ;
+     * connect to the server
+     **/
+
+    Client(ControllerClient controllerClient) {
+        this.controllerClient = controllerClient;
     }
 
     /**
-     * connect to the server
+     * start socket
      */
     void connect(String nickName) {
         try {
@@ -54,10 +42,10 @@ public class Client extends JFrame {
             System.out.println("done, j'attends un ordre via "+sock.toString());
             if(!curIn.readBoolean()){
                 //TODO ya un problème là, faudrait renvoyer un false sinon le programme continue comme si de rien était
-                infoBox("cette personne est déjà connectée","illegal Login");
+                controllerClient.infoBox("cette personne est déjà connectée","illegal Login");
                 connected = false;
                 sock.close();
-                pageLogin();
+                controllerClient.pageLogin();
             }
             else {
                 connected = true;
@@ -66,10 +54,11 @@ public class Client extends JFrame {
 
         }
         catch (IOException e) {
-            infoBox("problème à la connexion","erreur");
+            controllerClient.infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
     }
+
     /**
      *
      * @param nickName
@@ -83,31 +72,56 @@ public class Client extends JFrame {
 
         } catch (IOException e1) {
             // TODO Auto-generated catch block
-            infoBox("problème à la fermeture","erreur");
+            controllerClient.infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }
     }
 
-    public void pageListeCourses(){
-        CourseListesIHM MenuPage = new CourseListesIHM(this);
-        setContentPane(MenuPage);
-        pack();
+    void inscription(String login, String psw){
+        JSONObject nouveauinscrit = new JSONObject();
+        nouveauinscrit.accumulate("login",login);
+        nouveauinscrit.accumulate("psw",psw);
+        try {
+
+            curOut.writeUTF("inscription/"+nouveauinscrit.toString());
+            System.out.println("J attends une réponse ... via"+ sock.toString());
+            boolean unique = curIn.readBoolean();
+            System.out.println("c'est fait !");
+            if(!unique){
+                System.out.println("login existe déjà !!!");
+                controllerClient.infoBox("ce login est déjà pris","dommage");
+            }
+            else{
+                System.out.println("je déconnecte pouet");
+                controllerClient.infoBox("inscription réussie","félicitation");
+                disconnect("pouet");
+                controllerClient.pageLogin();
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
-    public void pageLogin(){
-        IHMClient loginPage = new IHMClient(this);
-        setContentPane(loginPage);
-        pack();
+    void inscriptionAbort(){
+        if(!sock.isClosed()) disconnect("pouet");
+        controllerClient.pageLogin();
     }
 
-    public void pageInscription(){
-        InscriptionIHM inscriptionPage = new InscriptionIHM(this);
-        setContentPane(inscriptionPage);
-        pack();
+    void login(String login, String psw){
+        if(!connected) {
+            connect(login) ;
+            controllerClient.pageListeCourses();
+        } else {
+            disconnect(login) ;
+        }
+        controllerClient.pack();
     }
 
-
-    public void infoBox(String infoMessage, String titleBar){
-        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+    void requete(){
+        try {
+            curOut.writeUTF("MasterRequest/");
+        } catch (IOException p) {
+            p.printStackTrace();
+        }
     }
 }

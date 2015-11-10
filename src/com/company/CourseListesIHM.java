@@ -11,13 +11,13 @@ import java.io.IOException;
  */
 public class CourseListesIHM extends JPanel implements ActionListener {
 
-    private Client client;
+    private ControllerClient controllerClient;
     Dimension fenSize = new Dimension(300,200);
     JButton request;
 
-    public CourseListesIHM(Client client) {
-        this.client = client;
-        this.client.setPreferredSize(fenSize);
+    public CourseListesIHM(ControllerClient controllerClient) {
+        this.controllerClient = controllerClient;
+        this.controllerClient.setPreferredSize(fenSize);
         this.setPreferredSize(fenSize);
         request = new JButton("requêêêêêêêêête");
         this.add(request);
@@ -27,10 +27,10 @@ public class CourseListesIHM extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            client.curOut.writeUTF("MasterRequest/");
-        } catch (IOException p) {
-            p.printStackTrace();
+        Object s = e.getSource();
+        if(s == request){
+            controllerClient.client.requete();
         }
+
     }
 }

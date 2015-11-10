@@ -56,7 +56,7 @@ public class Serveur extends JFrame implements Runnable {
             numClient++ ;
             new Thread(this).start(); // wait the next
 
-            System.out.println("New Client connected");
+            System.out.println("New ControllerClient connected");
             in = new DataInputStream(sock.getInputStream()) ;
             out = new DataOutputStream(sock.getOutputStream()) ;
 
