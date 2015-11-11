@@ -16,6 +16,7 @@ public class Client {
     DataInputStream curIn ;
     DataOutputStream curOut ;
     String userName;
+    private ListeCourse listeCourse;
     boolean connected = false ;
 
     /**
@@ -124,7 +125,7 @@ public class Client {
                 controllerLoginInscription.infoBox("erreur login/mdp","dommage");
             }
             else{
-                controllerLoginInscription.infoBox("connection réussie","félicitation");
+                System.out.println("on passe sur login");
                 userName = login;
                 controllerLoginInscription.nextFen();
             }
@@ -176,5 +177,37 @@ public class Client {
         }
 
         return shared;
+    }
+
+
+    public boolean addListe(String text) {
+        boolean retour = false;
+        String requete = "ajoutListe/"+text;
+        System.out.println("j'ajoute une liste");
+        try {
+            curOut.writeUTF(requete);
+            System.out.println("done, j'attend des retours éventuels");
+            retour = curIn.readBoolean();
+            System.out.println("done");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return retour;
+    }
+
+    public String getListes(){
+
+        System.out.println("je récupère mes listes");
+        try {
+            curOut.writeUTF("getGlobalListe/");
+
+            String pouet = curIn.readUTF();
+            System.out.println("cote client j'ai recu : "+pouet);
+            return pouet;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return"WTFFFFFFFFF";
+
     }
 }

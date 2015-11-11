@@ -14,6 +14,7 @@ public class ControllerLoginInscription extends JFrame {
         //setLocation((dim.width/2)-getWidth()/2,(dim.height/2)+getHeight()/2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack() ;
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     /**

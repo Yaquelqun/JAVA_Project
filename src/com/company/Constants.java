@@ -5,5 +5,4 @@ package com.company;
  */
 public class Constants {
     final static int PORT =10000;
-    enum ORDER  {DISCONNECT, HELLO} ;
 }
