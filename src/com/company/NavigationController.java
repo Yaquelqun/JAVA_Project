@@ -1,6 +1,7 @@
 package com.company;
 
 import JSONLibrary.JSONArray;
+import JSONLibrary.JSONObject;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -49,5 +50,30 @@ public class NavigationController extends JFrame {
         navigationIHM.removeNavigation();
         navigationIHM.addDetailedPanel(idButton);
         navigationIHM.repaint();
+    }
+
+    public boolean addItem(String text, String currentListe) {
+        return client.addItem(text);
+    }
+
+    public ArrayList<ItemCourse> getRequeteData(String nomItem) {
+        String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&ip=current&mct=hieCaig6Oth2thiem7eiRiechufooWix";
+        ArrayList<ItemCourse> result = new ArrayList<>();
+        JSONArray reqResult = client.execRequete(requete);
+
+        for(int i =0;i< reqResult.length();i++){
+            JSONObject pouet = reqResult.getJSONObject(i);
+            System.out.println(pouet.toString());
+            ItemCourse repouet = new ItemCourse();
+            String nom = pouet.getString("name");
+            System.out.println(nom);
+            repouet.setNom(nom);
+            repouet.setIdItem(pouet.getInt("id"));
+            repouet.setTaken(false);
+            repouet.setPrix("0");
+            repouet.setURL(pouet.getString("image_url"));
+            result.add(repouet);
+        }
+        return result;
     }
 }

@@ -181,7 +181,7 @@ public class ControleurOrdres {
         System.out.println("requete master course");
         JSONArray test = null;
         try {
-            test = new JSONArray(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
+            test = new JSONArray(getHTML("https://www.mastercourses.com/api2/products/search/?q=coca&lat=40&lon=5&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
         } catch (Exception e) {
             e.printStackTrace();
         }

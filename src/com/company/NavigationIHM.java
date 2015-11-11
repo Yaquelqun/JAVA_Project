@@ -22,6 +22,12 @@ public class NavigationIHM extends JPanel implements ActionListener {
     JButton ButtonBudget = new JButton("Budget");
     JButton ButtonInfos = new JButton("Infos");
     JButton ButtonNewItem = new JButton("Ajouter un produit");
+
+    public String getCurrentListe() {
+        return currentListe;
+    }
+
+    String currentListe = null;
     JButton ButtonNew = new JButton("Nouvelle Liste");
     JButton ButtonGo = new JButton("Allons-y !");
     JMenu parametre;
@@ -49,12 +55,9 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void setNavigation() {
         updateListes();
-        navigation =null;
         navigation = new JPanel(new BorderLayout());
         navigation.setPreferredSize(new Dimension(300,550));
         navigation.setBackground(new Color(255,255,255));
-        gestionAction =null;
-        gestionListes = null;
 
         gestionAction = new JPanel(new BorderLayout());
         gestionListes = new JPanel();
@@ -99,16 +102,6 @@ public class NavigationIHM extends JPanel implements ActionListener {
         add(header);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object s = e.getSource();
-        if(s == ButtonNew){
-            navigationController.setVisible(false);
-            AjoutListe nouvelleListe = new AjoutListe(navigationController);
-        }
-
-    }
-
     public ArrayList<ListeCourse> getmesListes() {
         return mesListes;
     }
@@ -127,11 +120,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
                 setNavigation();
             }
         });
-        String text = null;
+
         for (int i =0;i<mesListes.size();i++){
-            if (mesListes.get(i).getIdListe() == idButton) text = mesListes.get(i).getNom();
+            if (mesListes.get(i).getIdListe() == idButton) currentListe = mesListes.get(i).getNom();
         }
-        textHeader.setText(text);
+        textHeader.setText(currentListe);
     }
 
     private void removeHeader() {
@@ -169,6 +162,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
 
+        ButtonNewItem.addActionListener(this);
         gestionItem.add(ButtonNewItem, BorderLayout.EAST);
 
         navigation.add(onglets);
@@ -181,4 +175,19 @@ public class NavigationIHM extends JPanel implements ActionListener {
         repaint();
         navigationController.pack();
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object s = e.getSource();
+        if(s == ButtonNew){
+            navigationController.setVisible(false);
+            AjoutListe nouvelleListe = new AjoutListe(navigationController);
+        }
+        if(s==ButtonNewItem){
+            //navigationController.setVisible(false);
+            AjoutItem nouveauItem = new AjoutItem(navigationController);
+        }
+
+    }
+
 }
