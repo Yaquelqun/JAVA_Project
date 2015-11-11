@@ -3,11 +3,11 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 
-public class ControllerClient extends JFrame {
+public class ControllerLoginInscription extends JFrame {
 
     Client client;
 
-    ControllerClient() {
+    ControllerLoginInscription() {
         client = new Client(this);
         pageLogin();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -20,18 +20,13 @@ public class ControllerClient extends JFrame {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println("Lancement du ControllerClient");
-        new ControllerClient();
+        System.out.println("Lancement du ControllerLoginInscription");
+        new ControllerLoginInscription();
     }
 
     /**
      * Gestion des IHMs
      */
-    public void pageListeCourses(){
-        CourseListesIHM MenuPage = new CourseListesIHM(this);
-        setContentPane(MenuPage);
-        pack();
-    }
 
     public void pageLogin(){
         LoginIHM loginPage = new LoginIHM(this);
@@ -68,5 +63,10 @@ public class ControllerClient extends JFrame {
 
     public void infoBox(String infoMessage, String titleBar){
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void nextFen() {
+        NavigationController cousteau = new NavigationController(client);
+        this.dispose();
     }
 }

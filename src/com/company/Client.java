@@ -11,18 +11,19 @@ import static com.company.Constants.PORT;
  * Created by Loriane on 10/11/2015.
  */
 public class Client {
-    ControllerClient controllerClient;
+    ControllerLoginInscription controllerLoginInscription;
     Socket sock;
     DataInputStream curIn ;
     DataOutputStream curOut ;
+    String userName;
     boolean connected = false ;
 
     /**
      * connect to the server
      **/
 
-    Client(ControllerClient controllerClient) {
-        this.controllerClient = controllerClient;
+    Client(ControllerLoginInscription controllerLoginInscription) {
+        this.controllerLoginInscription = controllerLoginInscription;
     }
 
     /**
@@ -40,7 +41,7 @@ public class Client {
             System.out.println("done, j'attends un ordre via "+sock.toString());
             if(!curIn.readBoolean()){
                 //TODO ya un problème là, faudrait renvoyer un false sinon le programme continue comme si de rien était
-                controllerClient.infoBox("cette personne est déjà connectée","illegal Login");
+                controllerLoginInscription.infoBox("cette personne est déjà connectée","illegal Login");
                 connected = false;
                 sock.close();
                 return false;
@@ -53,7 +54,7 @@ public class Client {
 
         }
         catch (IOException e) {
-            controllerClient.infoBox("problème à la connexion","erreur");
+            controllerLoginInscription.infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
         return false;
@@ -73,7 +74,7 @@ public class Client {
 
         } catch (IOException e1) {
             // TODO Auto-generated catch block
-            controllerClient.infoBox("problème à la fermeture","erreur");
+            controllerLoginInscription.infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }
     }
@@ -89,13 +90,13 @@ public class Client {
             System.out.println("c'est fait !");
             if(!unique){
                 System.out.println("login existe déjà !!!");
-                controllerClient.infoBox("ce login est déjà pris","dommage");
+                controllerLoginInscription.infoBox("ce login est déjà pris","dommage");
             }
             else{
                 System.out.println("je déconnecte pouet");
-                controllerClient.infoBox("inscription réussie","félicitation");
+                controllerLoginInscription.infoBox("inscription réussie","félicitation");
                 disconnect("pouet");
-                controllerClient.pageLogin();
+                controllerLoginInscription.pageLogin();
             }
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -104,7 +105,7 @@ public class Client {
 
     void inscriptionAbort(){
         if(!sock.isClosed()) disconnect("pouet");
-        controllerClient.pageLogin();
+        controllerLoginInscription.pageLogin();
     }
 
     void login(String login, String psw){
@@ -120,11 +121,12 @@ public class Client {
             System.out.println("c'est fait !");
             if(!unique){
                 System.out.println("login existe déjà !!!");
-                controllerClient.infoBox("erreur login/mdp","dommage");
+                controllerLoginInscription.infoBox("erreur login/mdp","dommage");
             }
             else{
-                controllerClient.infoBox("connection réussie","félicitation");
-                controllerClient.pageListeCourses();
+                controllerLoginInscription.infoBox("connection réussie","félicitation");
+                userName = login;
+                controllerLoginInscription.nextFen();
             }
         } catch (IOException e) {
             e.printStackTrace();
