@@ -37,9 +37,10 @@ public class ControleurOrdres {
             return masterTest();
         }
         if(typeOrdre.equals("inscription")){
-            checkLogin();
             return Inscrire();
-
+        }
+        if(typeOrdre.equals("connexion")){
+            return checkLoginPassword();
         }
         return true;
     }
@@ -84,7 +85,32 @@ public class ControleurOrdres {
         return true;
     }
 
-    private void checkLogin() {
+    private boolean checkLoginPassword() {
+        FileReader fr;
+        JSONObject inscrit = new JSONObject(parametreOrdre);
+        try {
+            fr = new FileReader("inscrit.json");
+        BufferedReader input = new BufferedReader(fr);
+        JSONArray inscrits = new JSONArray(input.readLine());
+        System.out.println(inscrit.get("login")+"veut se connecter via "+inscrit.get("psw"));
+        for(int i =0;i<inscrits.length();i++){
+            if(inscrit.getString("login").equals( ((JSONObject) inscrits.get(i)).getString("login"))){
+                System.out.println("ce login existe");
+                if(inscrit.getString("psw").equals( ((JSONObject) inscrits.get(i)).getString("psw"))){
+                    System.out.println("ce psw existe, j'écris true via "+con.sock.toString());
+                    con.out.writeBoolean(true);
+                    return true;
+                }
+
+            }
+        }
+            System.out.println("cet utilisateur n'existe pas, j'écris false via "+con.sock.toString());
+            con.out.writeBoolean(false);
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private boolean masterTest() {

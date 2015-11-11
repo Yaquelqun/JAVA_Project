@@ -40,10 +40,14 @@ public class ControllerClient extends JFrame {
     }
 
     public void pageInscription(){
-        client.connect("pouet");
-        InscriptionIHM inscriptionPage = new InscriptionIHM(this);
-        setContentPane(inscriptionPage);
-        pack();
+        if(client.connect("pouet")) {
+            InscriptionIHM inscriptionPage = new InscriptionIHM(this);
+            setContentPane(inscriptionPage);
+            pack();
+        }
+        else{
+            infoBox("serveur d'inscription occupé, veuillez réessayer plus tard","désolé");
+        }
     }
 
     /**
