@@ -13,6 +13,7 @@ public class LoginIHM extends JPanel implements ActionListener{
     private ControllerClient controllerClient;
     private JTextField nickNameF = new JTextField("Name", 10) ;
     private JTextField passWord  = new JTextField("Password", 10);
+    private JCheckBox retenir;
     private JButton connectB = new JButton("Connect");
     private JButton inscription = new JButton("Inscription");
     private JLabel logo = new JLabel(new ImageIcon("logo_fox.jpg"));
@@ -22,6 +23,13 @@ public class LoginIHM extends JPanel implements ActionListener{
      */
     LoginIHM(final ControllerClient controllerClient) {
         super(new BorderLayout());
+        String[] sharedPref = controllerClient.client.getSharedPageLogin();
+        System.out.println(Boolean.valueOf(sharedPref[2]));
+        if(Boolean.valueOf(sharedPref[2])){
+            retenir = new JCheckBox("Retenir mes indentifiants",Boolean.valueOf(sharedPref[2]));
+            nickNameF.setText(sharedPref[0]);
+            passWord.setText(sharedPref[1]);
+        }
         this.controllerClient = controllerClient;
         JPanel panelNorth = new JPanel();
         JPanel panelCenter = new JPanel();
@@ -29,6 +37,7 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelNorth.add(logo);
         panelCenter.add(nickNameF);
         panelCenter.add(passWord);
+        panelCenter.add(retenir);
         JPanel panelSouth = new JPanel() ;
         connectB.addActionListener(this);
         panelSouth.add(connectB);
@@ -43,7 +52,12 @@ public class LoginIHM extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
         if(s == connectB){
-            controllerClient.client.login(nickNameF.getText(), passWord.getText());
+            String login = nickNameF.getText();
+            String psw = passWord.getText();
+            if(retenir.isValid()){
+                controllerClient.client.keepLogin(login,psw);
+            }
+            controllerClient.client.login(login,psw);
         }
         if(s == inscription){
             controllerClient.pageInscription();

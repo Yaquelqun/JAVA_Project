@@ -2,9 +2,7 @@ package com.company;
 
 import JSONLibrary.JSONObject;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 import static com.company.Constants.PORT;
@@ -30,7 +28,7 @@ public class Client {
     /**
      * start socket
      */
-    void connect(String nickName) {
+    boolean connect(String nickName) {
         try {
             System.out.println(nickName+" tente de se connecter");
             sock = new Socket("localhost", PORT);
@@ -45,11 +43,12 @@ public class Client {
                 controllerClient.infoBox("cette personne est déjà connectée","illegal Login");
                 connected = false;
                 sock.close();
-                controllerClient.pageLogin();
+                return false;
             }
             else {
                 connected = true;
                 System.out.println(nickName + " est connecté");
+                return true;
             }
 
         }
@@ -57,7 +56,9 @@ public class Client {
             controllerClient.infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
+        return false;
     }
+
 
     /**
      *
@@ -82,7 +83,6 @@ public class Client {
         nouveauinscrit.accumulate("login",login);
         nouveauinscrit.accumulate("psw",psw);
         try {
-
             curOut.writeUTF("inscription/"+nouveauinscrit.toString());
             System.out.println("J attends une réponse ... via"+ sock.toString());
             boolean unique = curIn.readBoolean();
@@ -108,13 +108,27 @@ public class Client {
     }
 
     void login(String login, String psw){
-        if(!connected) {
-            connect(login) ;
-            controllerClient.pageListeCourses();
-        } else {
-            disconnect(login) ;
+        connect(login);
+        JSONObject nouveaumonsieur = new JSONObject();
+        nouveaumonsieur.accumulate("login",login);
+        nouveaumonsieur.accumulate("psw",psw);
+        System.out.println(nouveaumonsieur.toString());
+        try {
+            curOut.writeUTF("connexion/"+nouveaumonsieur.toString());
+            System.out.println("J attends une réponse ... via"+ sock.toString());
+            boolean unique = curIn.readBoolean();
+            System.out.println("c'est fait !");
+            if(!unique){
+                System.out.println("login existe déjà !!!");
+                controllerClient.infoBox("erreur login/mdp","dommage");
+            }
+            else{
+                controllerClient.infoBox("connection réussie","félicitation");
+                controllerClient.pageListeCourses();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        controllerClient.pack();
     }
 
     void requete(){
@@ -123,5 +137,42 @@ public class Client {
         } catch (IOException p) {
             p.printStackTrace();
         }
+    }
+
+    public void keepLogin(String login, String psw) {
+        FileWriter fw;
+        JSONObject Jason;
+        try {
+            Jason = new JSONObject();
+                Jason.put("login",login);
+                Jason.put("psw",psw);
+                Jason.put("retenir","true");
+                fw = new FileWriter("sharedPref.json",false);
+                BufferedWriter output = new BufferedWriter(fw);
+            output.write(Jason.toString());
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String[] getSharedPageLogin(){
+        String[] shared = new String[3];
+        FileReader fr;
+        JSONObject Jason;
+
+        try {
+            fr = new FileReader("sharedPref.json");
+
+        BufferedReader input = new BufferedReader(fr);
+        Jason = new JSONObject(input.readLine());
+        shared[0] = Jason.get("login").toString();
+        shared[1] = Jason.get("psw").toString();
+        shared[2] = Jason.get("retenir").toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return shared;
     }
 }
