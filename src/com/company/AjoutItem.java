@@ -60,7 +60,7 @@ public class AjoutItem  extends JFrame implements ActionListener {
         if(s==chercher){
            rechercheItems = navigationController.getRequeteData(nomItem.getText());
 
-            for(int i =0;i<rechercheItems.size()/2;i++){
+            for(int i =0;i<rechercheItems.size()/4;i++){
                 ObjetItem pouet = new ObjetItem(rechercheItems.get(i).getNom(),rechercheItems.get(i).getPrix(),rechercheItems.get(i).getIdItem(), rechercheItems.get(i).getTaken(),rechercheItems.get(i).getURL(),navigationController);
                 pouet.setModeSearch();
                 recherche.add(pouet);
@@ -85,6 +85,5 @@ public class AjoutItem  extends JFrame implements ActionListener {
             navigationController.setVisible(true);
             dispose();
         }
-
     }
 }
