@@ -14,8 +14,8 @@ public class LoginIHM extends JPanel implements ActionListener{
     private JTextField nickNameF = new JTextField("Name", 10) ;
     private JTextField passWord  = new JTextField("Password", 10);
     private JCheckBox retenir;
-    private JButton connectB = new JButton("Connect");
-    private JButton inscription = new JButton("Inscription");
+    private JButton connectB = new JButton();
+    private JButton inscription = new JButton();
     private JLabel logo = new JLabel(new ImageIcon(new ImageIcon("logo_fox.jpg").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
     /**
      *
@@ -38,9 +38,23 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelCenter.add(nickNameF);
         panelCenter.add(passWord);
         panelCenter.add(retenir);
-        JPanel panelSouth = new JPanel() ;
+        JPanel panelSouth = new JPanel();
+
+        Icon loginButton = new ImageIcon("res/LoginButton.png");
+        connectB.setIcon(loginButton);
+        connectB.setBorderPainted(false);
+        connectB.setContentAreaFilled(false);
+        connectB.setFocusPainted(false);
+        connectB.setOpaque(false);
         connectB.addActionListener(this);
         panelSouth.add(connectB);
+
+        Icon inscrButton = new ImageIcon("res/InscrButton.png");
+        inscription.setIcon(inscrButton);
+        inscription.setBorderPainted(false);
+        inscription.setContentAreaFilled(false);
+        inscription.setFocusPainted(false);
+        inscription.setOpaque(false);
         inscription.addActionListener(this);
         panelSouth.add(inscription);
         add(panelNorth, BorderLayout.NORTH);
