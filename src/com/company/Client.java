@@ -1,9 +1,12 @@
 package com.company;
 
+import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.net.URL;
 
 import static com.company.Constants.PORT;
 
@@ -11,18 +14,20 @@ import static com.company.Constants.PORT;
  * Created by Loriane on 10/11/2015.
  */
 public class Client {
-    ControllerClient controllerClient;
+    ControllerLoginInscription controllerLoginInscription;
     Socket sock;
     DataInputStream curIn ;
     DataOutputStream curOut ;
+    String userName;
+    private ListeCourse listeCourse;
     boolean connected = false ;
 
     /**
      * connect to the server
      **/
 
-    Client(ControllerClient controllerClient) {
-        this.controllerClient = controllerClient;
+    Client(ControllerLoginInscription controllerLoginInscription) {
+        this.controllerLoginInscription = controllerLoginInscription;
     }
 
     /**
@@ -40,7 +45,7 @@ public class Client {
             System.out.println("done, j'attends un ordre via "+sock.toString());
             if(!curIn.readBoolean()){
                 //TODO ya un problème là, faudrait renvoyer un false sinon le programme continue comme si de rien était
-                controllerClient.infoBox("cette personne est déjà connectée","illegal Login");
+                controllerLoginInscription.infoBox("cette personne est déjà connectée","illegal Login");
                 connected = false;
                 sock.close();
                 return false;
@@ -53,7 +58,7 @@ public class Client {
 
         }
         catch (IOException e) {
-            controllerClient.infoBox("problème à la connexion","erreur");
+            controllerLoginInscription.infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
         return false;
@@ -73,7 +78,7 @@ public class Client {
 
         } catch (IOException e1) {
             // TODO Auto-generated catch block
-            controllerClient.infoBox("problème à la fermeture","erreur");
+            controllerLoginInscription.infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }
     }
@@ -89,13 +94,13 @@ public class Client {
             System.out.println("c'est fait !");
             if(!unique){
                 System.out.println("login existe déjà !!!");
-                controllerClient.infoBox("ce login est déjà pris","dommage");
+                controllerLoginInscription.infoBox("ce login est déjà pris","dommage");
             }
             else{
                 System.out.println("je déconnecte pouet");
-                controllerClient.infoBox("inscription réussie","félicitation");
+                controllerLoginInscription.infoBox("inscription réussie","félicitation");
                 disconnect("pouet");
-                controllerClient.pageLogin();
+                controllerLoginInscription.pageLogin();
             }
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -104,7 +109,7 @@ public class Client {
 
     void inscriptionAbort(){
         if(!sock.isClosed()) disconnect("pouet");
-        controllerClient.pageLogin();
+        controllerLoginInscription.pageLogin();
     }
 
     void login(String login, String psw){
@@ -120,11 +125,12 @@ public class Client {
             System.out.println("c'est fait !");
             if(!unique){
                 System.out.println("login existe déjà !!!");
-                controllerClient.infoBox("erreur login/mdp","dommage");
+                controllerLoginInscription.infoBox("erreur login/mdp","dommage");
             }
             else{
-                controllerClient.infoBox("connection réussie","félicitation");
-                controllerClient.pageListeCourses();
+                System.out.println("on passe sur login");
+                userName = login;
+                controllerLoginInscription.nextFen();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,5 +180,79 @@ public class Client {
         }
 
         return shared;
+    }
+
+
+    public boolean addListe(String text) {
+        boolean retour = false;
+        String requete = "ajoutListe/"+text;
+        System.out.println("j'ajoute une liste");
+        try {
+            curOut.writeUTF(requete);
+            System.out.println("done, j'attend des retours éventuels");
+            retour = curIn.readBoolean();
+            System.out.println("done");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return retour;
+    }
+
+    public String getListes(){
+
+        System.out.println("je récupère mes listes");
+        try {
+            curOut.writeUTF("getGlobalListe/");
+
+            String pouet = curIn.readUTF();
+            System.out.println("cote client j'ai recu : "+pouet);
+            return pouet;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return"WTFFFFFFFFF";
+
+    }
+
+    public boolean addItem(String text) {
+        boolean retour = false;
+
+        return true;
+
+//        String requete = "ajoutItem/"+text;
+//        System.out.println("j'ajoute un item");
+//        try {
+//            curOut.writeUTF(requete);
+//            System.out.println("done, j'attend des retours éventuels");
+//            retour = curIn.readBoolean();
+//            System.out.println("done");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return retour;
+    }
+
+    public JSONArray execRequete(String requete) {
+        try {
+            return new JSONArray(getHTML(requete));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static String getHTML(String urlToRead) throws Exception {
+        StringBuilder result = new StringBuilder();
+        URL url = new URL(urlToRead);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        rd.close();
+        return result.toString();
     }
 }

@@ -6,6 +6,7 @@ import JSONLibrary.JSONObject;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Time;
 
 /**
  * Created by Sandjiv on 09/11/2015.
@@ -41,6 +42,69 @@ public class ControleurOrdres {
         }
         if(typeOrdre.equals("connexion")){
             return checkLoginPassword();
+        }
+        if(typeOrdre.equals("ajoutListe")){
+            return ajoutListe();
+        }
+        if(typeOrdre.equals("getGlobalListe")){
+            return globalListe();
+        }
+
+        return true;
+    }
+
+    private boolean globalListe() {
+        try {
+            FileReader fr = new FileReader("liste.json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray tableauListe = new JSONArray(input.readLine());
+            JSONArray retour = new JSONArray();
+            for(int i =0;i<tableauListe.length();i++)
+            {
+                String pouet = new String(tableauListe.getJSONObject(i).getJSONArray("logins").toString());
+                System.out.println(pouet);
+                JSONArray tableauxnoms = new JSONArray(pouet);
+                for(int j =0;j<tableauxnoms.length();j++){
+                    if(tableauxnoms.getJSONObject(j).get("noms").equals(con.name)){
+
+                        retour.put(tableauListe.getJSONObject(i));
+                    }
+                }
+            }
+            System.out.println("j'ai la liste des courses, je l'écris");
+            con.out.writeUTF(retour.toString());
+            System.out.println("done");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return(true);
+    }
+
+    private boolean ajoutListe() {
+        try{
+            FileReader fr = new FileReader("liste.json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray tableauListe = new JSONArray(input.readLine());
+            JSONObject liste = new JSONObject();
+            liste.put("nomListe",parametreOrdre);
+            liste.put("BudgetListe","");
+            liste.put("dateListe", "maintenant");
+            liste.put("logins",new JSONArray("[{\"noms\":\""+con.name+"\"}]"));
+            liste.put("id",tableauListe.length());
+            tableauListe.put(liste);
+            FileWriter fw = new FileWriter("liste.json",false);
+            BufferedWriter output = new BufferedWriter(fw);
+            output.write(tableauListe.toString());
+            output.close();
+            con.out.writeBoolean(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                con.out.writeBoolean(false);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         return true;
     }
@@ -117,7 +181,7 @@ public class ControleurOrdres {
         System.out.println("requete master course");
         JSONArray test = null;
         try {
-            test = new JSONArray(getHTML("https://www.mastercourses.com/api2/chains/1/stores/?scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
+            test = new JSONArray(getHTML("https://www.mastercourses.com/api2/products/search/?q=coca&lat=40&lon=5&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,17 +1,15 @@
 package com.company;
-import JSONLibrary.JSONObject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Created by Sandjiv on 09/11/2015.
  */
 public class InscriptionIHM extends JPanel implements ActionListener{
 
-    ControllerClient controllerClient;
+    ControllerLoginInscription controllerLoginInscription;
     Dimension fenSize = new Dimension(300,120);//TODO : chercher comment faire ça élegamment
     JTextField login;
     JTextField psw;
@@ -21,9 +19,9 @@ public class InscriptionIHM extends JPanel implements ActionListener{
     JPanel panelChamps;
     JPanel panelBoutons;
 
-    public InscriptionIHM(final ControllerClient controllerClient) {
+    public InscriptionIHM(final ControllerLoginInscription controllerLoginInscription) {
         //super(new BorderLayout());
-        this.controllerClient = controllerClient;
+        this.controllerLoginInscription = controllerLoginInscription;
         super.setPreferredSize(fenSize);
         setPreferredSize(fenSize);
 
@@ -57,10 +55,10 @@ public class InscriptionIHM extends JPanel implements ActionListener{
         Object s = e.getSource();
         if(s == Confirm){
             System.out.println("click sur confirmer");
-            controllerClient.verifInscription(psw.getText(),psw2.getText(),login.getText());
+            controllerLoginInscription.verifInscription(psw.getText(),psw2.getText(),login.getText());
         }
         if(s == Cancel){
-            controllerClient.client.inscriptionAbort();
+            controllerLoginInscription.client.inscriptionAbort();
         }
     }
 }
