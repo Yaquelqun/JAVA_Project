@@ -255,4 +255,15 @@ public class Client {
         rd.close();
         return result.toString();
     }
+
+    public String getSelectItem(int p0) {
+
+        try {
+            curOut.writeUTF("getListe/"+String.valueOf(p0));
+            return curIn.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "WTFFFFFF";
+    }
 }

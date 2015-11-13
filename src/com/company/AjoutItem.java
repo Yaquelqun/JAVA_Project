@@ -19,6 +19,8 @@ public class AjoutItem  extends JFrame implements ActionListener {
     JPanel global = new JPanel();
     JPanel recherche;
     JScrollPane scrollFrame;
+
+
     ArrayList<ItemCourse> rechercheItems = new ArrayList<>();
 
     public AjoutItem(NavigationController navigationController) {
@@ -53,6 +55,16 @@ public class AjoutItem  extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+
+    public ArrayList<ItemCourse> getRechercheItems() {
+        return rechercheItems;
+    }
+
+    public void setRechercheItems(ArrayList<ItemCourse> rechercheItems) {
+        this.rechercheItems = rechercheItems;
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
@@ -61,8 +73,8 @@ public class AjoutItem  extends JFrame implements ActionListener {
            rechercheItems = navigationController.getRequeteData(nomItem.getText());
 
             for(int i =0;i<rechercheItems.size()/4;i++){
-                ObjetItem pouet = new ObjetItem(rechercheItems.get(i).getNom(),rechercheItems.get(i).getPrix(),rechercheItems.get(i).getIdItem(), rechercheItems.get(i).getTaken(),rechercheItems.get(i).getURL(),navigationController);
-                pouet.setModeSearch();
+                ObjetItem pouet = new ObjetItem(rechercheItems.get(i),navigationController);
+                pouet.setModeSearch(this);
                 recherche.add(pouet);
                 System.out.println("et implémenté");
             }
@@ -76,6 +88,7 @@ public class AjoutItem  extends JFrame implements ActionListener {
 
         if (s==valider){
             if(navigationController.addItem(nomItem.getText(),navigationController.navigationIHM.getCurrentListe())){
+                navigationController.getSelectedSearchItem(rechercheItems);
                 navigationController.setVisible(true);
                 navigationController.navigationIHM.updateNavigation();
                 dispose();

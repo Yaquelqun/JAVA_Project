@@ -22,16 +22,17 @@ public class NavigationIHM extends JPanel implements ActionListener {
     JButton ButtonBudget = new JButton("Budget");
     JButton ButtonInfos = new JButton("Infos");
     JButton ButtonNewItem = new JButton("Ajouter un produit");
-
-    public String getCurrentListe() {
-        return currentListe;
-    }
-
     String currentListe = null;
     JButton ButtonNew = new JButton("Nouvelle Liste");
     JButton ButtonGo = new JButton("Allons-y !");
     JMenu parametre;
+    int idCurrentList =0;
     ArrayList<ListeCourse> mesListes;
+    ArrayList<ItemCourse> currentList;
+
+    public String getCurrentListe() {
+        return currentListe;
+    }
 
     public NavigationIHM(NavigationController navigationController) {
         this.navigationController = navigationController;
@@ -43,6 +44,10 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updateListes(){
         mesListes = new ArrayList<>(navigationController.getListe());
+    }
+
+    public void updateItem(){
+        currentList = new ArrayList<ItemCourse>(navigationController.getselectItem(idCurrentList));
     }
 
     public void updateNavigation(){
@@ -70,14 +75,10 @@ public class NavigationIHM extends JPanel implements ActionListener {
         }
 
         navigation.add(gestionListes,BorderLayout.NORTH);
-
-
         gestionAction.setPreferredSize(new Dimension(300,50));
         gestionAction.add(ButtonNew, BorderLayout.EAST);
         ButtonNew.addActionListener(this);
         navigation.add(gestionAction,BorderLayout.SOUTH);
-
-      gestionListes.setAutoscrolls(true);
         add(navigation);
         repaint();
         navigationController.pack();
@@ -102,15 +103,13 @@ public class NavigationIHM extends JPanel implements ActionListener {
         add(header);
     }
 
-    public ArrayList<ListeCourse> getmesListes() {
-        return mesListes;
-    }
 
     public void removeNavigation() {
         remove(navigation);
     }
 
     public void updateHeader(int idButton) {
+        idCurrentList = idButton;
         imageHeader.setIcon(new ImageIcon((new ImageIcon("butGrey.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
         imageHeader.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e) {
@@ -122,9 +121,14 @@ public class NavigationIHM extends JPanel implements ActionListener {
         });
 
         for (int i =0;i<mesListes.size();i++){
-            if (mesListes.get(i).getIdListe() == idButton) currentListe = mesListes.get(i).getNom();
+            if (mesListes.get(i).getIdListe() == idButton){
+                currentListe = mesListes.get(i).getNom();
+
+                currentList = new ArrayList<>();
+                textHeader.setText(currentListe);
+            }
         }
-        textHeader.setText(currentListe);
+
     }
 
     private void removeHeader() {
@@ -133,6 +137,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void addDetailedPanel(int idButton) {
         //TODO avoir les onglets et un onglet ouvert
+        updateItem();
         navigation = new JPanel();
         navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
         navigation.setPreferredSize(new Dimension(300,550));
@@ -153,8 +158,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
         onglets.add(ButtonBudget);
         onglets.add(ButtonInfos);
 
-        for(int i =0;i<mesListes.size();i++){
-            ObjetListe pouet = new ObjetListe(mesListes.get(i).getNom(),mesListes.get(i).getBudget(),mesListes.get(i).getIdListe(),navigationController);
+        for(int i =0;i<currentList.size();i++){
+            ObjetItem pouet = new ObjetItem(currentList.get(i),navigationController);
             contenu.add(pouet);
         }
 

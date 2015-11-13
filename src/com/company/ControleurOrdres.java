@@ -2,7 +2,6 @@ package com.company;
 
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -34,9 +33,6 @@ public class ControleurOrdres {
         if (typeOrdre.equals("disconnect")){
             return disconnect();
         }
-        if(typeOrdre.equals("MasterRequest")){
-            return masterTest();
-        }
         if(typeOrdre.equals("inscription")){
             return Inscrire();
         }
@@ -49,7 +45,47 @@ public class ControleurOrdres {
         if(typeOrdre.equals("getGlobalListe")){
             return globalListe();
         }
+        if(typeOrdre.equals("addItem")){
+            return addItem();
+        }
+        if(typeOrdre.equals("getListe")){
+            return getItems();
+        }
+        return true;
+    }
 
+    private boolean getItems() {
+        int numList = Integer.valueOf(parametreOrdre);
+
+        try {
+            FileReader fr = new FileReader("bdd/liste"+numList+".json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray contenu = new JSONArray(input.readLine());
+            con.out.writeUTF(contenu.toString());
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    private boolean addItem() {
+        int numList = Integer.valueOf(parametreOrdre.substring(0,1));
+        JSONObject roger = new JSONObject(parametreOrdre.substring(1,parametreOrdre.length()-1));
+        try {
+            FileReader fr = new FileReader("bdd/liste"+numList+".json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray contenu = new JSONArray(input.readLine());
+            contenu.put(roger);
+            FileWriter fw = new FileWriter("bdd/liste"+numList+".json",false);
+            BufferedWriter output = new BufferedWriter(fw);
+            output.write(contenu.toString());
+            output.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -98,6 +134,13 @@ public class ControleurOrdres {
             output.write(tableauListe.toString());
             output.close();
             con.out.writeBoolean(true);
+            File JSONListe = new File("bdd/liste"+(tableauListe.length()-1)+".json");
+            JSONListe.createNewFile();
+            FileWriter fww = new FileWriter("bdd/liste"+(tableauListe.length()-1)+".json",false);
+            BufferedWriter outputw = new BufferedWriter(fw);
+            output.write("[]");
+            output.close();
+
         } catch (IOException e) {
             e.printStackTrace();
             try {
@@ -177,17 +220,6 @@ public class ControleurOrdres {
         return false;
     }
 
-    private boolean masterTest() {
-        System.out.println("requete master course");
-        JSONArray test = null;
-        try {
-            test = new JSONArray(getHTML("https://www.mastercourses.com/api2/products/search/?q=coca&lat=40&lon=5&mct=hieCaig6Oth2thiem7eiRiechufooWix"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(test.get(2));
-        return true;
-    }
 
     private boolean disconnect() {
         if(con.name.equals("pouet"))
