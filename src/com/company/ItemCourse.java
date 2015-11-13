@@ -7,6 +7,15 @@ public class ItemCourse {
 
 
 
+    int idItem;
+    String nom;
+    String prix;
+
+    String URL;
+    Boolean isTaken;
+
+
+
     public  ItemCourse(){
 
     }
@@ -51,9 +60,6 @@ public class ItemCourse {
         isTaken = taken;
     }
 
-    int idItem;
-    String nom;
-    String prix;
 
     public String getURL() {
         return URL;
@@ -62,8 +68,5 @@ public class ItemCourse {
     public void setURL(String URL) {
         this.URL = URL;
     }
-
-    String URL;
-    Boolean isTaken;
 
 }

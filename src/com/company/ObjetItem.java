@@ -19,19 +19,24 @@ public class ObjetItem extends JPanel implements ActionListener{
     JCheckBox isTaken;
     JButton infosButton = new JButton("Details");
     JLabel imageItem;
-
+    AjoutItem ajoutItem;
+    ItemCourse res;
     boolean taken;
     String dataName, dataPrice, mode,urlItem;
-    int idButton;
+    int idItem;
     NavigationController navigationController;
 
-    public ObjetItem(String nom, String prix, int idItem, Boolean taken, String urlItem, NavigationController navigationController) {
-        this.urlItem = urlItem;
+    //rechercheItems.get(i).getNom(),rechercheItems.get(i).getPrix(),rechercheItems.get(i).getIdItem(), rechercheItems.get(i).getTaken(),rechercheItems.get(i).getURL(),
+
+
+    public ObjetItem(ItemCourse res, NavigationController navigationController) {
+        this.res =res;
+        this.urlItem = res.getURL();
         this.navigationController = navigationController;
-        dataName = nom;
-        dataPrice = prix;
-        idButton = idItem;
-        this.taken = taken;
+        dataName = res.getNom();
+        dataPrice = res.getPrix();
+        this.idItem = res.getIdItem();
+        this.taken = res.getTaken();
         this.setLayout(new FlowLayout());
         setPreferredSize(new Dimension(300,50));
 
@@ -40,7 +45,8 @@ public class ObjetItem extends JPanel implements ActionListener{
         System.out.println("objet "+nom+" "+prix+" a ete créé");
     }
 
-    public void setModeSearch(){
+    public void setModeSearch(AjoutItem ajoutItem){
+        this.ajoutItem = ajoutItem;
         mode = "search";
         this.nom = new JTextArea(dataName);
         this.prix = new JTextArea(dataPrice+"€");
@@ -66,7 +72,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         add(this.isTaken);
     }
 
-    public void setSelectSearch(){
+    public void setModeSelect(){
         mode = "select";
         this.nom = new JTextArea(dataName);
         this.prix = new JTextArea(dataPrice+"€");
@@ -95,7 +101,9 @@ public class ObjetItem extends JPanel implements ActionListener{
         if(s == isTaken){
             if(isTaken.isValid()){
                 if(mode.equals("search")){
-
+                    ajoutItem.getRechercheItems().remove(res);
+                    res.setTaken(true);
+                    ajoutItem.getRechercheItems().add(res);
                 }
                 if(mode.equals("select")){
 
@@ -103,7 +111,9 @@ public class ObjetItem extends JPanel implements ActionListener{
             }
             else{
                 if(mode.equals("search")){
-
+                    ajoutItem.getRechercheItems().remove(res);
+                    res.setTaken(false);
+                    ajoutItem.getRechercheItems().add(res);
                 }
                 if(mode.equals("select")){
 

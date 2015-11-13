@@ -2,8 +2,10 @@ package com.company;
 
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
+import com.intellij.util.containers.TreeTraversal;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
@@ -46,10 +48,15 @@ public class NavigationController extends JFrame {
 
 
     public void goToDetail(int idButton) {
+
         navigationIHM.updateHeader(idButton);
         navigationIHM.removeNavigation();
         navigationIHM.addDetailedPanel(idButton);
         navigationIHM.repaint();
+    }
+
+    public void infoBox(String infoMessage, String titleBar){
+        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 
     public boolean addItem(String text, String currentListe) {
@@ -75,5 +82,47 @@ public class NavigationController extends JFrame {
             result.add(repouet);
         }
         return result;
+    }
+
+    public boolean getSelectedSearchItem(ArrayList<ItemCourse> pouet) {
+        ArrayList<ItemCourse> demande = new ArrayList<>();
+        for (int i =0; i< pouet.size();i++){
+            if(pouet.get(i).getTaken()) demande.add(pouet.get(i));
+        }
+        addSelectedItem(demande);
+        return true;
+    }
+
+    private void addSelectedItem(ArrayList<ItemCourse> demande) {
+        for (int i= 0; i<demande.size();i++){
+            ItemCourse res = new ItemCourse(demande.get(i));
+            JSONObject tmp = new JSONObject();
+            tmp.put("idItem",res.getIdItem());
+            tmp.put("nom",res.getNom());
+            tmp.put("taken",false);
+            tmp.put("prix",res.getPrix());
+            tmp.put("url",res.getURL());
+            try {
+                client.curOut.writeUTF("addItem/"+navigationIHM.idCurrentList+tmp.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public ArrayList<ItemCourse> getselectItem(int id) {
+        JSONArray contenu = new JSONArray(client.getSelectItem(id));
+        ArrayList<ItemCourse> retour = new ArrayList<>();
+        for (int i = 0;i<contenu.length();i++){
+            ItemCourse tmp = new ItemCourse();
+            tmp.setPrix(contenu.getJSONObject(i).getString("prix"));
+            tmp.setTaken(contenu.getJSONObject(i).getBoolean("taken"));
+            tmp.setIdItem(contenu.getJSONObject(i).getInt("idItem"));
+            tmp.setURL(contenu.getJSONObject(i).getString("url"));
+            tmp.setNom(contenu.getJSONObject(i).getString("nom"));
+            retour.add(tmp);
+        }
+        return retour;
     }
 }
