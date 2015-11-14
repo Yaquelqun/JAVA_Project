@@ -71,8 +71,10 @@ public class AjoutItem  extends JFrame implements ActionListener {
 
         if(s==chercher){
            rechercheItems = navigationController.getRequeteData(nomItem.getText());
-
-            for(int i =0;i<rechercheItems.size()/4;i++){
+            int max = 0;
+            if(rechercheItems.size()>10) max =10;
+            else max = rechercheItems.size();
+            for(int i =0;i<max;i++){
                 ObjetItem pouet = new ObjetItem(rechercheItems.get(i),navigationController);
                 pouet.setModeSearch(this);
                 recherche.add(pouet);
@@ -87,12 +89,10 @@ public class AjoutItem  extends JFrame implements ActionListener {
         }
 
         if (s==valider){
-            if(navigationController.addItem(nomItem.getText(),navigationController.navigationIHM.getCurrentListe())){
                 navigationController.getSelectedSearchItem(rechercheItems);
                 navigationController.setVisible(true);
-                navigationController.navigationIHM.updateNavigation();
+                navigationController.navigationIHM.updatedetailedPanel();
                 dispose();
-            }
         }
         else if(s==annuler){
             navigationController.setVisible(true);

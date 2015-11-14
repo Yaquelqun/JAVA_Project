@@ -52,8 +52,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updateNavigation(){
         updateListes();
-        ObjetListe newListe = new ObjetListe(mesListes.get(mesListes.size()-1).getNom(),mesListes.get(mesListes.size()-1).getBudget(),mesListes.get(mesListes.size()-1).getIdListe(),navigationController);
-        gestionListes.add(newListe);
+         ObjetListe newListe = new ObjetListe(mesListes.get(mesListes.size()-1).getNom(),mesListes.get(mesListes.size()-1).getBudget(),mesListes.get(mesListes.size()-1).getIdListe(),navigationController);
+         gestionListes.add(newListe);
         repaint();
         navigationController.pack();
     }
@@ -160,6 +160,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         for(int i =0;i<currentList.size();i++){
             ObjetItem pouet = new ObjetItem(currentList.get(i),navigationController);
+            pouet.setModeSelect();
             contenu.add(pouet);
         }
 
@@ -195,4 +196,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     }
 
+    public void updatedetailedPanel() {
+        updateItem();
+        ObjetItem newItem = new ObjetItem(currentList.get(currentList.size()-1),navigationController);
+        contenu.add(newItem);
+        repaint();
+        navigationController.pack();
+    }
 }

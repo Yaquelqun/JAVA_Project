@@ -39,10 +39,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.taken = res.getTaken();
         this.setLayout(new FlowLayout());
         setPreferredSize(new Dimension(300,50));
-
-
-
-        System.out.println("objet "+nom+" "+prix+" a ete créé");
+        System.out.println("objet "+dataName+" a ete créé");
     }
 
     public void setModeSearch(AjoutItem ajoutItem){
