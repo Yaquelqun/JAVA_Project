@@ -1,7 +1,5 @@
 package com.company;
 
-import org.jdesktop.swingx.JXTextField;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
