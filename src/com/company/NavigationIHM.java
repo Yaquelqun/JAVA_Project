@@ -24,6 +24,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
     JButton ButtonNewItem = new JButton("Ajouter un produit");
     String currentListe = null;
     JButton ButtonNew = new JButton("Nouvelle Liste");
+    JButton buttonShare = new JButton("partager");
     JButton ButtonGo = new JButton("Allons-y !");
     JMenu parametre;
     int idCurrentList =0;
@@ -80,8 +81,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
         navigation.add(gestionListes,BorderLayout.NORTH);
         gestionAction.setPreferredSize(new Dimension(300,65));
         navigationController.persoButton("res/NewButton.png",ButtonNew);
+        navigationController.persoButton("res/shareButton.png",buttonShare);
         gestionAction.add(ButtonNew, BorderLayout.EAST);
+        gestionAction.add(buttonShare,BorderLayout.WEST);
         ButtonNew.addActionListener(this);
+        buttonShare.addActionListener(this);
         navigation.add(gestionAction,BorderLayout.SOUTH);
         add(navigation, BorderLayout.CENTER);
         repaint();
@@ -204,10 +208,13 @@ public class NavigationIHM extends JPanel implements ActionListener {
             AjoutListe nouvelleListe = new AjoutListe(navigationController);
         }
         if(s==ButtonNewItem){
-            //navigationController.setVisible(false);
+            navigationController.setVisible(false);
             AjoutItem nouveauItem = new AjoutItem(navigationController);
         }
-
+        if(s==buttonShare){
+            navigationController.setVisible(false);
+            
+        }
 
 
     }
