@@ -157,6 +157,9 @@ public class NavigationIHM extends JPanel implements ActionListener {
         gestionItem = new JPanel(new BorderLayout());
         gestionItem.setPreferredSize(new Dimension(300,50));
 
+        ButtonListe.addActionListener(this);
+        ButtonBudget.addActionListener(this);
+        ButtonInfos.addActionListener(this);
         onglets.add(ButtonListe);
         onglets.add(ButtonBudget);
         onglets.add(ButtonInfos);
@@ -198,16 +201,27 @@ public class NavigationIHM extends JPanel implements ActionListener {
             AjoutItem nouveauItem = new AjoutItem(navigationController);
         }
 
+
+
     }
 
     public void updatedetailedPanel() {
         updateItem();
+<<<<<<< HEAD
         System.out.println("j'ai update les items");
         ObjetItem newItem = new ObjetItem(currentList.get(currentList.size()-1),navigationController);
         System.out.println(newItem.dataName+" a été updaté");
         contenu.add(newItem);
         contenu.repaint();
         navigation.repaint();
+=======
+        contenu.removeAll();
+        for(int i =0;i<currentList.size();i++){
+            ObjetItem pouet = new ObjetItem(currentList.get(i),navigationController);
+            pouet.setModeSelect();
+            contenu.add(pouet);
+        }
+>>>>>>> refs/remotes/origin/integration
         repaint();
         navigationController.pack();
     }
