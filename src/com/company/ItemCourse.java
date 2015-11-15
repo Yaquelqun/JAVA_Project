@@ -22,6 +22,7 @@ public class ItemCourse {
 
     public ItemCourse(ItemCourse item) {
         nom = item.getNom();
+        URL = item.getURL();
         prix = item.getPrix();
         idItem = item.getIdItem();
         isTaken = item.getTaken();

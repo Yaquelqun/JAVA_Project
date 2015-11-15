@@ -12,7 +12,7 @@ import java.sql.Time;
  */
 public class ControleurOrdres {
 
-    String typeOrdre;
+    String typeOrdre,completeOrdre;
     String parametreOrdre;
     Serveur refServ;
     int indexClient =0;
@@ -28,8 +28,9 @@ public class ControleurOrdres {
     }
 
     public boolean setOrdre(String order) {
-        typeOrdre = new String(order.substring(0,order.lastIndexOf('/')));
-        parametreOrdre = new String(order.substring(order.lastIndexOf('/')+1,order.length()));
+        completeOrdre = new String(order);
+        typeOrdre = new String(order.substring(0,order.indexOf('/')));
+        parametreOrdre = new String(order.substring(order.indexOf('/')+1,order.length()));
         if (typeOrdre.equals("disconnect")){
             return disconnect();
         }
@@ -72,7 +73,9 @@ public class ControleurOrdres {
 
     private boolean addItem() {
         int numList = Integer.valueOf(parametreOrdre.substring(0,1));
-        JSONObject roger = new JSONObject(parametreOrdre.substring(1,parametreOrdre.length()-1));
+        String Jason = parametreOrdre.substring(1,parametreOrdre.length());
+        System.out.println(Jason);
+        JSONObject roger = new JSONObject(Jason);
         try {
             FileReader fr = new FileReader("bdd/liste"+numList+".json");
             BufferedReader input = new BufferedReader(fr);
@@ -80,6 +83,7 @@ public class ControleurOrdres {
             contenu.put(roger);
             FileWriter fw = new FileWriter("bdd/liste"+numList+".json",false);
             BufferedWriter output = new BufferedWriter(fw);
+            System.out.println("j'ajoute donc "+ roger.toString());
             output.write(contenu.toString());
             output.close();
             return true;
@@ -137,9 +141,9 @@ public class ControleurOrdres {
             File JSONListe = new File("bdd/liste"+(tableauListe.length()-1)+".json");
             JSONListe.createNewFile();
             FileWriter fww = new FileWriter("bdd/liste"+(tableauListe.length()-1)+".json",false);
-            BufferedWriter outputw = new BufferedWriter(fw);
-            output.write("[]");
-            output.close();
+            BufferedWriter outputw = new BufferedWriter(fww);
+            outputw.write("[]");
+            outputw.close();
 
         } catch (IOException e) {
             e.printStackTrace();

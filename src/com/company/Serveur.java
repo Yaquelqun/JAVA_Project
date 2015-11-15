@@ -109,9 +109,6 @@ public class Serveur extends JFrame implements Runnable {
             displayAllClients() ;
             e.printStackTrace();
         } //attente
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

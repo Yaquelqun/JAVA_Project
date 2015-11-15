@@ -67,10 +67,11 @@ public class NavigationController extends JFrame {
         String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&ip=current&mct=hieCaig6Oth2thiem7eiRiechufooWix";
         ArrayList<ItemCourse> result = new ArrayList<>();
         JSONArray reqResult = client.execRequete(requete);
-
-        for(int i =0;i< reqResult.length();i++){
+        int max = 0;
+        if(reqResult.length()>10) max =10;
+        else max = reqResult.length();
+        for(int i =0;i< max;i++){
             JSONObject pouet = reqResult.getJSONObject(i);
-            System.out.println(pouet.toString());
             ItemCourse repouet = new ItemCourse();
             String nom = pouet.getString("name");
             System.out.println(nom);
@@ -101,7 +102,8 @@ public class NavigationController extends JFrame {
             tmp.put("nom",res.getNom());
             tmp.put("taken",false);
             tmp.put("prix",res.getPrix());
-            tmp.put("url",res.getURL());
+            if(res.getURL().equals(null)) tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
+            else tmp.put("url",res.getURL());
             try {
                 client.curOut.writeUTF("addItem/"+navigationIHM.idCurrentList+tmp.toString());
             } catch (IOException e) {
