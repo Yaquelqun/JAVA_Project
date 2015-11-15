@@ -2,6 +2,8 @@ package com.company;
 
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
+
+import javax.jnlp.IntegrationService;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,7 +15,7 @@ import java.sql.Time;
 public class ControleurOrdres {
 
     String typeOrdre,completeOrdre;
-    String parametreOrdre;
+    String parametreOrdre,identifiant;
     Serveur refServ;
     int indexClient =0;
     Connected con = null;
@@ -30,7 +32,9 @@ public class ControleurOrdres {
     public boolean setOrdre(String order) {
         completeOrdre = new String(order);
         typeOrdre = new String(order.substring(0,order.indexOf('/')));
-        parametreOrdre = new String(order.substring(order.indexOf('/')+1,order.length()));
+        String tmp = new String(order.substring(order.indexOf('/')+1,order.length()));
+        identifiant = new String(tmp.substring(0,tmp.indexOf('/')));
+        parametreOrdre = new String(tmp.substring(tmp.indexOf('/')+1,tmp.length()));
         if (typeOrdre.equals("disconnect")){
             return disconnect();
         }
@@ -52,7 +56,44 @@ public class ControleurOrdres {
         if(typeOrdre.equals("getListe")){
             return getItems();
         }
+        if(typeOrdre.equals("addUsertoList")){
+            return addUserToList();
+        }
         return true;
+    }
+
+    private boolean addUserToList() {
+
+        try {
+            FileReader fr = new FileReader("liste.json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray contenu = new JSONArray(input.readLine());
+            JSONObject roger = new JSONObject("{\"nom\":\""+identifiant+"\"}");
+            for( int i = 0;i< contenu.length();i++){
+                if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(parametreOrdre))){
+                    JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
+                    System.out.println("je cherche dans "+tmp.toString());
+                    contenu.remove(i);
+                    JSONArray tmp2 = tmp.getJSONArray("logins");
+                    tmp.remove("logins");
+                    tmp2.put(roger);
+                    tmp.accumulate("logins",tmp2);
+                    contenu.put(tmp2);
+                    FileWriter fw = new FileWriter("liste.json");
+                    BufferedWriter output = new BufferedWriter(fw);
+                    output.write(contenu.toString());
+                    output.close();
+                    con.out.writeBoolean(true);
+                    return true;
+                }
+            }
+            con.out.writeBoolean(false);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private boolean getItems() {
@@ -73,8 +114,8 @@ public class ControleurOrdres {
     }
 
     private boolean addItem() {
-        int numList = Integer.valueOf(parametreOrdre.substring(0,1));
-        String Jason = parametreOrdre.substring(1,parametreOrdre.length());
+        int numList = Integer.valueOf(identifiant);
+        String Jason = parametreOrdre;
         System.out.println(Jason);
         JSONObject roger = new JSONObject(Jason);
         try {
@@ -102,11 +143,12 @@ public class ControleurOrdres {
             JSONArray retour = new JSONArray();
             for(int i =0;i<tableauListe.length();i++)
             {
-                String pouet = new String(tableauListe.getJSONObject(i).getJSONArray("logins").toString());
-                System.out.println(pouet);
-                JSONArray tableauxnoms = new JSONArray(pouet);
-                for(int j =0;j<tableauxnoms.length();j++){
-                    if(tableauxnoms.getJSONObject(j).get("noms").equals(con.name)){
+                System.out.println("gerons"+tableauListe.getJSONObject(i).toString());
+                JSONObject jason = new JSONObject(tableauListe.getJSONObject(i).toString());
+                JSONArray tmp2 = jason.getJSONArray("logins");
+                System.out.println(tmp2);
+                for(int j =0;j<tmp2.length();j++){
+                    if(tmp2.getJSONObject(j).get("noms").equals(con.name)){
 
                         retour.put(tableauListe.getJSONObject(i));
                     }
@@ -159,6 +201,7 @@ public class ControleurOrdres {
 
     private boolean Inscrire() {
         System.out.println("quelqun s'inscrit");
+        System.out.println(parametreOrdre);
         String jsonInscrit = parametreOrdre;
         JSONObject inscrit = new JSONObject(jsonInscrit);
         System.out.println("son login est :"+inscrit.getString("login")+ " et son pass est : "+inscrit.getString("psw"));
