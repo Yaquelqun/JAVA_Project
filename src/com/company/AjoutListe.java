@@ -29,9 +29,9 @@ public class AjoutListe  extends JFrame implements ActionListener {
         annuler.addActionListener(this);
         valider.addActionListener(this);
         JPanel boutons = new JPanel(new FlowLayout());
-        navigationController.persoButton("res/CancelButton.png",annuler);
+        navigationController.persoButton("CancelButton.png",annuler);
         boutons.add(annuler);
-        navigationController.persoButton("res/OKButton.png",valider);
+        navigationController.persoButton("OKButton.png",valider);
         boutons.add(valider);
         boutons.setPreferredSize(new Dimension(300,70));
         global.add(boutons);

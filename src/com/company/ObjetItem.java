@@ -76,7 +76,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.prix = new JTextArea(dataPrice+"€");
         isTaken = new JCheckBox();
         isTaken.addActionListener(this);
-        navigationController.persoButton("res/DetailsButton.png",infosButton);
+        navigationController.persoButton("DetailsButton.png",infosButton);
         infosButton.addActionListener(this);
         //urlPath = address of your picture on internet
         try {

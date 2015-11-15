@@ -26,8 +26,9 @@ public class LoginIHM extends JPanel implements ActionListener{
         String[] sharedPref = controllerLoginInscription.client.getSharedPageLogin();
         System.out.println(Boolean.valueOf(sharedPref[2]));
         if(Boolean.valueOf(sharedPref[2])){
-            retenir = new JCheckBox("Retenir mes indentifiants",Boolean.valueOf(sharedPref[2]));
+            retenir = new JCheckBox("Retenir mes identifiants",Boolean.valueOf(sharedPref[2]));
             retenir.setBackground(Client.BACKGROUND_COLOR);
+            controllerLoginInscription.persoCheckBox(retenir);
             nickNameF.setText(sharedPref[0]);
             passWord.setText(sharedPref[1]);
         }
@@ -40,6 +41,7 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelNorth.add(logo);
         panelCenter.add(nickNameF);
         panelCenter.add(passWord);
+        controllerLoginInscription.persoLabel(retenir, Client.BACKGROUND_COLOR);
         panelCenter.add(retenir);
         JPanel panelSouth = new JPanel();
 

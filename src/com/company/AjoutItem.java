@@ -30,7 +30,7 @@ public class AjoutItem  extends JFrame implements ActionListener {
         JPanel nomListePanel = new JPanel(new FlowLayout());
         nomListePanel.setPreferredSize(new Dimension(250,70));
         nomItem = new JTextField("Nom du produit cherché");
-        navigationController.persoButton("res/SearchButton.png",chercher);
+        navigationController.persoButton("SearchButton.png",chercher);
         chercher.addActionListener(this);
         nomListePanel.add(nomItem);
         nomListePanel.add(chercher);
@@ -43,8 +43,8 @@ public class AjoutItem  extends JFrame implements ActionListener {
         boutons.setPreferredSize(new Dimension(300,70));
         annuler.addActionListener(this);
         valider.addActionListener(this);
-        navigationController.persoButton("res/CancelButton.png",annuler);
-        navigationController.persoButton("res/OKButton.png",valider);
+        navigationController.persoButton("CancelButton.png",annuler);
+        navigationController.persoButton("OKButton.png",valider);
         boutons.add(annuler);
         boutons.add(valider);
 
