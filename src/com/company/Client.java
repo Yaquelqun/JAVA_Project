@@ -253,4 +253,21 @@ public class Client {
         }
         return false;
     }
+
+    public void suppressLogin() {
+        FileWriter fw;
+        JSONObject Jason;
+        try {
+            Jason = new JSONObject();
+            Jason.put("login","");
+            Jason.put("psw","");
+            Jason.put("retenir","false");
+            fw = new FileWriter("sharedPref.json",false);
+            BufferedWriter output = new BufferedWriter(fw);
+            output.write(Jason.toString());
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

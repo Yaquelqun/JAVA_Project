@@ -98,3 +98,4 @@ fabric.properties
 
 # TeXlipse plugin
 .texlipse
+*.json
