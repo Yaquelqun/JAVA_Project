@@ -69,12 +69,12 @@ public class ControleurOrdres {
             BufferedReader input = new BufferedReader(fr);
             JSONArray contenu = new JSONArray(input.readLine());
             JSONObject roger = new JSONObject("{\"nom\":\""+identifiant+"\"}");
-
             for( int i = 0;i< contenu.length();i++){
-                if (contenu.getJSONObject(i).get("id").equals(parametreOrdre)){
-                    JSONObject tmp = new JSONObject(contenu.getJSONObject(i));
+                if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(parametreOrdre))){
+                    JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
+                    System.out.println("je cherche dans "+tmp.toString());
                     contenu.remove(i);
-                    JSONArray tmp2 = new JSONArray(tmp.getJSONArray("logins"));
+                    JSONArray tmp2 = tmp.getJSONArray("logins");
                     tmp.remove("logins");
                     tmp2.put(roger);
                     tmp.accumulate("logins",tmp2);
@@ -143,11 +143,12 @@ public class ControleurOrdres {
             JSONArray retour = new JSONArray();
             for(int i =0;i<tableauListe.length();i++)
             {
-                String pouet = new String(tableauListe.getJSONObject(i).getJSONArray("logins").toString());
-                System.out.println(pouet);
-                JSONArray tableauxnoms = new JSONArray(pouet);
-                for(int j =0;j<tableauxnoms.length();j++){
-                    if(tableauxnoms.getJSONObject(j).get("noms").equals(con.name)){
+                System.out.println("gerons"+tableauListe.getJSONObject(i).toString());
+                JSONObject jason = new JSONObject(tableauListe.getJSONObject(i).toString());
+                JSONArray tmp2 = jason.getJSONArray("logins");
+                System.out.println(tmp2);
+                for(int j =0;j<tmp2.length();j++){
+                    if(tmp2.getJSONObject(j).get("noms").equals(con.name)){
 
                         retour.put(tableauListe.getJSONObject(i));
                     }
