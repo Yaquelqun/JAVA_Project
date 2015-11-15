@@ -243,4 +243,14 @@ public class Client {
         }
         return "WTFFFFFF";
     }
+
+    public boolean sendRequest(String requete) {
+        try{
+            curOut.writeUTF(requete);
+            return curIn.readBoolean();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

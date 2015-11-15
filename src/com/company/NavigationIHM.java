@@ -213,7 +213,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         }
         if(s==buttonShare){
             navigationController.setVisible(false);
-            
+            partageListe nouveauPartage = new partageListe(navigationController,mesListes);
         }
 
 

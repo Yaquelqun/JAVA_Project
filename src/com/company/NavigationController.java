@@ -131,4 +131,9 @@ public class NavigationController extends JFrame {
         }
         return retour;
     }
+
+    public boolean addUserToList(String text, int selectedItemId) {
+        String requete = "addUsertoList/"+text+"/"+selectedItemId;
+        return client.sendRequest(requete);
+    }
 }

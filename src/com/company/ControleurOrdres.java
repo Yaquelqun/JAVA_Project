@@ -56,7 +56,44 @@ public class ControleurOrdres {
         if(typeOrdre.equals("getListe")){
             return getItems();
         }
+        if(typeOrdre.equals("addUsertoList")){
+            return addUserToList();
+        }
         return true;
+    }
+
+    private boolean addUserToList() {
+
+        try {
+            FileReader fr = new FileReader("liste.json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray contenu = new JSONArray(input.readLine());
+            JSONObject roger = new JSONObject("{\"nom\":\""+identifiant+"\"}");
+
+            for( int i = 0;i< contenu.length();i++){
+                if (contenu.getJSONObject(i).get("id").equals(parametreOrdre)){
+                    JSONObject tmp = new JSONObject(contenu.getJSONObject(i));
+                    contenu.remove(i);
+                    JSONArray tmp2 = new JSONArray(tmp.getJSONArray("logins"));
+                    tmp.remove("logins");
+                    tmp2.put(roger);
+                    tmp.accumulate("logins",tmp2);
+                    contenu.put(tmp2);
+                    FileWriter fw = new FileWriter("liste.json");
+                    BufferedWriter output = new BufferedWriter(fw);
+                    output.write(contenu.toString());
+                    output.close();
+                    con.out.writeBoolean(true);
+                    return true;
+                }
+            }
+            con.out.writeBoolean(false);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private boolean getItems() {
