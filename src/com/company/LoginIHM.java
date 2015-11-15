@@ -2,17 +2,16 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * Created by Sandjiv on 07/11/2015.
  */
-public class LoginIHM extends JPanel implements ActionListener{
+public class LoginIHM extends JPanel implements ActionListener,FocusListener{
 
     private ControllerLoginInscription controllerLoginInscription;
     private JTextField nickNameF = new JTextField("Name", 10) ;
-    private JTextField passWord  = new JTextField("Password", 10);
+    private JPasswordField passWord  = new JPasswordField("Password", 10);
     private JCheckBox retenir;
     private JButton connectB = new JButton();
     private JButton inscription = new JButton();
@@ -30,7 +29,11 @@ public class LoginIHM extends JPanel implements ActionListener{
             retenir.setBackground(Client.BACKGROUND_COLOR);
             controllerLoginInscription.persoCheckBox(retenir);
             nickNameF.setText(sharedPref[0]);
+            nickNameF.addActionListener(this);
+            nickNameF.addFocusListener(this);
             passWord.setText(sharedPref[1]);
+            passWord.addActionListener(this);
+            passWord.addFocusListener(this);
         }
         this.controllerLoginInscription = controllerLoginInscription;
 
@@ -52,7 +55,7 @@ public class LoginIHM extends JPanel implements ActionListener{
         connectB.addActionListener(this);
         panelSouth.add(connectB);
 
-        controllerLoginInscription.persoButton("NewButton.png",inscription);
+        controllerLoginInscription.persoButton("SignInButton.png",inscription);
         inscription.addActionListener(this);
         panelSouth.add(inscription);
 
@@ -60,21 +63,56 @@ public class LoginIHM extends JPanel implements ActionListener{
         add(panelNorth, BorderLayout.NORTH);
         add(panelCenter,BorderLayout.CENTER);
         add(panelSouth, BorderLayout.SOUTH);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
-        if(s == connectB){
+        if(s == connectB || s == nickNameF || s == passWord){
             String login = nickNameF.getText();
-            String psw = passWord.getText();
+            String psw = String.copyValueOf(passWord.getPassword());
             if(retenir.isValid()){
                 controllerLoginInscription.client.keepLogin(login,psw);
+            }
+            else{
+                controllerLoginInscription.client.suppressLogin();
             }
             controllerLoginInscription.client.login(login,psw);
         }
         if(s == inscription){
             controllerLoginInscription.pageInscription();
+        }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        Object s = e.getSource();
+        if(s==nickNameF){
+            if(nickNameF.getText().equals("Name")){
+                nickNameF.setText("");
+            }
+        }
+        if(s==passWord){
+            if(String.copyValueOf(passWord.getPassword()).equals("")){
+                passWord.setText("");
+            }
+        }
+
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        Object s = e.getSource();
+        if(s == nickNameF){
+            if(nickNameF.getText().equals("")){
+                nickNameF.setText("Name");
+            }
+        }
+        if(s == passWord){
+            if(String.copyValueOf(passWord.getPassword()).equals("")){
+                passWord.setText("Password");
+            }
         }
     }
 }
