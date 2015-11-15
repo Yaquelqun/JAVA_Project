@@ -2,6 +2,8 @@ package com.company;
 
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
+
+import javax.jnlp.IntegrationService;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,7 +15,7 @@ import java.sql.Time;
 public class ControleurOrdres {
 
     String typeOrdre,completeOrdre;
-    String parametreOrdre;
+    String parametreOrdre,identifiant;
     Serveur refServ;
     int indexClient =0;
     Connected con = null;
@@ -30,7 +32,9 @@ public class ControleurOrdres {
     public boolean setOrdre(String order) {
         completeOrdre = new String(order);
         typeOrdre = new String(order.substring(0,order.indexOf('/')));
-        parametreOrdre = new String(order.substring(order.indexOf('/')+1,order.length()));
+        String tmp = new String(order.substring(order.indexOf('/')+1,order.length()));
+        identifiant = new String(tmp.substring(0,tmp.indexOf('/')));
+        parametreOrdre = new String(tmp.substring(tmp.indexOf('/')+1,tmp.length()));
         if (typeOrdre.equals("disconnect")){
             return disconnect();
         }
@@ -73,8 +77,8 @@ public class ControleurOrdres {
     }
 
     private boolean addItem() {
-        int numList = Integer.valueOf(parametreOrdre.substring(0,1));
-        String Jason = parametreOrdre.substring(1,parametreOrdre.length());
+        int numList = Integer.valueOf(identifiant);
+        String Jason = parametreOrdre;
         System.out.println(Jason);
         JSONObject roger = new JSONObject(Jason);
         try {
@@ -159,6 +163,7 @@ public class ControleurOrdres {
 
     private boolean Inscrire() {
         System.out.println("quelqun s'inscrit");
+        System.out.println(parametreOrdre);
         String jsonInscrit = parametreOrdre;
         JSONObject inscrit = new JSONObject(jsonInscrit);
         System.out.println("son login est :"+inscrit.getString("login")+ " et son pass est : "+inscrit.getString("psw"));

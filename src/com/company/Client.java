@@ -71,7 +71,7 @@ public class Client {
      */
     void disconnect(String nickName) {
         try {
-            curOut.writeUTF("disconnect/"+nickName);
+            curOut.writeUTF("disconnect/1/"+nickName);
             connected = false ;
 
             sock.close();
@@ -87,7 +87,7 @@ public class Client {
         nouveauinscrit.accumulate("login",login);
         nouveauinscrit.accumulate("psw",psw);
         try {
-            curOut.writeUTF("inscription/"+nouveauinscrit.toString());
+            curOut.writeUTF("inscription/1/"+nouveauinscrit.toString());
             System.out.println("J attends une réponse ... via"+ sock.toString());
             boolean unique = curIn.readBoolean();
             System.out.println("c'est fait !");
@@ -118,7 +118,7 @@ public class Client {
         nouveaumonsieur.accumulate("psw",psw);
         System.out.println(nouveaumonsieur.toString());
         try {
-            curOut.writeUTF("connexion/"+nouveaumonsieur.toString());
+            curOut.writeUTF("connexion/1/"+nouveaumonsieur.toString());
             System.out.println("J attends une réponse ... via"+ sock.toString());
             boolean unique = curIn.readBoolean();
             System.out.println("c'est fait !");
@@ -136,13 +136,6 @@ public class Client {
         }
     }
 
-    void requete(){
-        try {
-            curOut.writeUTF("MasterRequest/");
-        } catch (IOException p) {
-            p.printStackTrace();
-        }
-    }
 
     public void keepLogin(String login, String psw) {
         FileWriter fw;
@@ -184,7 +177,7 @@ public class Client {
 
     public boolean addListe(String text) {
         boolean retour = false;
-        String requete = "ajoutListe/"+text;
+        String requete = "ajoutListe/0/"+text;
         System.out.println("j'ajoute une liste");
         try {
             curOut.writeUTF(requete);
@@ -201,7 +194,7 @@ public class Client {
 
         System.out.println("je récupère mes listes");
         try {
-            curOut.writeUTF("getGlobalListe/");
+            curOut.writeUTF("getGlobalListe/1/");
 
             String pouet = curIn.readUTF();
             System.out.println("cote client j'ai recu : "+pouet);
@@ -213,23 +206,6 @@ public class Client {
 
     }
 
-    public boolean addItem(String text) {
-        boolean retour = false;
-
-        return true;
-
-//        String requete = "ajoutItem/"+text;
-//        System.out.println("j'ajoute un item");
-//        try {
-//            curOut.writeUTF(requete);
-//            System.out.println("done, j'attend des retours éventuels");
-//            retour = curIn.readBoolean();
-//            System.out.println("done");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return retour;
-    }
 
     public JSONArray execRequete(String requete) {
         try {
@@ -258,7 +234,7 @@ public class Client {
     public String getSelectItem(int p0) {
 
         try {
-            curOut.writeUTF("getListe/"+String.valueOf(p0));
+            curOut.writeUTF("getListe/0/"+String.valueOf(p0));
             return curIn.readUTF();
         } catch (IOException e) {
             e.printStackTrace();
