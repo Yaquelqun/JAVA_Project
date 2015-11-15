@@ -94,7 +94,7 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
             }
         }
         if(s==passWord){
-            if(String.copyValueOf(passWord.getPassword()).equals("")){
+            if(String.copyValueOf(passWord.getPassword()).equals("Password")){
                 passWord.setText("");
             }
         }
