@@ -43,43 +43,15 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelCenter.add(retenir);
         JPanel panelSouth = new JPanel();
 
-<<<<<<< HEAD
         controllerLoginInscription.persoButton("res/LoginButton.png",connectB);
-=======
         panelSouth.setBackground(Color.WHITE);
         panelNorth.setBackground(Color.WHITE);
         panelCenter.setBackground(Color.WHITE);
-
-        /*Icon loginButton = new ImageIcon("res/LoginButton.png");
-        connectB.setIcon(loginButton);
-        connectB.setBorderPainted(false);
-        connectB.setContentAreaFilled(false);
-        connectB.setFocusPainted(false);
-        connectB.setOpaque(false);*/
-        connectB.setBorderPainted(false);
-        connectB.setBackground(Color.WHITE);
-        connectB.setBorder(BorderFactory.createMatteBorder(0,0,10,5,Color.cyan));
->>>>>>> refs/remotes/origin/integration
         connectB.addActionListener(this);
-        connectB.repaint();
         panelSouth.add(connectB);
 
-<<<<<<< HEAD
         controllerLoginInscription.persoButton("res/NewButton.png",inscription);
-=======
-/*        Icon inscrButton = new ImageIcon("res/InscrButton.png");
-        inscription.setIcon(inscrButton);
-        inscription.setBorderPainted(false);
-        inscription.setContentAreaFilled(false);
-        inscription.setFocusPainted(false);
-        inscription.setOpaque(false);
-        inscription.addActionListener(this);*/
-        inscription.setBorderPainted(false);
-        inscription.setBackground(Color.WHITE);
->>>>>>> refs/remotes/origin/integration
         inscription.addActionListener(this);
-        inscription.setBorder(BorderFactory.createMatteBorder(0,0,10,5,Color.cyan));
-        inscription.repaint();
         panelSouth.add(inscription);
 
 

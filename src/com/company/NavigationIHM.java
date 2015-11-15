@@ -48,7 +48,6 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updateItem(){
         currentList = new ArrayList<ItemCourse>(navigationController.getselectItem(idCurrentList));
-        System.out.println(currentList.get(currentList.size()-1).getNom()+" a été ajouté à la liste");
     }
 
     public void updateNavigation(){
@@ -126,7 +125,6 @@ public class NavigationIHM extends JPanel implements ActionListener {
         for (int i =0;i<mesListes.size();i++){
             if (mesListes.get(i).getIdListe() == idButton){
                 currentListe = mesListes.get(i).getNom();
-
                 currentList = new ArrayList<>();
                 textHeader.setText(currentListe);
             }
@@ -207,21 +205,18 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updatedetailedPanel() {
         updateItem();
-<<<<<<< HEAD
         System.out.println("j'ai update les items");
         ObjetItem newItem = new ObjetItem(currentList.get(currentList.size()-1),navigationController);
         System.out.println(newItem.dataName+" a été updaté");
         contenu.add(newItem);
         contenu.repaint();
         navigation.repaint();
-=======
         contenu.removeAll();
         for(int i =0;i<currentList.size();i++){
             ObjetItem pouet = new ObjetItem(currentList.get(i),navigationController);
             pouet.setModeSelect();
             contenu.add(pouet);
         }
->>>>>>> refs/remotes/origin/integration
         repaint();
         navigationController.pack();
     }
