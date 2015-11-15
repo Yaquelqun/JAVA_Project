@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
  * Created by Sandjiv on 11/11/2015.
  */
 public class ObjetListe extends JPanel implements ActionListener {
-    JTextArea nom;
-    JTextArea budget;
+    JLabel nom;
+    JLabel budget;
     JButton detail = new JButton();
     int idButton;
     NavigationController navigationController;
@@ -20,12 +20,14 @@ public class ObjetListe extends JPanel implements ActionListener {
 
         this.setBackground(Client.BACKGROUND_INV_COLOR);
         this.setLayout(new FlowLayout());
-           setPreferredSize(new Dimension(300,70));
-        this.nom = new JTextArea(nom);
+        setPreferredSize(new Dimension(300,70));
+        this.nom = new JLabel(nom);
+        navigationController.persoLabel(this.nom, Client.BACKGROUND_INV_COLOR);
 
         idButton = id;
-        this.budget = new JTextArea("Total : €");
-       navigationController.persoButton("res/DetailsButton.png",detail);
+        this.budget = new JLabel("Total : €");
+        navigationController.persoLabel(this.budget, Client.BACKGROUND_INV_COLOR);
+       navigationController.persoButton("DetailsButton.png",detail);
         detail.addActionListener(this);
         add(this.nom);
         add(this.budget);

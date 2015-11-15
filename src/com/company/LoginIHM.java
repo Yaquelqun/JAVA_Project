@@ -43,14 +43,14 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelCenter.add(retenir);
         JPanel panelSouth = new JPanel();
 
-        controllerLoginInscription.persoButton("res/LoginButton.png",connectB);
+        controllerLoginInscription.persoButton("LoginButton.png",connectB);
         panelSouth.setBackground(Color.WHITE);
         panelNorth.setBackground(Color.WHITE);
         panelCenter.setBackground(controllerLoginInscription.client.BACKGROUND_COLOR);
         connectB.addActionListener(this);
         panelSouth.add(connectB);
 
-        controllerLoginInscription.persoButton("res/NewButton.png",inscription);
+        controllerLoginInscription.persoButton("NewButton.png",inscription);
         inscription.addActionListener(this);
         panelSouth.add(inscription);
 

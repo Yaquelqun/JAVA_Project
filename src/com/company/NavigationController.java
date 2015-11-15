@@ -4,6 +4,8 @@ import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,8 +60,15 @@ public class NavigationController extends JFrame {
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void persoLabel(JLabel jLabel, Color backgroundColor){
+        jLabel.setBackground(backgroundColor);
+        Font myFont = new Font("Serif", Font.BOLD, 18);
+        jLabel.setFont(myFont);
+        jLabel.setForeground(Color.WHITE);
+    }
+
     public void persoButton(String URLImage, JButton bouton){
-        Icon icoButton = new ImageIcon(URLImage);
+        Icon icoButton = new ImageIcon("res/Buttons/"+URLImage);
         bouton.setIcon(icoButton);
         bouton.setBorderPainted(false);
         bouton.setContentAreaFilled(false);
