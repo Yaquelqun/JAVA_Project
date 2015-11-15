@@ -62,6 +62,7 @@ public class ControleurOrdres {
             FileReader fr = new FileReader("bdd/liste"+numList+".json");
             BufferedReader input = new BufferedReader(fr);
             JSONArray contenu = new JSONArray(input.readLine());
+            System.out.println("j'écris "+contenu.toString());
             con.out.writeUTF(contenu.toString());
 
             return true;
