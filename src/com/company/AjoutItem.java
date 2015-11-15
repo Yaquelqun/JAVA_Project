@@ -89,10 +89,11 @@ public class AjoutItem  extends JFrame implements ActionListener {
         }
 
         if (s==valider){
-                navigationController.getSelectedSearchItem(rechercheItems);
-                navigationController.setVisible(true);
-                navigationController.navigationIHM.updatedetailedPanel();
-                dispose();
+               if(navigationController.getSelectedSearchItem(rechercheItems)) {
+                   navigationController.setVisible(true);
+                   navigationController.navigationIHM.updatedetailedPanel();
+                   dispose();
+               }
         }
         else if(s==annuler){
             navigationController.setVisible(true);

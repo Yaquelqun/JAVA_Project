@@ -2,7 +2,6 @@ package com.company;
 
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
-import com.intellij.util.containers.TreeTraversal;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -57,6 +56,15 @@ public class NavigationController extends JFrame {
 
     public void infoBox(String infoMessage, String titleBar){
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void persoButton(String URLImage, JButton bouton){
+        Icon icoButton = new ImageIcon(URLImage);
+        bouton.setIcon(icoButton);
+        bouton.setBorderPainted(false);
+        bouton.setContentAreaFilled(false);
+        bouton.setFocusPainted(false);
+        bouton.setOpaque(false);
     }
 
     public boolean addItem(String text, String currentListe) {

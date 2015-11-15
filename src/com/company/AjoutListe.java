@@ -11,25 +11,29 @@ import java.awt.event.ActionListener;
 public class AjoutListe  extends JFrame implements ActionListener {
     private NavigationController navigationController;
     JTextField nomListe;
-    JButton valider = new JButton("valider");
-    JButton annuler = new JButton("annuler");
+    JButton valider = new JButton();
+    JButton annuler = new JButton();
     JPanel global = new JPanel();
 
     public AjoutListe(NavigationController navigationController) {
-        setPreferredSize(new Dimension(200,150));
+        setPreferredSize(new Dimension(300,200));
         this.navigationController = navigationController;
         JPanel nomListePanel = new JPanel();
-        nomListe = new JTextField();
-        nomListe.setText("entrez le nom de votre liste");
+        nomListePanel.setLayout(new BoxLayout(nomListePanel,BoxLayout.Y_AXIS));
+        JLabel expl = new JLabel("entrez le nom de votre liste");
+        nomListe = new JTextField(50);
+        nomListePanel.add(expl);
         nomListePanel.add(nomListe);
-        nomListePanel.setPreferredSize(new Dimension(200,30));
+        nomListePanel.setPreferredSize(new Dimension(200,50));
         global.add(nomListePanel);
         annuler.addActionListener(this);
         valider.addActionListener(this);
         JPanel boutons = new JPanel(new FlowLayout());
+        navigationController.persoButton("res/CancelButton.png",annuler);
         boutons.add(annuler);
+        navigationController.persoButton("res/OKButton.png",valider);
         boutons.add(valider);
-        boutons.setPreferredSize(new Dimension(200,50));
+        boutons.setPreferredSize(new Dimension(300,70));
         global.add(boutons);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(global);

@@ -40,21 +40,11 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelCenter.add(retenir);
         JPanel panelSouth = new JPanel();
 
-        Icon loginButton = new ImageIcon("res/LoginButton.png");
-        connectB.setIcon(loginButton);
-        connectB.setBorderPainted(false);
-        connectB.setContentAreaFilled(false);
-        connectB.setFocusPainted(false);
-        connectB.setOpaque(false);
+        controllerLoginInscription.persoButton("res/LoginButton.png",connectB);
         connectB.addActionListener(this);
         panelSouth.add(connectB);
 
-        Icon inscrButton = new ImageIcon("res/InscrButton.png");
-        inscription.setIcon(inscrButton);
-        inscription.setBorderPainted(false);
-        inscription.setContentAreaFilled(false);
-        inscription.setFocusPainted(false);
-        inscription.setOpaque(false);
+        controllerLoginInscription.persoButton("res/NewButton.png",inscription);
         inscription.addActionListener(this);
         panelSouth.add(inscription);
         add(panelNorth, BorderLayout.NORTH);

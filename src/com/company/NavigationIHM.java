@@ -48,6 +48,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updateItem(){
         currentList = new ArrayList<ItemCourse>(navigationController.getselectItem(idCurrentList));
+        System.out.println(currentList.get(currentList.size()-1).getNom()+" a été ajouté à la liste");
     }
 
     public void updateNavigation(){
@@ -76,6 +77,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         navigation.add(gestionListes,BorderLayout.NORTH);
         gestionAction.setPreferredSize(new Dimension(300,50));
+        navigationController.persoButton("res/NewButton.png",ButtonNew);
         gestionAction.add(ButtonNew, BorderLayout.EAST);
         ButtonNew.addActionListener(this);
         navigation.add(gestionAction,BorderLayout.SOUTH);
@@ -97,7 +99,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
         panelWest.add(textHeader);
         header.add(panelWest,BorderLayout.WEST);
 
-        parametre = new JMenu("sonpère");
+        parametre = new JMenu();
+        parametre.setIcon(new ImageIcon("res/paramButton.png"));
         panelEast.add(parametre);
         header.add(panelEast,BorderLayout.EAST);
         add(header);
@@ -168,6 +171,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
 
+        navigationController.persoButton("res/NewButton.png",ButtonNewItem);
         ButtonNewItem.addActionListener(this);
         gestionItem.add(ButtonNewItem, BorderLayout.EAST);
 
@@ -198,8 +202,12 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updatedetailedPanel() {
         updateItem();
+        System.out.println("j'ai update les items");
         ObjetItem newItem = new ObjetItem(currentList.get(currentList.size()-1),navigationController);
+        System.out.println(newItem.dataName+" a été updaté");
         contenu.add(newItem);
+        contenu.repaint();
+        navigation.repaint();
         repaint();
         navigationController.pack();
     }
