@@ -3,6 +3,7 @@ package com.company;
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
 
+import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.Socket;
@@ -14,6 +15,7 @@ import static com.company.Constants.PORT;
  * Created by Loriane on 10/11/2015.
  */
 public class Client {
+    public static final Color BACKGROUND_COLOR = new Color(253,175,112), BACKGROUND_INV_COLOR = new Color(68, 154, 151);
     ControllerLoginInscription controllerLoginInscription;
     Socket sock;
     DataInputStream curIn ;
