@@ -77,7 +77,6 @@ public class Client {
             sock.close();
 
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             controllerLoginInscription.infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }

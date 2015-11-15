@@ -76,6 +76,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         navigation.add(gestionListes,BorderLayout.NORTH);
         gestionAction.setPreferredSize(new Dimension(300,50));
+        navigationController.persoButton("res/NewButton.png",ButtonNew);
         gestionAction.add(ButtonNew, BorderLayout.EAST);
         ButtonNew.addActionListener(this);
         navigation.add(gestionAction,BorderLayout.SOUTH);
@@ -97,7 +98,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
         panelWest.add(textHeader);
         header.add(panelWest,BorderLayout.WEST);
 
-        parametre = new JMenu("sonpère");
+        parametre = new JMenu();
+        parametre.setIcon(new ImageIcon("res/paramButton.png"));
         panelEast.add(parametre);
         header.add(panelEast,BorderLayout.EAST);
         add(header);
@@ -123,7 +125,6 @@ public class NavigationIHM extends JPanel implements ActionListener {
         for (int i =0;i<mesListes.size();i++){
             if (mesListes.get(i).getIdListe() == idButton){
                 currentListe = mesListes.get(i).getNom();
-
                 currentList = new ArrayList<>();
                 textHeader.setText(currentListe);
             }
@@ -171,6 +172,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
 
+        navigationController.persoButton("res/NewButton.png",ButtonNewItem);
         ButtonNewItem.addActionListener(this);
         gestionItem.add(ButtonNewItem, BorderLayout.EAST);
 
@@ -203,6 +205,12 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updatedetailedPanel() {
         updateItem();
+        System.out.println("j'ai update les items");
+        ObjetItem newItem = new ObjetItem(currentList.get(currentList.size()-1),navigationController);
+        System.out.println(newItem.dataName+" a été updaté");
+        contenu.add(newItem);
+        contenu.repaint();
+        navigation.repaint();
         contenu.removeAll();
         for(int i =0;i<currentList.size();i++){
             ObjetItem pouet = new ObjetItem(currentList.get(i),navigationController);

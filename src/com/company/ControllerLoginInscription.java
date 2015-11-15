@@ -67,6 +67,15 @@ public class ControllerLoginInscription extends JFrame {
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void persoButton(String URLImage, JButton bouton){
+        Icon icoButton = new ImageIcon(URLImage);
+        bouton.setIcon(icoButton);
+        bouton.setBorderPainted(false);
+        bouton.setContentAreaFilled(false);
+        bouton.setFocusPainted(false);
+        bouton.setOpaque(false);
+    }
+
     public void nextFen() {
         NavigationController cousteau = new NavigationController(client);
         this.dispose();
