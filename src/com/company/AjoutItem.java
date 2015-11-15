@@ -13,9 +13,9 @@ public class AjoutItem  extends JFrame implements ActionListener {
     private NavigationController navigationController;
     JTextField nomItem;
 
-    JButton chercher = new JButton("Chercher le produit");
-    JButton valider = new JButton("Valider");
-    JButton annuler = new JButton("annuler");
+    JButton chercher = new JButton();
+    JButton valider = new JButton();
+    JButton annuler = new JButton();
     JPanel global = new JPanel();
     JPanel recherche;
     JScrollPane scrollFrame;
@@ -27,23 +27,26 @@ public class AjoutItem  extends JFrame implements ActionListener {
         this.navigationController = navigationController;
         setPreferredSize(new Dimension(300,600));
 
-        JPanel nomListePanel = new JPanel(new BorderLayout());
-        nomListePanel.setPreferredSize(new Dimension(300,50));
-        nomItem = new JTextField("entrez le nom de votre liste");
+        JPanel nomListePanel = new JPanel(new FlowLayout());
+        nomListePanel.setPreferredSize(new Dimension(250,70));
+        nomItem = new JTextField("Nom du produit cherché");
+        navigationController.persoButton("res/SearchButton.png",chercher);
         chercher.addActionListener(this);
-        nomListePanel.add(nomItem, BorderLayout.WEST);
-        nomListePanel.add(chercher, BorderLayout.EAST);
+        nomListePanel.add(nomItem);
+        nomListePanel.add(chercher);
 
         recherche = new JPanel();
         recherche.setLayout(new BoxLayout(recherche,BoxLayout.Y_AXIS));
         scrollFrame = new JScrollPane(recherche);
 
-        JPanel boutons = new JPanel(new BorderLayout());
-        boutons.setPreferredSize(new Dimension(300,50));
+        JPanel boutons = new JPanel();
+        boutons.setPreferredSize(new Dimension(300,70));
         annuler.addActionListener(this);
         valider.addActionListener(this);
-        boutons.add(annuler, BorderLayout.EAST);
-        boutons.add(valider, BorderLayout.WEST);
+        navigationController.persoButton("res/CancelButton.png",annuler);
+        navigationController.persoButton("res/OKButton.png",valider);
+        boutons.add(annuler);
+        boutons.add(valider);
 
         global.add(nomListePanel);
         global.add(scrollFrame);
@@ -82,7 +85,7 @@ public class AjoutItem  extends JFrame implements ActionListener {
             }
 
             recherche.setAutoscrolls(true);
-            scrollFrame.setPreferredSize(new Dimension( 300,500));
+            scrollFrame.setPreferredSize(new Dimension( 300,400));
             scrollFrame.repaint();
             repaint();
             pack();

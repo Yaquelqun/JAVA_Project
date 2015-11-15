@@ -11,20 +11,21 @@ import java.awt.event.ActionListener;
 public class ObjetListe extends JPanel implements ActionListener {
     JTextArea nom;
     JTextArea budget;
-    JButton detail;
+    JButton detail = new JButton();
     int idButton;
     NavigationController navigationController;
 
     public ObjetListe (String nom, String budget,int id,NavigationController navigationController){
         this.navigationController = navigationController;
 
+        this.setBackground(Client.BACKGROUND_INV_COLOR);
         this.setLayout(new FlowLayout());
-           setPreferredSize(new Dimension(300,50));
+           setPreferredSize(new Dimension(300,70));
         this.nom = new JTextArea(nom);
 
         idButton = id;
         this.budget = new JTextArea("Total : €");
-        detail = new JButton(String.valueOf(idButton));
+       navigationController.persoButton("res/DetailsButton.png",detail);
         detail.addActionListener(this);
         add(this.nom);
         add(this.budget);

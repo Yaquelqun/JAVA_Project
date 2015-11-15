@@ -37,6 +37,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
     public NavigationIHM(NavigationController navigationController) {
         this.navigationController = navigationController;
         super.setPreferredSize(fenSize);
+        this.setLayout(new BorderLayout());
         this.setSize(fenSize);
         setHeader();
         setNavigation();
@@ -61,13 +62,15 @@ public class NavigationIHM extends JPanel implements ActionListener {
     public void setNavigation() {
         updateListes();
         navigation = new JPanel(new BorderLayout());
-        navigation.setPreferredSize(new Dimension(300,550));
-        navigation.setBackground(new Color(255,255,255));
+        navigation.setPreferredSize(new Dimension(300,535));
+        navigation.setBackground(Color.white);
 
         gestionAction = new JPanel(new BorderLayout());
+        gestionAction.setBackground(Client.BACKGROUND_COLOR);
         gestionListes = new JPanel();
+        gestionListes.setBackground(Color.WHITE);
 
-        gestionListes.setPreferredSize(new Dimension(300,500));
+        gestionListes.setPreferredSize(new Dimension(300,470));
 
         for(int i =0;i<mesListes.size();i++){
             ObjetListe pouet = new ObjetListe(mesListes.get(i).getNom(),mesListes.get(i).getBudget(),mesListes.get(i).getIdListe(),navigationController);
@@ -75,12 +78,12 @@ public class NavigationIHM extends JPanel implements ActionListener {
         }
 
         navigation.add(gestionListes,BorderLayout.NORTH);
-        gestionAction.setPreferredSize(new Dimension(300,50));
+        gestionAction.setPreferredSize(new Dimension(300,65));
         navigationController.persoButton("res/NewButton.png",ButtonNew);
         gestionAction.add(ButtonNew, BorderLayout.EAST);
         ButtonNew.addActionListener(this);
         navigation.add(gestionAction,BorderLayout.SOUTH);
-        add(navigation);
+        add(navigation, BorderLayout.CENTER);
         repaint();
         navigationController.pack();
 
@@ -88,21 +91,27 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     private void setHeader() {
         header = new JPanel(new BorderLayout());
-        header.setPreferredSize(new Dimension(300,50));
+        header.setPreferredSize(new Dimension(300,65));
+        header.setBackground(Client.BACKGROUND_COLOR);
         JPanel panelWest = new JPanel(new FlowLayout());
+        panelWest.setBackground(Client.BACKGROUND_COLOR);
         JPanel panelEast = new JPanel();
+        panelEast.setBackground(Client.BACKGROUND_COLOR);
 
         imageHeader = new JLabel(new ImageIcon((new ImageIcon("butGreen.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
+        imageHeader.setBackground(Client.BACKGROUND_COLOR);
         textHeader = new JLabel(navigationController.client.userName);
+        textHeader.setBackground(Client.BACKGROUND_COLOR);
         panelWest.add(imageHeader);
         panelWest.add(textHeader);
         header.add(panelWest,BorderLayout.WEST);
 
         parametre = new JMenu();
+        parametre.setBackground(Client.BACKGROUND_COLOR);
         parametre.setIcon(new ImageIcon("res/paramButton.png"));
         panelEast.add(parametre);
         header.add(panelEast,BorderLayout.EAST);
-        add(header);
+        add(header, BorderLayout.NORTH);
     }
 
 
@@ -141,19 +150,19 @@ public class NavigationIHM extends JPanel implements ActionListener {
         updateItem();
         navigation = new JPanel();
         navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
-        navigation.setPreferredSize(new Dimension(300,550));
+        navigation.setPreferredSize(new Dimension(300,500));
         navigation.setBackground(new Color(255,255,255));
 
         onglets = new JPanel(new FlowLayout());
         onglets.setPreferredSize(new Dimension(300,50));
         contenu = new JPanel();
-        contenu.setPreferredSize(new Dimension(300,450));
+        contenu.setPreferredSize(new Dimension(300,400));
         total = new JPanel(new BorderLayout());
-        total.setPreferredSize(new Dimension(300,50));
+        total.setPreferredSize(new Dimension(300,70));
         totalBudget = new JLabel("budget total");
         selBudget = new JLabel("budget items sel");
         gestionItem = new JPanel(new BorderLayout());
-        gestionItem.setPreferredSize(new Dimension(300,50));
+        gestionItem.setPreferredSize(new Dimension(300,70));
 
         ButtonListe.addActionListener(this);
         ButtonBudget.addActionListener(this);

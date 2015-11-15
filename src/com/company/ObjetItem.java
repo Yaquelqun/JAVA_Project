@@ -17,7 +17,7 @@ public class ObjetItem extends JPanel implements ActionListener{
     JTextArea nom;
     JTextArea prix;
     JCheckBox isTaken;
-    JButton infosButton = new JButton("Details");
+    JButton infosButton = new JButton();
     JLabel imageItem;
     AjoutItem ajoutItem;
     ItemCourse res;
@@ -38,7 +38,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.idItem = res.getIdItem();
         this.taken = res.getTaken();
         this.setLayout(new FlowLayout());
-        setPreferredSize(new Dimension(300,50));
+        setPreferredSize(new Dimension(275,70));
         System.out.println("objet "+dataName+" a ete créé");
     }
 
@@ -71,10 +71,12 @@ public class ObjetItem extends JPanel implements ActionListener{
 
     public void setModeSelect(){
         mode = "select";
-        this.nom = new JTextArea(dataName);
+        this.nom = new JTextArea(dataName.substring(0,10)+"...");
+        this.nom.setToolTipText(dataName);
         this.prix = new JTextArea(dataPrice+"€");
         isTaken = new JCheckBox();
         isTaken.addActionListener(this);
+        navigationController.persoButton("res/DetailsButton.png",infosButton);
         infosButton.addActionListener(this);
         //urlPath = address of your picture on internet
         try {
@@ -82,7 +84,7 @@ public class ObjetItem extends JPanel implements ActionListener{
             BufferedImage c;
 
             c = ImageIO.read(url);
-            imageItem = new JLabel(new ImageIcon(new ImageIcon(c).getImage().getScaledInstance(12, 12, Image.SCALE_DEFAULT)));
+            imageItem = new JLabel(new ImageIcon(new ImageIcon(c).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
         } catch (IOException e) {
             e.printStackTrace();
         }
