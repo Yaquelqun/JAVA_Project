@@ -14,8 +14,8 @@ public class LoginIHM extends JPanel implements ActionListener{
     private JTextField nickNameF = new JTextField("Name", 10) ;
     private JTextField passWord  = new JTextField("Password", 10);
     private JCheckBox retenir;
-    private JButton connectB = new JButton();
-    private JButton inscription = new JButton();
+    private JButton connectB = new JButton("Connexion");
+    private JButton inscription = new JButton("Inscription");
     private JLabel logo = new JLabel(new ImageIcon(new ImageIcon("logo_fox.jpg").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
     /**
      *
@@ -27,11 +27,14 @@ public class LoginIHM extends JPanel implements ActionListener{
         System.out.println(Boolean.valueOf(sharedPref[2]));
         if(Boolean.valueOf(sharedPref[2])){
             retenir = new JCheckBox("Retenir mes indentifiants",Boolean.valueOf(sharedPref[2]));
+            retenir.setBackground(Color.WHITE);
             nickNameF.setText(sharedPref[0]);
             passWord.setText(sharedPref[1]);
         }
         this.controllerLoginInscription = controllerLoginInscription;
+
         JPanel panelNorth = new JPanel();
+
         JPanel panelCenter = new JPanel();
         panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.Y_AXIS));
         panelNorth.add(logo);
@@ -40,23 +43,38 @@ public class LoginIHM extends JPanel implements ActionListener{
         panelCenter.add(retenir);
         JPanel panelSouth = new JPanel();
 
-        Icon loginButton = new ImageIcon("res/LoginButton.png");
+        panelSouth.setBackground(Color.WHITE);
+        panelNorth.setBackground(Color.WHITE);
+        panelCenter.setBackground(Color.WHITE);
+
+        /*Icon loginButton = new ImageIcon("res/LoginButton.png");
         connectB.setIcon(loginButton);
         connectB.setBorderPainted(false);
         connectB.setContentAreaFilled(false);
         connectB.setFocusPainted(false);
-        connectB.setOpaque(false);
+        connectB.setOpaque(false);*/
+        connectB.setBorderPainted(false);
+        connectB.setBackground(Color.WHITE);
+        connectB.setBorder(BorderFactory.createMatteBorder(0,0,10,5,Color.cyan));
         connectB.addActionListener(this);
+        connectB.repaint();
         panelSouth.add(connectB);
 
-        Icon inscrButton = new ImageIcon("res/InscrButton.png");
+/*        Icon inscrButton = new ImageIcon("res/InscrButton.png");
         inscription.setIcon(inscrButton);
         inscription.setBorderPainted(false);
         inscription.setContentAreaFilled(false);
         inscription.setFocusPainted(false);
         inscription.setOpaque(false);
+        inscription.addActionListener(this);*/
+        inscription.setBorderPainted(false);
+        inscription.setBackground(Color.WHITE);
         inscription.addActionListener(this);
+        inscription.setBorder(BorderFactory.createMatteBorder(0,0,10,5,Color.cyan));
+        inscription.repaint();
         panelSouth.add(inscription);
+
+
         add(panelNorth, BorderLayout.NORTH);
         add(panelCenter,BorderLayout.CENTER);
         add(panelSouth, BorderLayout.SOUTH);

@@ -9,6 +9,7 @@ public class ControllerLoginInscription extends JFrame {
 
     ControllerLoginInscription() {
         client = new Client(this);
+
         pageLogin();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         //setLocation((dim.width/2)-getWidth()/2,(dim.height/2)+getHeight()/2);
