@@ -69,11 +69,11 @@ public class ControllerLoginInscription extends JFrame {
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void persoLabel(JLabel jLabel, Color backgroundColor){
-        jLabel.setBackground(backgroundColor);
+    public void persoLabel(Component component, Color backgroundColor){
+        component.setBackground(backgroundColor);
         Font myFont = new Font("Serif", Font.BOLD, 18);
-        jLabel.setFont(myFont);
-        jLabel.setForeground(Color.WHITE);
+        component.setFont(myFont);
+        component.setForeground(Color.WHITE);
     }
      public void persoButton(String URLImage, JButton bouton){
         Icon icoButton = new ImageIcon("res/Buttons/"+URLImage);
@@ -82,6 +82,11 @@ public class ControllerLoginInscription extends JFrame {
         bouton.setContentAreaFilled(false);
         bouton.setFocusPainted(false);
         bouton.setOpaque(false);
+    }
+
+    public void persoCheckBox(JCheckBox jCheckBox){
+        jCheckBox.setDisabledIcon(new ImageIcon("/res/Buttons/DisableCheck.png"));
+        jCheckBox.setSelectedIcon(new ImageIcon("/res/Buttons/EnableCheck.png"));
     }
 
     public void nextFen() {
