@@ -79,7 +79,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         navigation.add(gestionListes,BorderLayout.NORTH);
         gestionAction.setPreferredSize(new Dimension(300,65));
-        navigationController.persoButton("res/NewButton.png",ButtonNew);
+        navigationController.persoButton("NewButton.png",ButtonNew);
         gestionAction.add(ButtonNew, BorderLayout.EAST);
         ButtonNew.addActionListener(this);
         navigation.add(gestionAction,BorderLayout.SOUTH);
@@ -108,7 +108,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         parametre = new JMenu();
         parametre.setBackground(Client.BACKGROUND_COLOR);
-        parametre.setIcon(new ImageIcon("res/paramButton.png"));
+        parametre.setIcon(new ImageIcon("res/Buttons/paramButton.png"));
         panelEast.add(parametre);
         header.add(panelEast,BorderLayout.EAST);
         add(header, BorderLayout.NORTH);
@@ -181,7 +181,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
 
-        navigationController.persoButton("res/NewButton.png",ButtonNewItem);
+        navigationController.persoButton("NewButton.png",ButtonNewItem);
         ButtonNewItem.addActionListener(this);
         gestionItem.add(ButtonNewItem, BorderLayout.EAST);
 
