@@ -10,8 +10,8 @@ import java.awt.event.*;
 public class LoginIHM extends JPanel implements ActionListener,FocusListener{
 
     private ControllerLoginInscription controllerLoginInscription;
-    private JTextField nickNameF = new JTextField("Name", 10) ;
-    private JPasswordField passWord  = new JPasswordField("Password", 10);
+    private JTextField nickNameF;
+    private JPasswordField passWord  = new JPasswordField("Password");
     private JCheckBox retenir;
     private JButton connectB = new JButton();
     private JButton inscription = new JButton();
@@ -22,13 +22,19 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
      */
     LoginIHM(final ControllerLoginInscription controllerLoginInscription) {
         super(new BorderLayout());
+        super.setPreferredSize(new Dimension(300,200));
+        setPreferredSize(new Dimension(300,200));
+        nickNameF = new JTextField("Name") ;
+
         String[] sharedPref = controllerLoginInscription.client.getSharedPageLogin();
         System.out.println(Boolean.valueOf(sharedPref[2]));
         if(Boolean.valueOf(sharedPref[2])){
             retenir = new JCheckBox("Retenir mes identifiants",Boolean.valueOf(sharedPref[2]));
-            retenir.setBackground(Client.BACKGROUND_COLOR);
+            retenir.setBackground(Client.BACKGROUND_INV_COLOR);
             controllerLoginInscription.persoCheckBox(retenir);
             nickNameF.setText(sharedPref[0]);
+            nickNameF.setPreferredSize(new Dimension(10,10));
+            nickNameF.setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
             nickNameF.addActionListener(this);
             nickNameF.addFocusListener(this);
             passWord.setText(sharedPref[1]);
@@ -38,20 +44,22 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
         this.controllerLoginInscription = controllerLoginInscription;
 
         JPanel panelNorth = new JPanel();
-
         JPanel panelCenter = new JPanel();
-        panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.Y_AXIS));
-        panelNorth.add(logo);
-        panelCenter.add(nickNameF);
-        panelCenter.add(passWord);
-        controllerLoginInscription.persoLabel(retenir, Client.BACKGROUND_COLOR);
-        panelCenter.add(retenir);
         JPanel panelSouth = new JPanel();
 
+
+        panelNorth.add(logo);
+
+        panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.Y_AXIS));
+        panelCenter.add(nickNameF);
+        panelCenter.add(passWord);
+        controllerLoginInscription.persoLabel(retenir, Client.BACKGROUND_INV_COLOR);
+        panelCenter.add(retenir);
+
         controllerLoginInscription.persoButton("LoginButton.png",connectB);
-        panelSouth.setBackground(Color.WHITE);
-        panelNorth.setBackground(Color.WHITE);
-        panelCenter.setBackground(controllerLoginInscription.client.BACKGROUND_COLOR);
+        panelSouth.setBackground(Client.BACKGROUND_INV_COLOR);
+        panelNorth.setBackground(Client.BACKGROUND_INV_COLOR);
+        panelCenter.setBackground(Client.BACKGROUND_INV_COLOR);
         connectB.addActionListener(this);
         panelSouth.add(connectB);
 
@@ -61,6 +69,7 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
 
 
         add(panelNorth, BorderLayout.NORTH);
+        panelCenter.setPreferredSize(new Dimension(100,150));
         add(panelCenter,BorderLayout.CENTER);
         add(panelSouth, BorderLayout.SOUTH);
 
@@ -98,7 +107,6 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
                 passWord.setText("");
             }
         }
-
     }
 
     @Override
