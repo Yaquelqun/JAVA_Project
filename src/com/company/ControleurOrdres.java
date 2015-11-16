@@ -68,7 +68,7 @@ public class ControleurOrdres {
             FileReader fr = new FileReader("liste.json");
             BufferedReader input = new BufferedReader(fr);
             JSONArray contenu = new JSONArray(input.readLine());
-            JSONObject roger = new JSONObject("{\"nom\":\""+identifiant+"\"}");
+            JSONObject roger = new JSONObject("{\"noms\":\""+identifiant+"\"}");
             for( int i = 0;i< contenu.length();i++){
                 if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(parametreOrdre))){
                     JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
@@ -80,7 +80,10 @@ public class ControleurOrdres {
                     System.out.println("tmp : "+tmp.toString());
                     tmp2.put(roger);
                     System.out.println("tmp2 : "+tmp2.toString());
-                    tmp.accumulate("logins",tmp2);
+                    for (int j =0;j<tmp2.length();j++){
+                        tmp.append("logins",tmp2.getJSONObject(j));
+                    }
+                    System.out.println("tmp :"+tmp.toString());
                     contenu.put(tmp);
                     System.out.println("je vais écrire : "+contenu.toString());
                     FileWriter fw = new FileWriter("liste.json", false);
