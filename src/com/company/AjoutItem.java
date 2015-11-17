@@ -26,7 +26,8 @@ public class AjoutItem  extends JFrame implements ActionListener {
     public AjoutItem(NavigationController navigationController) {
         this.navigationController = navigationController;
         setPreferredSize(new Dimension(300,600));
-
+        setUndecorated(true);
+        setLocationRelativeTo(null);
         JPanel nomListePanel = new JPanel(new FlowLayout());
         nomListePanel.setPreferredSize(new Dimension(250,70));
         nomItem = new JTextField("Nom du produit cherché");

@@ -1,8 +1,6 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -171,6 +169,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         ButtonListe.addActionListener(this);
         ButtonBudget.addActionListener(this);
         ButtonInfos.addActionListener(this);
+        ButtonGo.addActionListener(this);
         onglets.add(ButtonListe);
         onglets.add(ButtonBudget);
         onglets.add(ButtonInfos);
@@ -184,6 +183,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(totalBudget, BorderLayout.WEST);
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
+        navigationController.persoButton("GoButton.png",ButtonGo);
 
         navigationController.persoButton("NewButton.png",ButtonNewItem);
         ButtonNewItem.addActionListener(this);
@@ -214,6 +214,9 @@ public class NavigationIHM extends JPanel implements ActionListener {
         if(s==buttonShare){
             navigationController.setVisible(false);
             partageListe nouveauPartage = new partageListe(navigationController,mesListes);
+        }
+        if(s==ButtonGo){
+            StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
         }
 
 

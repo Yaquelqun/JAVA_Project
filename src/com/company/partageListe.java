@@ -1,6 +1,8 @@
 package com.company;
 
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,18 +15,29 @@ public class partageListe extends JFrame implements ActionListener {
     NavigationController navigationController;
     JComboBox<String> comboListes;
     JButton Valider = new JButton("valider");
-    JTextField login = new JTextField("avec qui partager ?");
+    JButton Annuler = new JButton("annuler");
+    JLabel login = new JLabel("avec qui partager ?");
 
     public partageListe(NavigationController navigationController, ArrayList<ListeCourse> mesListes) {
         this.mesListes = mesListes;
+        setLocationRelativeTo(null);
+        setUndecorated(true);
         this.navigationController = navigationController;
         JPanel total = new JPanel();
+        total.setBackground(Client.BACKGROUND_INV_COLOR);
+        JPanel boutonPanel = new JPanel(new FlowLayout());
+        boutonPanel.setBackground(Client.BACKGROUND_INV_COLOR);
         total.setLayout(new BoxLayout(total,BoxLayout.Y_AXIS));
         comboListes = new JComboBox<>();
         for (int i=0;i<mesListes.size();i++) comboListes.addItem(mesListes.get(i).getNom());
         total.add(comboListes);
+        navigationController.persoLabel(this.login, Client.BACKGROUND_INV_COLOR);
+        navigationController.persoButton("OKButton.png",Valider);
+        navigationController.persoButton("CancelButton.png",Annuler);
         total.add(login);
-        total.add(Valider);
+        boutonPanel.add(Annuler);
+        boutonPanel.add(Valider);
+        total.add(boutonPanel);
         Valider.addActionListener(this);
         add(total);
 
