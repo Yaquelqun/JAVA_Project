@@ -39,6 +39,7 @@ public class partageListe extends JFrame implements ActionListener {
         boutonPanel.add(Valider);
         total.add(boutonPanel);
         Valider.addActionListener(this);
+        Annuler.addActionListener(this);
         add(total);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -48,18 +49,24 @@ public class partageListe extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("je valide");
-        int tmp = 0;
-        for( int i=0;i<mesListes.size();i++){
-            if(mesListes.get(i).getNom().equals(comboListes.getSelectedItem())){
-                tmp = mesListes.get(i).getIdListe();
+        Object s = e.getSource();
+        if(s==Valider) {
+            System.out.println("je valide");
+            int tmp = 0;
+            for (int i = 0; i < mesListes.size(); i++) {
+                if (mesListes.get(i).getNom().equals(comboListes.getSelectedItem())) {
+                    tmp = mesListes.get(i).getIdListe();
+                }
             }
+            if (!navigationController.addUserToList(login.getText(), tmp)) {
+                navigationController.infoBox("il y a eu un probleme avec l'ajout", "erreur");
+            }
+            navigationController.setVisible(true);
+            dispose();
         }
-        if(!navigationController.addUserToList(login.getText(),tmp)){
-            navigationController.infoBox("il y a eu un probleme avec l'ajout","erreur");
+        if (s==Annuler){
+            navigationController.setVisible(true);
+            dispose();
         }
-        navigationController.setVisible(true);
-        dispose();
-
     }
 }

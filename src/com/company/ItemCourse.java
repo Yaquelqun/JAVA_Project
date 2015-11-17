@@ -7,7 +7,7 @@ public class ItemCourse {
 
 
 
-    int idItem;
+    int idItem,chainId;
     String nom;
     String prix;
 
@@ -70,4 +70,10 @@ public class ItemCourse {
         this.URL = URL;
     }
 
+    public int getChainId(){
+        return this.chainId;
+    }
+    public void setChainId(int chainId) {
+        this.chainId = chainId;
+    }
 }

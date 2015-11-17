@@ -5,11 +5,8 @@ import JSONLibrary.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * Created by Sandjiv on 11/11/2015.
@@ -89,6 +86,7 @@ public class NavigationController extends JFrame {
             String nom = pouet.getString("name");
             System.out.println(nom);
             repouet.setNom(nom);
+            repouet.setChainId(pouet.getInt("chain_id"));
             repouet.setIdItem(pouet.getInt("id"));
             repouet.setTaken(false);
             repouet.setPrix("0");
@@ -117,6 +115,7 @@ public class NavigationController extends JFrame {
             tmp.put("prix",res.getPrix());
             if(res.getURL().equals(null)) tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
             else tmp.put("url",res.getURL());
+            tmp.put("chain_id",res.getChainId());
             try {
                 client.curOut.writeUTF("addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString());
             } catch (IOException e) {
@@ -144,5 +143,11 @@ public class NavigationController extends JFrame {
     public boolean addUserToList(String text, int selectedItemId) {
         String requete = "addUsertoList/"+text+"/"+selectedItemId;
         return client.sendRequest(requete);
+    }
+
+    public String execRequeteGeoLoc() {
+        String requete = "https://context.skyhookwireless.com/accelerator/ip?version=2.0&prettyPrint=true&key=eJwVwckNACAIALC3w5CAgMcTBZYy7m5sqRB-MkTLqeaLc0wQRgJsJoDOG_rU7RZhSXkfERwLSw&user=eval&timestamp=1362089701";
+        return (client.execStringRequete(requete));
+
     }
 }
