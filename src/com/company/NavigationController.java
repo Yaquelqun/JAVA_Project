@@ -115,6 +115,7 @@ public class NavigationController extends JFrame {
             tmp.put("nom",res.getNom());
             tmp.put("taken",false);
             tmp.put("prix",res.getPrix());
+            tmp.put("disable", res.getDisable());
             if(res.getURL().equals(null)) tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
             else tmp.put("url",res.getURL());
             try {
@@ -144,5 +145,17 @@ public class NavigationController extends JFrame {
     public boolean addUserToList(String text, int selectedItemId) {
         String requete = "addUsertoList/"+text+"/"+selectedItemId;
         return client.sendRequest(requete);
+    }
+
+    public boolean itemUpdated(boolean disable, int selectedItemId) {
+        String requete;
+        if (disable) {
+            requete = "disableItem/"+navigationIHM.idCurrentList+"/"+selectedItemId;
+            return client.sendRequest(requete);
+        }
+        else {
+            requete = "enableItem/"+navigationIHM.idCurrentList+"/"+selectedItemId;
+            return client.sendRequest(requete);
+        }
     }
 }
