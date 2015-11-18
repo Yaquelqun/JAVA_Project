@@ -158,25 +158,29 @@ public class StartItineraire extends JEditorPane {
 
         String url = "http://maps.google.com/maps/api/staticmap?";
         url += "center=" + x + "," + y;
-        url += "&zoom=" + this.zoomFactor;
+        //url += "&zoom=" + this.zoomFactor;
         url += "&size=" + width.toString() + "x" + height.toString();
         url += "&scale=false";
         url += "&maptype=" + this.roadmap;
         url += "&markers=color:blue" + x + "," + y;
         url += "&sensor=false";
         url += "&key=" + this.ApiKey;
-//        ArrayList<Integer> pouet = new ArrayList<Integer>(diffchaines);
-//        ArrayList<String> test = new ArrayList<>();
-//        test.add("113+route+nationale");
-//        test.add("1+rue+René+Cailloux");
-//        for (int j =0;j<test.size();j++){
-//            //JSONObject Objet = new JSONObject(navigationController.execRequeteChaineLoc(pouet.get(j),currentlat,currentlong));
-//            url += "&markers=size:mid";
-//            url += "%7Ccolor:0xff0000";
-//            url += "%7Clabel:"+j;
-//            //url += "%7C"+Objet.getString("address");
-//            url += "%7C"+test.get(j);
-//        }
+        url += "&markers=size:mid";
+        url += "%7Ccolor:0x00ff00";
+        url += "%7Clabel:pos";
+        url += "%7C"+x+","+y;
+        ArrayList<Integer> pouet = new ArrayList<Integer>(diffchaines);
+        //ArrayList<String> test = new ArrayList<>();
+        for (int j =0;j<pouet.size();j++){
+            JSONObject Objet = new JSONObject(navigationController.execRequeteChaineLoc(pouet.get(j),currentlat,currentlong));
+            url += "&markers=size:mid";
+            url += "%7Ccolor:0xff0000";
+            url += "%7Clabel:"+j;
+            String tmp = Objet.getString("address");
+            tmp = tmp.replace(" ","+");
+            url += "%7C"+tmp;
+            //url += "%7C"+test.get(j);
+        }
         System.out.println(url);
 
        String html = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>";

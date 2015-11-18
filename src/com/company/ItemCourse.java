@@ -22,6 +22,7 @@ public class ItemCourse {
         nom = item.getNom();
         URL = item.getURL();
         prix = item.getPrix();
+        chainId = item.getChainId();
         idItem = item.getIdItem();
         isTaken = item.getTaken();
     }

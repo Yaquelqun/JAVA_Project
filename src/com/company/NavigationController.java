@@ -100,7 +100,11 @@ public class NavigationController extends JFrame {
     public boolean getSelectedSearchItem(ArrayList<ItemCourse> pouet) {
         ArrayList<ItemCourse> demande = new ArrayList<>();
         for (int i =0; i< pouet.size();i++){
-            if(pouet.get(i).getTaken()) demande.add(pouet.get(i));
+            if(pouet.get(i).getTaken()){
+                demande.add(pouet.get(i));
+                System.out.println("le produit "+pouet.get(i).getNom()+"a été ajouté de la chaine"+pouet.get(i).getChainId());
+                System.out.println("le produit "+pouet.get(i).getNom()+"a été ajouté de la chaine"+demande.get(demande.size()-1).getChainId());
+            }
         }
         addSelectedItem(demande);
         return true;
@@ -160,8 +164,8 @@ public class NavigationController extends JFrame {
     }
 
     public String execRequeteChaineLoc(Integer integer,double lat,double longi) {
-        String requete = "https://www.mastercourses.com/api2/chains/"+integer+"/stores/locator/?lat="+lat+"&lon="+longi+"scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
-        JSONArray resul = new JSONArray(client.execRequete(requete));
+        String requete = "https://www.mastercourses.com/api2/chains/"+integer+"/stores/locator/?lat="+lat+"&lon="+longi+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
+        JSONArray resul =client.execRequete(requete);
         return resul.getJSONObject(0).toString();
     }
 }
