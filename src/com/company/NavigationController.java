@@ -74,7 +74,7 @@ public class NavigationController extends JFrame {
     }
 
     public ArrayList<ItemCourse> getRequeteData(String nomItem) {
-        String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&ip=current&mct=hieCaig6Oth2thiem7eiRiechufooWix";
+        String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
         ArrayList<ItemCourse> result = new ArrayList<>();
         JSONArray reqResult = client.execRequete(requete);
         int max = 0;
@@ -92,6 +92,7 @@ public class NavigationController extends JFrame {
             repouet.setPrix("0");
             repouet.setURL(pouet.getString("image_url"));
             result.add(repouet);
+
         }
         return result;
     }
@@ -113,11 +114,17 @@ public class NavigationController extends JFrame {
             tmp.put("nom",res.getNom());
             tmp.put("taken",false);
             tmp.put("prix",res.getPrix());
-            if(res.getURL().equals(null)) tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
-            else tmp.put("url",res.getURL());
             tmp.put("chain_id",res.getChainId());
+            if(res.getURL().equals(null)){
+                tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
+            }
+            else{
+                tmp.put("url",res.getURL());
+            }
             try {
-                client.curOut.writeUTF("addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString());
+                String requete = "addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString();
+                System.out.println("j'écris : "+requete);
+                client.curOut.writeUTF(requete);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,6 +142,7 @@ public class NavigationController extends JFrame {
             tmp.setIdItem(contenu.getJSONObject(i).getInt("idItem"));
             tmp.setURL(contenu.getJSONObject(i).getString("url"));
             tmp.setNom(contenu.getJSONObject(i).getString("nom"));
+            tmp.setChainId(contenu.getJSONObject(i).getInt("chain_id"));
             retour.add(tmp);
         }
         return retour;
@@ -149,5 +157,11 @@ public class NavigationController extends JFrame {
         String requete = "https://context.skyhookwireless.com/accelerator/ip?version=2.0&prettyPrint=true&key=eJwVwckNACAIALC3w5CAgMcTBZYy7m5sqRB-MkTLqeaLc0wQRgJsJoDOG_rU7RZhSXkfERwLSw&user=eval&timestamp=1362089701";
         return (client.execStringRequete(requete));
 
+    }
+
+    public String execRequeteChaineLoc(Integer integer,double lat,double longi) {
+        String requete = "https://www.mastercourses.com/api2/chains/"+integer+"/stores/locator/?lat="+lat+"&lon="+longi+"scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
+        JSONArray resul = new JSONArray(client.execRequete(requete));
+        return resul.getJSONObject(0).toString();
     }
 }

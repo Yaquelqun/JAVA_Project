@@ -75,6 +75,8 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.nom.setToolTipText(dataName);
         this.prix = new JTextArea(dataPrice+"€");
         isTaken = new JCheckBox();
+        isTaken.disable();
+        isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
         isTaken.addActionListener(this);
         navigationController.persoButton("DetailsButton.png",infosButton);
         infosButton.addActionListener(this);
@@ -98,14 +100,14 @@ public class ObjetItem extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
         if(s == isTaken){
-            if(isTaken.isValid()){
+            if(isTaken.isSelected()){
                 if(mode.equals("search")){
                     ajoutItem.getRechercheItems().remove(res);
                     res.setTaken(true);
                     ajoutItem.getRechercheItems().add(res);
                 }
                 if(mode.equals("select")){
-
+                    isTaken.setIcon(new ImageIcon("res/Buttons/EnableCheck.png"));
                 }
             }
             else{
@@ -115,7 +117,7 @@ public class ObjetItem extends JPanel implements ActionListener{
                     ajoutItem.getRechercheItems().add(res);
                 }
                 if(mode.equals("select")){
-
+                    isTaken.setIcon(new ImageIcon("res/Buttons/DisableCheck.png"));
                 }
             }
         }

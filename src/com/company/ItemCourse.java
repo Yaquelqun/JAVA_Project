@@ -6,8 +6,7 @@ package com.company;
 public class ItemCourse {
 
 
-
-    int idItem,chainId;
+    int idItem, chainId;
     String nom;
     String prix;
 
@@ -15,8 +14,7 @@ public class ItemCourse {
     Boolean isTaken;
 
 
-
-    public  ItemCourse(){
+    public ItemCourse() {
 
     }
 
@@ -70,10 +68,13 @@ public class ItemCourse {
         this.URL = URL;
     }
 
-    public int getChainId(){
-        return this.chainId;
+    public int getChainId() {
+        return chainId;
     }
+
     public void setChainId(int chainId) {
         this.chainId = chainId;
     }
 }
+
+

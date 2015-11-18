@@ -24,7 +24,8 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
         super(new BorderLayout());
         super.setPreferredSize(new Dimension(300,200));
         setPreferredSize(new Dimension(300,200));
-        nickNameF = new JTextField("Name") ;
+        nickNameF = new JTextField(20) ;
+        nickNameF.setText("Name");
 
         String[] sharedPref = controllerLoginInscription.client.getSharedPageLogin();
         System.out.println(Boolean.valueOf(sharedPref[2]));
@@ -33,7 +34,7 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
             retenir.setBackground(Client.BACKGROUND_INV_COLOR);
             controllerLoginInscription.persoCheckBox(retenir);
             nickNameF.setText(sharedPref[0]);
-            nickNameF.setPreferredSize(new Dimension(10,10));
+            //nickNameF.setPreferredSize(new Dimension(10,10));
             nickNameF.setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
             nickNameF.addActionListener(this);
             nickNameF.addFocusListener(this);

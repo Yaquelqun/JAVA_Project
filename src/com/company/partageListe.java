@@ -16,7 +16,7 @@ public class partageListe extends JFrame implements ActionListener {
     JComboBox<String> comboListes;
     JButton Valider = new JButton("valider");
     JButton Annuler = new JButton("annuler");
-    JLabel login = new JLabel("avec qui partager ?");
+    JTextField login = new JTextField("avec qui partager ?");
 
     public partageListe(NavigationController navigationController, ArrayList<ListeCourse> mesListes) {
         this.mesListes = mesListes;
@@ -31,7 +31,6 @@ public class partageListe extends JFrame implements ActionListener {
         comboListes = new JComboBox<>();
         for (int i=0;i<mesListes.size();i++) comboListes.addItem(mesListes.get(i).getNom());
         total.add(comboListes);
-        navigationController.persoLabel(this.login, Client.BACKGROUND_INV_COLOR);
         navigationController.persoButton("OKButton.png",Valider);
         navigationController.persoButton("CancelButton.png",Annuler);
         total.add(login);
