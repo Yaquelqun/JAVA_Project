@@ -18,6 +18,8 @@ public class AjoutListe  extends JFrame implements ActionListener {
     public AjoutListe(NavigationController navigationController) {
         setPreferredSize(new Dimension(300,200));
         this.navigationController = navigationController;
+        setUndecorated(true);
+        setLocationRelativeTo(null);
         JPanel nomListePanel = new JPanel();
         nomListePanel.setLayout(new BoxLayout(nomListePanel,BoxLayout.Y_AXIS));
         JLabel expl = new JLabel("entrez le nom de votre liste");

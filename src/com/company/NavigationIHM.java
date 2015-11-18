@@ -1,13 +1,8 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +21,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
     JButton ButtonNew = new JButton("Nouvelle Liste");
     JButton buttonShare = new JButton("partager");
     JButton ButtonGo = new JButton("Allons-y !");
-    JMenu parametre;
+    JMenuBar parametre;
+    JMenuItem deconnection = new JMenuItem("disconnect");
     int idCurrentList =0;
     ArrayList<ListeCourse> mesListes;
     ArrayList<ItemCourse> currentList;
@@ -110,9 +106,13 @@ public class NavigationIHM extends JPanel implements ActionListener {
         panelWest.add(textHeader);
         header.add(panelWest,BorderLayout.WEST);
 
-        parametre = new JMenu();
+        parametre = new JMenuBar();
+        JMenu pouet = new JMenu();
+        pouet.add(deconnection);
+        pouet.setIcon(new ImageIcon("res/Buttons/paramButton.png"));
+        parametre.add(pouet);
+        deconnection.addActionListener(this);
         parametre.setBackground(Client.BACKGROUND_COLOR);
-        parametre.setIcon(new ImageIcon("res/Buttons/paramButton.png"));
         panelEast.add(parametre);
         header.add(panelEast,BorderLayout.EAST);
         add(header, BorderLayout.NORTH);
@@ -125,7 +125,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void updateHeader(int idButton) {
         idCurrentList = idButton;
-        imageHeader.setIcon(new ImageIcon((new ImageIcon("butGrey.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
+        imageHeader.setIcon(new ImageIcon((new ImageIcon("res/Buttons/returnButton.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
         imageHeader.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e) {
                 remove(navigation);
@@ -171,6 +171,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         ButtonListe.addActionListener(this);
         ButtonBudget.addActionListener(this);
         ButtonInfos.addActionListener(this);
+        ButtonGo.addActionListener(this);
         onglets.add(ButtonListe);
         onglets.add(ButtonBudget);
         onglets.add(ButtonInfos);
@@ -184,6 +185,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(totalBudget, BorderLayout.WEST);
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
+        navigationController.persoButton("GoButton.png",ButtonGo);
 
         navigationController.persoButton("NewButton.png",ButtonNewItem);
         ButtonNewItem.addActionListener(this);
@@ -214,6 +216,13 @@ public class NavigationIHM extends JPanel implements ActionListener {
         if(s==buttonShare){
             navigationController.setVisible(false);
             partageListe nouveauPartage = new partageListe(navigationController,mesListes);
+        }
+        if(s==ButtonGo){
+            StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
+        }
+        if(s==deconnection){
+            navigationController.client.disconnect(navigationController.client.userName);
+            navigationController.dispose();
         }
 
 
