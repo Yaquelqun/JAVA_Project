@@ -1,9 +1,13 @@
 package com.company;
 
+import JSONLibrary.JSONObject;
+
 import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Sandjiv on 17/11/2015.
@@ -17,29 +21,36 @@ public class StartItineraire extends JEditorPane {
     public final String viewSatellite = "satellite";
     public final String viewHybrid = "hybrid";
     public final String viewRoadmap = "roadmap";
-
+    double currentlat,currentlong;
+    ArrayList<ItemCourse> currentList;
+    Set<Integer> diffchaines = new HashSet<>();
 
     public StartItineraire(NavigationController navigationController, ArrayList<ItemCourse> currentList) {
         this.navigationController = navigationController;
-
+        this.currentList = new ArrayList<>(currentList);
         HTMLEditorKit kit = new HTMLEditorKit();
         HTMLDocument htmlDoc = (HTMLDocument) kit.createDefaultDocument();
-        this.setEditable(true);
+
+        for (int i =0; i< currentList.size();i++){
+            diffchaines.add(currentList.get(i).getChainId());
+        }
+        setgeoloc();
+        this.setEditable(false);
         this.setContentType("text/html");
         this.setEditorKit(kit);
         this.setDocument(htmlDoc);
         try {
             setApiKey("AIzaSyCWmERAAh3Xy-3i7_9ZibdwM52wmZeeCn4");
-            //  googleMap.setRoadmap(googleMap.viewHybrid);
+            //setRoadmap(viewHybrid);
             setZoom(10);
             /**
              Afficher la ville de Strabourg
              */
-            showLocation("gardanne", "france", 390, 400);
+            //showLocation("gardanne", "france", 390, 400);
             /**
              * Afficher Paris en fonction ses coordonnées GPS
              */
-            //  googleMap.showCoordinate("48.8667", "2.3333",390, 400);
+            showCoordinate(String.valueOf(currentlat),String.valueOf(currentlong),390, 400);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -51,6 +62,35 @@ public class StartItineraire extends JEditorPane {
         frame.setSize(400, 420);
         frame.setLocation(200, 200);
         frame.setVisible(true);
+
+
+    }
+
+    public StartItineraire(NavigationController navigationController,double lat, double longi) {
+        this.navigationController = navigationController;
+        currentlat = lat;
+        currentlong = longi;
+        HTMLEditorKit kit = new HTMLEditorKit();
+        HTMLDocument htmlDoc = (HTMLDocument) kit.createDefaultDocument();
+        this.setEditable(false);
+        this.setContentType("text/html");
+        this.setEditorKit(kit);
+        this.setDocument(htmlDoc);
+        try {
+            setApiKey("AIzaSyCWmERAAh3Xy-3i7_9ZibdwM52wmZeeCn4");
+            //setRoadmap(viewHybrid);
+            setZoom(10);
+            //showLocation("gardanne", "france", 390, 400);
+            showCoordinate(String.valueOf(currentlat),String.valueOf(currentlong),300, 200);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void setgeoloc() {
+        JSONObject totalloc = new JSONObject(navigationController.execRequeteGeoLoc());
+        currentlat = totalloc.getJSONObject("data").getJSONObject("location").getDouble("latitude");
+        currentlong = totalloc.getJSONObject("data").getJSONObject("location").getDouble("longitude");
 
 
     }
@@ -125,10 +165,19 @@ public class StartItineraire extends JEditorPane {
         url += "&markers=color:blue" + x + "," + y;
         url += "&sensor=false";
         url += "&key=" + this.ApiKey;
-        url += "&markers=size:mid";
-        url += "%7Ccolor:0xff0000";
-        url += "%7Clabel:1";
-        url += "%7C879+avenue+de+mimet";
+//        ArrayList<Integer> pouet = new ArrayList<Integer>(diffchaines);
+//        ArrayList<String> test = new ArrayList<>();
+//        test.add("113+route+nationale");
+//        test.add("1+rue+René+Cailloux");
+//        for (int j =0;j<test.size();j++){
+//            //JSONObject Objet = new JSONObject(navigationController.execRequeteChaineLoc(pouet.get(j),currentlat,currentlong));
+//            url += "&markers=size:mid";
+//            url += "%7Ccolor:0xff0000";
+//            url += "%7Clabel:"+j;
+//            //url += "%7C"+Objet.getString("address");
+//            url += "%7C"+test.get(j);
+//        }
+        System.out.println(url);
 
        String html = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>";
         html += "<html><head></head><body>";

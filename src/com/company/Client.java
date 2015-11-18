@@ -218,6 +218,15 @@ public class Client {
         return null;
     }
 
+    public String execStringRequete(String requete) {
+        try {
+            return getHTML(requete);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static String getHTML(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();

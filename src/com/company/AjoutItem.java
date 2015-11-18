@@ -39,7 +39,6 @@ public class AjoutItem  extends JFrame implements ActionListener {
         recherche = new JPanel();
         recherche.setLayout(new BoxLayout(recherche,BoxLayout.Y_AXIS));
         scrollFrame = new JScrollPane(recherche);
-
         JPanel boutons = new JPanel();
         boutons.setPreferredSize(new Dimension(300,70));
         annuler.addActionListener(this);
