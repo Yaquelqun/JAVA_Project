@@ -59,6 +59,74 @@ public class ControleurOrdres {
         if(typeOrdre.equals("addUsertoList")){
             return addUserToList();
         }
+        if(typeOrdre.equals("disableItem")){
+            return disableItem();
+        }
+        if(typeOrdre.equals("enableItem")){
+            return enableItem();
+        }
+        return true;
+    }
+
+    private boolean enableItem() {
+        int numList = Integer.valueOf(identifiant);
+        int numItem = Integer.valueOf(parametreOrdre);
+
+        try {
+            FileReader fr = new FileReader("bdd/liste"+numList+".json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray contenu = new JSONArray(input.readLine());
+            for( int i = 0;i< contenu.length();i++){
+                if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(numItem))){
+                    JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
+                    contenu.remove(i);
+                    tmp.remove("disable");
+                    tmp.put("disable", false);
+                    contenu.put(tmp);
+                    FileWriter fw = new FileWriter("bdd/liste"+numList+".json", false);
+                    BufferedWriter output = new BufferedWriter(fw);
+                    output.write(contenu.toString());
+                    output.close();
+                    con.out.writeBoolean(true);
+                    return true;
+                }
+            }
+            con.out.writeBoolean(false);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    private boolean disableItem() {
+        int numList = Integer.valueOf(identifiant);
+        int numItem = Integer.valueOf(parametreOrdre);
+
+        try {
+            FileReader fr = new FileReader("bdd/liste"+numList+".json");
+            BufferedReader input = new BufferedReader(fr);
+            JSONArray contenu = new JSONArray(input.readLine());
+            for( int i = 0;i< contenu.length();i++){
+                if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(numItem))){
+                    JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
+                    contenu.remove(i);
+                    tmp.remove("disable");
+                    tmp.put("disable", true);
+                    contenu.put(tmp);
+                    FileWriter fw = new FileWriter("bdd/liste"+numList+".json", false);
+                    BufferedWriter output = new BufferedWriter(fw);
+                    output.write(contenu.toString());
+                    output.close();
+                    con.out.writeBoolean(true);
+                    return true;
+                }
+            }
+            con.out.writeBoolean(false);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

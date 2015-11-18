@@ -9,8 +9,8 @@ public class ItemCourse {
     int idItem, chainId;
     String nom;
     String prix;
-
     String URL;
+    Boolean disable;
     Boolean isTaken;
 
 
@@ -25,8 +25,16 @@ public class ItemCourse {
         chainId = item.getChainId();
         idItem = item.getIdItem();
         isTaken = item.getTaken();
+        disable = item.getDisable();
     }
 
+    public Boolean getDisable() {
+        return disable;
+    }
+
+    public void setDisable(Boolean disable) {
+        this.disable = disable;
+    }
 
     public int getIdItem() {
         return idItem;

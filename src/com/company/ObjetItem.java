@@ -21,7 +21,7 @@ public class ObjetItem extends JPanel implements ActionListener{
     JLabel imageItem;
     AjoutItem ajoutItem;
     ItemCourse res;
-    boolean taken;
+    boolean taken, disable;
     String dataName, dataPrice, mode,urlItem;
     int idItem;
     NavigationController navigationController;
@@ -37,6 +37,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         dataPrice = res.getPrix();
         this.idItem = res.getIdItem();
         this.taken = res.getTaken();
+        this.disable = res.getDisable();
         this.setLayout(new FlowLayout());
         setPreferredSize(new Dimension(275,70));
         System.out.println("objet "+dataName+" a ete créé");
@@ -107,6 +108,8 @@ public class ObjetItem extends JPanel implements ActionListener{
                     ajoutItem.getRechercheItems().add(res);
                 }
                 if(mode.equals("select")){
+                    disable = true;
+                    navigationController.itemUpdated(disable, idItem);
                     isTaken.setIcon(new ImageIcon("res/Buttons/EnableCheck.png"));
                 }
             }
@@ -117,6 +120,8 @@ public class ObjetItem extends JPanel implements ActionListener{
                     ajoutItem.getRechercheItems().add(res);
                 }
                 if(mode.equals("select")){
+                    disable = false;
+                    navigationController.itemUpdated(disable, idItem);
                     isTaken.setIcon(new ImageIcon("res/Buttons/DisableCheck.png"));
                 }
             }
