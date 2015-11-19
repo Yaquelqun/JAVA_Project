@@ -3,11 +3,9 @@ package com.company;
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
 
-import javax.jnlp.IntegrationService;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Time;
 
 /**
  * Created by Sandjiv on 09/11/2015.
@@ -77,7 +75,7 @@ public class ControleurOrdres {
             BufferedReader input = new BufferedReader(fr);
             JSONArray contenu = new JSONArray(input.readLine());
             for( int i = 0;i< contenu.length();i++){
-                if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(numItem))){
+                if (contenu.getJSONObject(i).get("idItem").equals(Integer.valueOf(numItem))){
                     JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
                     contenu.remove(i);
                     tmp.remove("disable");
@@ -108,7 +106,7 @@ public class ControleurOrdres {
             BufferedReader input = new BufferedReader(fr);
             JSONArray contenu = new JSONArray(input.readLine());
             for( int i = 0;i< contenu.length();i++){
-                if (contenu.getJSONObject(i).get("id").equals(Integer.valueOf(numItem))){
+                if (contenu.getJSONObject(i).getInt("idItem")==(Integer.valueOf(numItem))){
                     JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
                     contenu.remove(i);
                     tmp.remove("disable");

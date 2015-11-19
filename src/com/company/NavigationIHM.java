@@ -151,6 +151,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void addDetailedPanel(int idButton) {
         //TODO avoir les onglets et un onglet ouvert
+        idCurrentList = idButton;
         updateItem();
         navigation = new JPanel();
         navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
@@ -235,8 +236,6 @@ public class NavigationIHM extends JPanel implements ActionListener {
             remove(navigation);
             updateToInfoPanel();
         }
-
-
     }
 
     private void updateToInfoPanel() {

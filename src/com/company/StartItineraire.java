@@ -169,8 +169,10 @@ public class StartItineraire extends JEditorPane {
         url += "%7Ccolor:0x00ff00";
         url += "%7Clabel:pos";
         url += "%7C"+x+","+y;
-        ArrayList<Integer> pouet = new ArrayList<Integer>(diffchaines);
-        //ArrayList<String> test = new ArrayList<>();
+
+        ArrayList<Integer> pouet = new ArrayList<>(diffchaines);
+
+
         for (int j =0;j<pouet.size();j++){
             JSONObject Objet = new JSONObject(navigationController.execRequeteChaineLoc(pouet.get(j),currentlat,currentlong));
             url += "&markers=size:mid";
@@ -179,8 +181,8 @@ public class StartItineraire extends JEditorPane {
             String tmp = Objet.getString("address");
             tmp = tmp.replace(" ","+");
             url += "%7C"+tmp;
-            //url += "%7C"+test.get(j);
         }
+
         System.out.println(url);
 
        String html = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>";

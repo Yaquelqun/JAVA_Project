@@ -10,7 +10,7 @@ public class ItemCourse {
     String nom;
     String prix;
     String URL;
-    Boolean disable;
+    Boolean disable =false;
     Boolean isTaken;
 
 

@@ -117,6 +117,7 @@ public class NavigationController extends JFrame {
             tmp.put("idItem",res.getIdItem());
             tmp.put("nom",res.getNom());
             tmp.put("taken",false);
+            tmp.put("disable",false);
             tmp.put("prix",res.getPrix());
             tmp.put("disable", res.getDisable());
             tmp.put("chain_id",res.getChainId());
@@ -145,6 +146,7 @@ public class NavigationController extends JFrame {
             tmp.setPrix(contenu.getJSONObject(i).getString("prix"));
             tmp.setTaken(contenu.getJSONObject(i).getBoolean("taken"));
             tmp.setIdItem(contenu.getJSONObject(i).getInt("idItem"));
+            tmp.setDisable(contenu.getJSONObject(i).getBoolean("disable"));
             tmp.setURL(contenu.getJSONObject(i).getString("url"));
             tmp.setNom(contenu.getJSONObject(i).getString("nom"));
             tmp.setChainId(contenu.getJSONObject(i).getInt("chain_id"));

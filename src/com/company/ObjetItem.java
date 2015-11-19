@@ -30,6 +30,7 @@ public class ObjetItem extends JPanel implements ActionListener{
 
 
     public ObjetItem(ItemCourse res, NavigationController navigationController) {
+
         this.res =res;
         this.urlItem = res.getURL();
         this.navigationController = navigationController;
@@ -41,6 +42,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.setLayout(new FlowLayout());
         setPreferredSize(new Dimension(275,70));
         System.out.println("objet "+dataName+" a ete créé");
+
     }
 
     public void setModeSearch(AjoutItem ajoutItem){
@@ -76,7 +78,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.nom.setToolTipText(dataName);
         this.prix = new JTextArea(dataPrice+"€");
         isTaken = new JCheckBox();
-        isTaken.disable();
+        isTaken.setSelected(disable);
         isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
         isTaken.addActionListener(this);
         navigationController.persoButton("DetailsButton.png",infosButton);
