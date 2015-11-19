@@ -6,17 +6,15 @@ package com.company;
 public class ItemCourse {
 
 
-
-    int idItem;
+    int idItem, chainId;
     String nom;
     String prix;
     String URL;
-    Boolean disable;
+    Boolean disable =false;
     Boolean isTaken;
 
 
-
-    public  ItemCourse(){
+    public ItemCourse() {
 
     }
 
@@ -24,6 +22,7 @@ public class ItemCourse {
         nom = item.getNom();
         URL = item.getURL();
         prix = item.getPrix();
+        chainId = item.getChainId();
         idItem = item.getIdItem();
         isTaken = item.getTaken();
         disable = item.getDisable();
@@ -78,4 +77,13 @@ public class ItemCourse {
         this.URL = URL;
     }
 
+    public int getChainId() {
+        return chainId;
+    }
+
+    public void setChainId(int chainId) {
+        this.chainId = chainId;
+    }
 }
+
+

@@ -30,6 +30,7 @@ public class ObjetItem extends JPanel implements ActionListener{
 
 
     public ObjetItem(ItemCourse res, NavigationController navigationController) {
+
         this.res =res;
         this.urlItem = res.getURL();
         this.navigationController = navigationController;
@@ -41,6 +42,7 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.setLayout(new FlowLayout());
         setPreferredSize(new Dimension(275,70));
         System.out.println("objet "+dataName+" a ete créé");
+
     }
 
     public void setModeSearch(AjoutItem ajoutItem){
@@ -76,6 +78,8 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.nom.setToolTipText(dataName);
         this.prix = new JTextArea(dataPrice+"€");
         isTaken = new JCheckBox();
+        isTaken.setSelected(disable);
+        isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
         isTaken.addActionListener(this);
         navigationController.persoButton("DetailsButton.png",infosButton);
         infosButton.addActionListener(this);
@@ -99,7 +103,7 @@ public class ObjetItem extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
         if(s == isTaken){
-            if(isTaken.isValid()){
+            if(isTaken.isSelected()){
                 if(mode.equals("search")){
                     ajoutItem.getRechercheItems().remove(res);
                     res.setTaken(true);
@@ -108,6 +112,7 @@ public class ObjetItem extends JPanel implements ActionListener{
                 if(mode.equals("select")){
                     disable = true;
                     navigationController.itemUpdated(disable, idItem);
+                    isTaken.setIcon(new ImageIcon("res/Buttons/EnableCheck.png"));
                 }
             }
             else{
@@ -119,6 +124,7 @@ public class ObjetItem extends JPanel implements ActionListener{
                 if(mode.equals("select")){
                     disable = false;
                     navigationController.itemUpdated(disable, idItem);
+                    isTaken.setIcon(new ImageIcon("res/Buttons/DisableCheck.png"));
                 }
             }
         }

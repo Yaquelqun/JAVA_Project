@@ -13,9 +13,9 @@ public class NavigationIHM extends JPanel implements ActionListener {
     Dimension fenSize = new Dimension(300,600);
     JPanel header,gestionAction,gestionListes ,navigation, onglets, contenu, total, gestionItem;
     JLabel imageHeader, textHeader, totalBudget, selBudget;
-    JButton ButtonListe = new JButton("Produits");
-    JButton ButtonBudget = new JButton("Budget");
-    JButton ButtonInfos = new JButton("Infos");
+    JButton ButtonListe = new JButton();
+    JButton ButtonBudget = new JButton();
+    JButton ButtonInfos = new JButton();
     JButton ButtonNewItem = new JButton("Ajouter un produit");
     String currentListe = null;
     JButton ButtonNew = new JButton("Nouvelle Liste");
@@ -151,6 +151,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
     public void addDetailedPanel(int idButton) {
         //TODO avoir les onglets et un onglet ouvert
+        idCurrentList = idButton;
         updateItem();
         navigation = new JPanel();
         navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
@@ -158,7 +159,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         navigation.setBackground(new Color(255,255,255));
 
         onglets = new JPanel(new FlowLayout());
-        onglets.setPreferredSize(new Dimension(300,50));
+        onglets.setPreferredSize(new Dimension(300,60));
         contenu = new JPanel();
         contenu.setPreferredSize(new Dimension(300,400));
         total = new JPanel(new BorderLayout());
@@ -186,8 +187,10 @@ public class NavigationIHM extends JPanel implements ActionListener {
         total.add(selBudget, BorderLayout.CENTER);
         total.add(ButtonGo, BorderLayout.EAST);
         navigationController.persoButton("GoButton.png",ButtonGo);
-
         navigationController.persoButton("NewButton.png",ButtonNewItem);
+        navigationController.persoButton("ListButton.png",ButtonListe);
+        navigationController.persoButton("BudgetButton.png",ButtonBudget);
+        navigationController.persoButton("InfoButton.png",ButtonInfos);
         ButtonNewItem.addActionListener(this);
         gestionItem.add(ButtonNewItem, BorderLayout.EAST);
 
@@ -224,8 +227,65 @@ public class NavigationIHM extends JPanel implements ActionListener {
             navigationController.client.disconnect(navigationController.client.userName);
             navigationController.dispose();
         }
+        if(s==ButtonListe)
+        {
+            remove(navigation);
+           addDetailedPanel(idCurrentList);
+        }
+        if(s==ButtonInfos){
+            remove(navigation);
+            updateToInfoPanel();
+        }
+    }
 
+    private void updateToInfoPanel() {
+        navigation = new JPanel();
+        navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
+        navigation.setPreferredSize(new Dimension(300,500));
+        navigation.setBackground(new Color(255,255,255));
 
+        onglets = new JPanel(new FlowLayout());
+        onglets.setPreferredSize(new Dimension(300,60));
+        ButtonListe.addActionListener(this);
+        ButtonBudget.addActionListener(this);
+        ButtonInfos.addActionListener(this);
+        ButtonGo.addActionListener(this);
+        onglets.add(ButtonListe);
+        onglets.add(ButtonBudget);
+        onglets.add(ButtonInfos);
+        navigation.add(onglets);
+        JPanel completePanel = new JPanel();
+        completePanel.setLayout(new BoxLayout(completePanel,BoxLayout.Y_AXIS));
+        JScrollPane scrollFrame = new JScrollPane(completePanel);
+        JLabel titre = new JLabel(currentListe);
+        navigationController.persoLabel(titre,navigationController.client.BACKGROUND_INV_COLOR);
+        JEditorPane map = new StartItineraire(navigationController,43.5,5.4);
+        map.setPreferredSize(new Dimension(280,200));
+        JPanel paddingPanel = new JPanel();
+        paddingPanel.setPreferredSize(new Dimension(300,20));
+        JTextArea description = new JTextArea("ceci est la description de ma liste, elle est top délire et passe même à la ligne, ouaaaah.");
+        description.setLineWrap(true);
+        description.setColumns(10);
+        description.setRows(10);
+        description.setBackground(Color.WHITE);
+        description.setBorder(BorderFactory.createLineBorder(navigationController.client.BACKGROUND_COLOR,3,true));
+        Font myFont = new Font("Serif", Font.BOLD, 18);
+        description.setFont(myFont);
+        description.setForeground(Color.BLACK);
+
+        completePanel.add(titre);
+        completePanel.add(paddingPanel);
+        completePanel.add(map);
+        completePanel.add(paddingPanel);
+        completePanel.add(description);
+        completePanel.setAutoscrolls(true);
+        completePanel.setBackground(navigationController.client.BACKGROUND_INV_COLOR);
+        scrollFrame.setPreferredSize(new Dimension(300,440));
+        scrollFrame.repaint();
+        navigation.add(scrollFrame);
+        add(navigation);
+        repaint();
+        navigationController.pack();
     }
 
     public void updatedetailedPanel() {

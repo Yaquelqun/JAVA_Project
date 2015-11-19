@@ -5,11 +5,8 @@ import JSONLibrary.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * Created by Sandjiv on 11/11/2015.
@@ -77,7 +74,7 @@ public class NavigationController extends JFrame {
     }
 
     public ArrayList<ItemCourse> getRequeteData(String nomItem) {
-        String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&ip=current&mct=hieCaig6Oth2thiem7eiRiechufooWix";
+        String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
         ArrayList<ItemCourse> result = new ArrayList<>();
         JSONArray reqResult = client.execRequete(requete);
         int max = 0;
@@ -89,11 +86,13 @@ public class NavigationController extends JFrame {
             String nom = pouet.getString("name");
             System.out.println(nom);
             repouet.setNom(nom);
+            repouet.setChainId(pouet.getInt("chain_id"));
             repouet.setIdItem(pouet.getInt("id"));
             repouet.setTaken(false);
             repouet.setPrix("0");
             repouet.setURL(pouet.getString("image_url"));
             result.add(repouet);
+
         }
         return result;
     }
@@ -101,7 +100,11 @@ public class NavigationController extends JFrame {
     public boolean getSelectedSearchItem(ArrayList<ItemCourse> pouet) {
         ArrayList<ItemCourse> demande = new ArrayList<>();
         for (int i =0; i< pouet.size();i++){
-            if(pouet.get(i).getTaken()) demande.add(pouet.get(i));
+            if(pouet.get(i).getTaken()){
+                demande.add(pouet.get(i));
+                System.out.println("le produit "+pouet.get(i).getNom()+"a été ajouté de la chaine"+pouet.get(i).getChainId());
+                System.out.println("le produit "+pouet.get(i).getNom()+"a été ajouté de la chaine"+demande.get(demande.size()-1).getChainId());
+            }
         }
         addSelectedItem(demande);
         return true;
@@ -114,12 +117,20 @@ public class NavigationController extends JFrame {
             tmp.put("idItem",res.getIdItem());
             tmp.put("nom",res.getNom());
             tmp.put("taken",false);
+            tmp.put("disable",false);
             tmp.put("prix",res.getPrix());
             tmp.put("disable", res.getDisable());
-            if(res.getURL().equals(null)) tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
-            else tmp.put("url",res.getURL());
+            tmp.put("chain_id",res.getChainId());
+            if(res.getURL().equals(null)){
+                tmp.put("url","http://www.vernon-encheres.fr/_images/banniere_404.jpg");
+            }
+            else{
+                tmp.put("url",res.getURL());
+            }
             try {
-                client.curOut.writeUTF("addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString());
+                String requete = "addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString();
+                System.out.println("j'écris : "+requete);
+                client.curOut.writeUTF(requete);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,8 +146,10 @@ public class NavigationController extends JFrame {
             tmp.setPrix(contenu.getJSONObject(i).getString("prix"));
             tmp.setTaken(contenu.getJSONObject(i).getBoolean("taken"));
             tmp.setIdItem(contenu.getJSONObject(i).getInt("idItem"));
+            tmp.setDisable(contenu.getJSONObject(i).getBoolean("disable"));
             tmp.setURL(contenu.getJSONObject(i).getString("url"));
             tmp.setNom(contenu.getJSONObject(i).getString("nom"));
+            tmp.setChainId(contenu.getJSONObject(i).getInt("chain_id"));
             retour.add(tmp);
         }
         return retour;
@@ -147,15 +160,27 @@ public class NavigationController extends JFrame {
         return client.sendRequest(requete);
     }
 
+
     public boolean itemUpdated(boolean disable, int selectedItemId) {
         String requete;
         if (disable) {
-            requete = "disableItem/"+navigationIHM.idCurrentList+"/"+selectedItemId;
+            requete = "disableItem/" + navigationIHM.idCurrentList + "/" + selectedItemId;
+            return client.sendRequest(requete);
+        } else {
+            requete = "enableItem/" + navigationIHM.idCurrentList + "/" + selectedItemId;
             return client.sendRequest(requete);
         }
-        else {
-            requete = "enableItem/"+navigationIHM.idCurrentList+"/"+selectedItemId;
-            return client.sendRequest(requete);
-        }
+    }
+
+    public String execRequeteGeoLoc() {
+        String requete = "https://context.skyhookwireless.com/accelerator/ip?version=2.0&prettyPrint=true&key=eJwVwckNACAIALC3w5CAgMcTBZYy7m5sqRB-MkTLqeaLc0wQRgJsJoDOG_rU7RZhSXkfERwLSw&user=eval&timestamp=1362089701";
+        return (client.execStringRequete(requete));
+
+    }
+
+    public String execRequeteChaineLoc(Integer integer,double lat,double longi) {
+        String requete = "https://www.mastercourses.com/api2/chains/"+integer+"/stores/locator/?lat="+lat+"&lon="+longi+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
+        JSONArray resul =client.execRequete(requete);
+        return resul.getJSONObject(0).toString();
     }
 }
