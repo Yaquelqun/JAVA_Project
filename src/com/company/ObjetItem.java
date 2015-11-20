@@ -79,7 +79,13 @@ public class ObjetItem extends JPanel implements ActionListener{
         this.prix = new JTextArea(dataPrice+"€");
         isTaken = new JCheckBox();
         isTaken.setSelected(disable);
-        isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
+        if(disable == false) {
+            isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
+        }
+        else{
+            isTaken.setIcon(new ImageIcon("res/Buttons/enableCheck.png"));
+        }
+
         isTaken.addActionListener(this);
         navigationController.persoButton("DetailsButton.png",infosButton);
         infosButton.addActionListener(this);
