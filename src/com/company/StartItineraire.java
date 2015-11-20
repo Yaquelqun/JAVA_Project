@@ -32,7 +32,9 @@ public class StartItineraire extends JEditorPane {
         HTMLDocument htmlDoc = (HTMLDocument) kit.createDefaultDocument();
 
         for (int i =0; i< currentList.size();i++){
-            diffchaines.add(currentList.get(i).getChainId());
+            if(currentList.get(i).getChosen().equals(navigationController.client.userName)) {
+                diffchaines.add(currentList.get(i).getChainId());
+            }
         }
         setgeoloc();
         this.setEditable(false);
