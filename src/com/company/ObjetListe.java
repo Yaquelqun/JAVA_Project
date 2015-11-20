@@ -30,7 +30,7 @@ public class ObjetListe extends JPanel implements ActionListener {
        navigationController.persoButton("DetailsButton.png",detail);
         detail.addActionListener(this);
         add(this.nom);
-        add(this.budget);
+        //add(this.budget);
         add(this.detail);
         System.out.println("objet "+nom+" "+budget+" a ete créé");
     }

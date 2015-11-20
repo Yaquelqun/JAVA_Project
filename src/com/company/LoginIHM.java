@@ -29,18 +29,19 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
 
         String[] sharedPref = controllerLoginInscription.client.getSharedPageLogin();
         System.out.println(Boolean.valueOf(sharedPref[2]));
+        retenir = new JCheckBox("Retenir mes identifiants");
+        retenir.setBackground(Client.BACKGROUND_INV_COLOR);
+        controllerLoginInscription.persoCheckBox(retenir);
+        retenir.setSelected(Boolean.valueOf(sharedPref[2]));
+        nickNameF.setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
+        nickNameF.addActionListener(this);
+        nickNameF.addFocusListener(this);
+        passWord.addActionListener(this);
+        passWord.addFocusListener(this);
         if(Boolean.valueOf(sharedPref[2])){
-            retenir = new JCheckBox("Retenir mes identifiants",Boolean.valueOf(sharedPref[2]));
-            retenir.setBackground(Client.BACKGROUND_INV_COLOR);
-            controllerLoginInscription.persoCheckBox(retenir);
             nickNameF.setText(sharedPref[0]);
             //nickNameF.setPreferredSize(new Dimension(10,10));
-            nickNameF.setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
-            nickNameF.addActionListener(this);
-            nickNameF.addFocusListener(this);
             passWord.setText(sharedPref[1]);
-            passWord.addActionListener(this);
-            passWord.addFocusListener(this);
         }
         this.controllerLoginInscription = controllerLoginInscription;
 

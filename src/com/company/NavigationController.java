@@ -26,8 +26,13 @@ public class NavigationController extends JFrame {
 
     }
 
-    public boolean addListe(String text) {
-        return client.addListe(text);
+    public boolean addListe(String text, String descriptionListeText, String dateListeText, String endroitListeText) {
+        JSONObject envoi = new JSONObject();
+        envoi.put("nomListe",text);
+        envoi.put("description",descriptionListeText);
+        envoi.put("date",dateListeText);
+        envoi.put("endroit",endroitListeText);
+        return client.addListe(envoi.toString());
     }
 
     public ArrayList<ListeCourse> getListe(){
@@ -37,8 +42,10 @@ public class NavigationController extends JFrame {
             ListeCourse objet = new ListeCourse();
             objet.setNom(listes.getJSONObject(i).getString("nomListe"));
             objet.setBudget(listes.getJSONObject(i).getString("BudgetListe"));
-            objet.setDate(listes.getJSONObject(i).getString("dateListe"));
+            objet.setDate(listes.getJSONObject(i).getString("date"));
             objet.setIdListe(listes.getJSONObject(i).getInt("id"));
+            objet.setLieu(listes.getJSONObject(i).getString("endroit"));
+            objet.setDescription(listes.getJSONObject(i).getString("description"));
             retour.add(objet);
         }
         return retour;
@@ -74,6 +81,7 @@ public class NavigationController extends JFrame {
     }
 
     public ArrayList<ItemCourse> getRequeteData(String nomItem) {
+        nomItem = nomItem.replace(" ","%20");
         String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
         ArrayList<ItemCourse> result = new ArrayList<>();
         JSONArray reqResult = client.execRequete(requete);
@@ -119,6 +127,7 @@ public class NavigationController extends JFrame {
             tmp.put("taken",false);
             tmp.put("disable",false);
             tmp.put("prix",res.getPrix());
+            tmp.put("chosen_by",res.getChosen());
             tmp.put("disable", res.getDisable());
             tmp.put("chain_id",res.getChainId());
             if(res.getURL().equals(null)){
@@ -148,6 +157,7 @@ public class NavigationController extends JFrame {
             tmp.setIdItem(contenu.getJSONObject(i).getInt("idItem"));
             tmp.setDisable(contenu.getJSONObject(i).getBoolean("disable"));
             tmp.setURL(contenu.getJSONObject(i).getString("url"));
+            tmp.setChosen(contenu.getJSONObject(i).getString("chosen_by"));
             tmp.setNom(contenu.getJSONObject(i).getString("nom"));
             tmp.setChainId(contenu.getJSONObject(i).getInt("chain_id"));
             retour.add(tmp);

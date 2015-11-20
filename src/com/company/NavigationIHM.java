@@ -159,22 +159,25 @@ public class NavigationIHM extends JPanel implements ActionListener {
         navigation.setBackground(new Color(255,255,255));
 
         onglets = new JPanel(new FlowLayout());
+        onglets.setBackground(Color.WHITE);
         onglets.setPreferredSize(new Dimension(300,60));
         contenu = new JPanel();
         contenu.setPreferredSize(new Dimension(300,400));
+        contenu.setBackground(Color.WHITE);
         total = new JPanel(new BorderLayout());
+        total.setBackground(Color.WHITE);
         total.setPreferredSize(new Dimension(300,70));
-        totalBudget = new JLabel("budget total");
-        selBudget = new JLabel("budget items sel");
+        totalBudget = new JLabel("budget total : 30€");
+        selBudget = new JLabel("");
         gestionItem = new JPanel(new BorderLayout());
         gestionItem.setPreferredSize(new Dimension(300,70));
-
+        gestionItem.setBackground(Client.BACKGROUND_COLOR);
         ButtonListe.addActionListener(this);
         ButtonBudget.addActionListener(this);
         ButtonInfos.addActionListener(this);
         ButtonGo.addActionListener(this);
         onglets.add(ButtonListe);
-        onglets.add(ButtonBudget);
+        //onglets.add(ButtonBudget);
         onglets.add(ButtonInfos);
 
         for(int i =0;i<currentList.size();i++){
@@ -251,7 +254,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         ButtonInfos.addActionListener(this);
         ButtonGo.addActionListener(this);
         onglets.add(ButtonListe);
-        onglets.add(ButtonBudget);
+        //onglets.add(ButtonBudget);
         onglets.add(ButtonInfos);
         navigation.add(onglets);
         JPanel completePanel = new JPanel();
@@ -259,11 +262,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
         JScrollPane scrollFrame = new JScrollPane(completePanel);
         JLabel titre = new JLabel(currentListe);
         navigationController.persoLabel(titre,navigationController.client.BACKGROUND_INV_COLOR);
-        JEditorPane map = new StartItineraire(navigationController,43.5,5.4);
+        JEditorPane map = new StartItineraire(navigationController,mesListes.get((idCurrentList-1)).getLieu());
         map.setPreferredSize(new Dimension(280,200));
         JPanel paddingPanel = new JPanel();
         paddingPanel.setPreferredSize(new Dimension(300,20));
-        JTextArea description = new JTextArea("ceci est la description de ma liste, elle est top délire et passe même à la ligne, ouaaaah.");
+        JTextArea description = new JTextArea(mesListes.get(idCurrentList-1).getDescription());
         description.setLineWrap(true);
         description.setColumns(10);
         description.setRows(10);

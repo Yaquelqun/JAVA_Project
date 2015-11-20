@@ -12,7 +12,7 @@ public class ItemCourse {
     String URL;
     Boolean disable =false;
     Boolean isTaken;
-
+    String chosen = "*";
 
     public ItemCourse() {
 
@@ -26,6 +26,7 @@ public class ItemCourse {
         idItem = item.getIdItem();
         isTaken = item.getTaken();
         disable = item.getDisable();
+        chosen = item.getChosen();
     }
 
     public Boolean getDisable() {
@@ -83,6 +84,14 @@ public class ItemCourse {
 
     public void setChainId(int chainId) {
         this.chainId = chainId;
+    }
+
+    public String getChosen() {
+        return chosen;
+    }
+
+    public void setChosen(String text) {
+        chosen = text;
     }
 }
 
