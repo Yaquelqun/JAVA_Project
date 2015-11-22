@@ -28,7 +28,7 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
         nickNameF = new JTextField(20) ;
         nickNameF.setText("Name");
 
-        String[] sharedPref = controllerLoginInscription.client.getSharedPageLogin();
+        String[] sharedPref = Client.getClient(controllerLoginInscription).getSharedPageLogin();
         System.out.println(Boolean.valueOf(sharedPref[2]));
         retenir = new JCheckBox("Retenir mes identifiants");
         retenir.setBackground(Client.BACKGROUND_INV_COLOR);
@@ -85,12 +85,12 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
             String login = nickNameF.getText();
             String psw = String.copyValueOf(passWord.getPassword());
             if(retenir.isValid()){
-                controllerLoginInscription.client.keepLogin(login,psw);
+                Client.getClient(controllerLoginInscription).keepLogin(login,psw);
             }
             else{
-                controllerLoginInscription.client.suppressLogin();
+                Client.getClient(controllerLoginInscription).suppressLogin();
             }
-            controllerLoginInscription.client.login(login,psw);
+            Client.getClient(controllerLoginInscription).login(login,psw);
         }
         if(s == inscription){
             controllerLoginInscription.pageInscription();

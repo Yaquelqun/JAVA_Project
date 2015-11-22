@@ -32,6 +32,7 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
         setUndecorated(true);
         setLocationRelativeTo(null);
         JPanel nomListePanel = new JPanel(new FlowLayout());
+        nomListePanel.setBackground(Client.BACKGROUND_INV_COLOR);
         nomListePanel.setPreferredSize(new Dimension(250,70));
         nomItem = new JTextField("Nom du produit cherché");
         nomItem.addFocusListener(this);
@@ -43,7 +44,9 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
         recherche = new JPanel();
         recherche.setLayout(new BoxLayout(recherche,BoxLayout.Y_AXIS));
         scrollFrame = new JScrollPane(recherche);
+        scrollFrame.setBackground(Color.WHITE);
         JPanel boutons = new JPanel();
+        boutons.setBackground(Client.BACKGROUND_INV_COLOR);
         boutons.setPreferredSize(new Dimension(300,70));
         annuler.addActionListener(this);
         valider.addActionListener(this);
@@ -52,6 +55,7 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
         boutons.add(annuler);
         boutons.add(valider);
 
+        global.setBackground(Client.BACKGROUND_INV_COLOR);
         global.add(nomListePanel);
         global.add(scrollFrame);
         global.add(boutons);
@@ -78,7 +82,6 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
 
         if(s==chercher){
             setPreferredSize(new Dimension(300,600));
-            setLocation(0,0);
            rechercheItems = navigationController.getRequeteData(nomItem.getText());
             int max = 0;
             if(rechercheItems.size()>10) max =10;
@@ -92,6 +95,7 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
 
             recherche.setAutoscrolls(true);
             scrollFrame.setPreferredSize(new Dimension( 300,400));
+            setLocation(0,0);
             scrollFrame.repaint();
             repaint();
             pack();

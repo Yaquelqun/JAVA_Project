@@ -27,7 +27,7 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
         this.controllerLoginInscription = controllerLoginInscription;
         super.setPreferredSize(fenSize);
         setPreferredSize(fenSize);
-        setBackground(controllerLoginInscription.client.BACKGROUND_INV_COLOR);
+        setBackground(Client.BACKGROUND_INV_COLOR);
 
         login = new JTextField(20);
         login.setText("Votre Login");
@@ -48,14 +48,14 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
         Cancel.addActionListener(this);
 
         panelChamps = new JPanel();
-        panelChamps.setBackground(controllerLoginInscription.client.BACKGROUND_INV_COLOR);
+        panelChamps.setBackground(Client.BACKGROUND_INV_COLOR);
         panelChamps.setLayout(new BoxLayout(panelChamps,BoxLayout.Y_AXIS));
         panelChamps.add(login);
         panelChamps.add(psw);
         panelChamps.add(psw2);
         panelBoutons = new JPanel(new FlowLayout());
         panelBoutons.setPreferredSize(new Dimension(300,70));
-        panelBoutons.setBackground(controllerLoginInscription.client.BACKGROUND_INV_COLOR);
+        panelBoutons.setBackground(Client.BACKGROUND_INV_COLOR);
         panelBoutons.add(Confirm);
         panelBoutons.add(Cancel);
         add(panelChamps);
@@ -70,7 +70,7 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
             controllerLoginInscription.verifInscription(psw.getText(),psw2.getText(),login.getText());
         }
         if(s == Cancel){
-            controllerLoginInscription.client.inscriptionAbort();
+            Client.getClient(controllerLoginInscription).inscriptionAbort();
         }
     }
 

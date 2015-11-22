@@ -7,11 +7,7 @@ import java.io.IOException;
 
 public class ControllerLoginInscription extends JFrame {
 
-    Client client;
-
     ControllerLoginInscription() {
-        client = new Client(this);
-
         pageLogin();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         //setLocation((dim.width/2)-getWidth()/2,(dim.height/2)+getHeight()/2);
@@ -39,7 +35,7 @@ public class ControllerLoginInscription extends JFrame {
     }
 
     public void pageInscription(){
-        if(client.connect("pouet")) {
+        if(Client.getClient(this).connect("pouet")) {
             InscriptionIHM inscriptionPage = new InscriptionIHM(this);
             setContentPane(inscriptionPage);
             pack();
@@ -58,7 +54,7 @@ public class ControllerLoginInscription extends JFrame {
     public void verifInscription(String psw1,String psw2, String login) {
         if (psw2.equals(psw1)) {
             System.out.println("les psw sont égaux");
-            client.inscription(login, psw1);
+            Client.getClient(this).inscription(login, psw1);
         }
         else{
             infoBox("Les mots de passe sont différents", "Erreur");
@@ -90,7 +86,7 @@ public class ControllerLoginInscription extends JFrame {
     }
 
     public void nextFen() {
-        NavigationController cousteau = new NavigationController(client);
+        NavigationController cousteau = new NavigationController(this);
         this.dispose();
     }
 }

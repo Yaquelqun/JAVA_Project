@@ -100,7 +100,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         imageHeader = new JLabel(new ImageIcon((new ImageIcon("butGreen.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
         imageHeader.setBackground(Client.BACKGROUND_COLOR);
-        textHeader = new JLabel(navigationController.client.userName);
+        textHeader = new JLabel(Client.getClient(navigationController.controllerLoginInscription).getUserName());
         navigationController.persoLabel(textHeader,Client.BACKGROUND_COLOR);
         panelWest.add(imageHeader);
         panelWest.add(textHeader);
@@ -229,7 +229,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
             StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
         }
         if(s==deconnection){
-            navigationController.client.disconnect(navigationController.client.userName);
+            Client.getClient(navigationController.controllerLoginInscription).disconnect(Client.getClient(navigationController.controllerLoginInscription).getUserName());
             navigationController.dispose();
         }
         if(s==ButtonListe)
@@ -263,7 +263,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         completePanel.setLayout(new BoxLayout(completePanel,BoxLayout.Y_AXIS));
         JScrollPane scrollFrame = new JScrollPane(completePanel);
         JLabel titre = new JLabel(currentListe);
-        navigationController.persoLabel(titre,navigationController.client.BACKGROUND_INV_COLOR);
+        navigationController.persoLabel(titre,Client.BACKGROUND_INV_COLOR);
         JEditorPane map = new StartItineraire(navigationController,mesListes.get((idCurrentList-1)).getLieu());
         map.setPreferredSize(new Dimension(280,200));
         JPanel paddingPanel = new JPanel();
@@ -273,7 +273,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         description.setColumns(10);
         description.setRows(10);
         description.setBackground(Color.WHITE);
-        description.setBorder(BorderFactory.createLineBorder(navigationController.client.BACKGROUND_COLOR,3,true));
+        description.setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
         Font myFont = new Font("Serif", Font.BOLD, 18);
         description.setFont(myFont);
         description.setForeground(Color.BLACK);
@@ -284,7 +284,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         completePanel.add(paddingPanel);
         completePanel.add(description);
         completePanel.setAutoscrolls(true);
-        completePanel.setBackground(navigationController.client.BACKGROUND_INV_COLOR);
+        completePanel.setBackground(Client.BACKGROUND_INV_COLOR);
         scrollFrame.setPreferredSize(new Dimension(300,440));
         scrollFrame.repaint();
         navigation.add(scrollFrame);
