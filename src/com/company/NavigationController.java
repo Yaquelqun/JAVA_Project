@@ -12,11 +12,9 @@ import java.util.ArrayList;
  * Created by Sandjiv on 11/11/2015.
  */
 public class NavigationController extends JFrame {
-   ControllerLoginInscription controllerLoginInscription;
     NavigationIHM navigationIHM;
 
-    public NavigationController(ControllerLoginInscription controllerLoginInscription) {
-    this.controllerLoginInscription  = controllerLoginInscription;
+    public NavigationController() {
     navigationIHM = new NavigationIHM(this);
         this.setContentPane(navigationIHM);
         this.pack();
@@ -32,12 +30,12 @@ public class NavigationController extends JFrame {
         envoi.put("description",descriptionListeText);
         envoi.put("date",dateListeText);
         envoi.put("endroit",endroitListeText);
-        return Client.getClient(controllerLoginInscription).addListe(envoi.toString());
+        return Client.getClient().addListe(envoi.toString());
     }
 
     public ArrayList<ListeCourse> getListe(){
         ArrayList<ListeCourse> retour = new ArrayList<ListeCourse>();
-        JSONArray listes = new JSONArray(Client.getClient(controllerLoginInscription).getListes());
+        JSONArray listes = new JSONArray(Client.getClient().getListes());
         for(int i=0;i<listes.length();i++){
             ListeCourse objet = new ListeCourse();
             objet.setNom(listes.getJSONObject(i).getString("nomListe"));
@@ -84,7 +82,7 @@ public class NavigationController extends JFrame {
         nomItem = nomItem.replace(" ","%20");
         String requete = "https://www.mastercourses.com/api2/products/search/?q="+nomItem+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
         ArrayList<ItemCourse> result = new ArrayList<>();
-        JSONArray reqResult = Client.getClient(controllerLoginInscription).execRequete(requete);
+        JSONArray reqResult = Client.getClient().execRequete(requete);
         int max = 0;
         if(reqResult.length()>10) max =10;
         else max = reqResult.length();
@@ -139,7 +137,7 @@ public class NavigationController extends JFrame {
             try {
                 String requete = "addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString();
                 System.out.println("j'écris : "+requete);
-                Client.getClient(controllerLoginInscription).getCurOut().writeUTF(requete);
+                Client.getClient().getCurOut().writeUTF(requete);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -148,7 +146,7 @@ public class NavigationController extends JFrame {
 
 
     public ArrayList<ItemCourse> getselectItem(int id) {
-        JSONArray contenu = new JSONArray(Client.getClient(controllerLoginInscription).getSelectItem(id));
+        JSONArray contenu = new JSONArray(Client.getClient().getSelectItem(id));
         ArrayList<ItemCourse> retour = new ArrayList<>();
         for (int i = 0;i<contenu.length();i++){
             ItemCourse tmp = new ItemCourse();
@@ -167,7 +165,7 @@ public class NavigationController extends JFrame {
 
     public boolean addUserToList(String text, int selectedItemId) {
         String requete = "addUsertoList/"+text+"/"+selectedItemId;
-        return Client.getClient(controllerLoginInscription).sendRequest(requete);
+        return Client.getClient().sendRequest(requete);
     }
 
 
@@ -175,22 +173,22 @@ public class NavigationController extends JFrame {
         String requete;
         if (disable) {
             requete = "disableItem/" + navigationIHM.idCurrentList + "/" + selectedItemId;
-            return Client.getClient(controllerLoginInscription).sendRequest(requete);
+            return Client.getClient().sendRequest(requete);
         } else {
             requete = "enableItem/" + navigationIHM.idCurrentList + "/" + selectedItemId;
-            return Client.getClient(controllerLoginInscription).sendRequest(requete);
+            return Client.getClient().sendRequest(requete);
         }
     }
 
     public String execRequeteGeoLoc() {
         String requete = "https://context.skyhookwireless.com/accelerator/ip?version=2.0&prettyPrint=true&key=eJwVwckNACAIALC3w5CAgMcTBZYy7m5sqRB-MkTLqeaLc0wQRgJsJoDOG_rU7RZhSXkfERwLSw&user=eval&timestamp=1362089701";
-        return (Client.getClient(controllerLoginInscription).execStringRequete(requete));
+        return (Client.getClient().execStringRequete(requete));
 
     }
 
     public String execRequeteChaineLoc(Integer integer,double lat,double longi) {
         String requete = "https://www.mastercourses.com/api2/chains/"+integer+"/stores/locator/?lat="+lat+"&lon="+longi+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
-        JSONArray resul =Client.getClient(controllerLoginInscription).execRequete(requete);
+        JSONArray resul =Client.getClient().execRequete(requete);
         return resul.getJSONObject(0).toString();
     }
 }

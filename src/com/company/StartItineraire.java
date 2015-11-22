@@ -32,7 +32,7 @@ public class StartItineraire extends JEditorPane {
         HTMLDocument htmlDoc = (HTMLDocument) kit.createDefaultDocument();
 
         for (int i =0; i< currentList.size();i++){
-            if(currentList.get(i).getChosen().equals(Client.getClient(navigationController.controllerLoginInscription).getUserName())) {
+            if(currentList.get(i).getChosen().equals(Client.getClient().getUserName())) {
                 diffchaines.add(currentList.get(i).getChainId());
             }
         }

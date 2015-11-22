@@ -100,7 +100,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         imageHeader = new JLabel(new ImageIcon((new ImageIcon("butGreen.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
         imageHeader.setBackground(Client.BACKGROUND_COLOR);
-        textHeader = new JLabel(Client.getClient(navigationController.controllerLoginInscription).getUserName());
+        textHeader = new JLabel(Client.getClient().getUserName());
         navigationController.persoLabel(textHeader,Client.BACKGROUND_COLOR);
         panelWest.add(imageHeader);
         panelWest.add(textHeader);
@@ -229,7 +229,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
             StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
         }
         if(s==deconnection){
-            Client.getClient(navigationController.controllerLoginInscription).disconnect(Client.getClient(navigationController.controllerLoginInscription).getUserName());
+            Client.getClient().disconnect(Client.getClient().getUserName());
             navigationController.dispose();
         }
         if(s==ButtonListe)
