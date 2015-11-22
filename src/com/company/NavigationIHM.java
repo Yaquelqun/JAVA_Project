@@ -16,11 +16,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
     JButton ButtonListe = new JButton();
     JButton ButtonBudget = new JButton();
     JButton ButtonInfos = new JButton();
-    JButton ButtonNewItem = new JButton("Ajouter un produit");
+    JButton ButtonNewItem = new JButton();
     String currentListe = null;
-    JButton ButtonNew = new JButton("Nouvelle Liste");
-    JButton buttonShare = new JButton("partager");
-    JButton ButtonGo = new JButton("Allons-y !");
+    JButton ButtonNew = new JButton();
+    JButton buttonShare = new JButton();
+    JButton ButtonGo = new JButton();
     JMenuBar parametre;
     JMenuItem deconnection = new JMenuItem("disconnect");
     int idCurrentList =0;
@@ -100,8 +100,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
 
         imageHeader = new JLabel(new ImageIcon((new ImageIcon("butGreen.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
         imageHeader.setBackground(Client.BACKGROUND_COLOR);
-        textHeader = new JLabel(navigationController.client.userName);
-        textHeader.setBackground(Client.BACKGROUND_COLOR);
+        textHeader = new JLabel(Client.getClient(navigationController.controllerLoginInscription).getUserName());
+        navigationController.persoLabel(textHeader,Client.BACKGROUND_COLOR);
         panelWest.add(imageHeader);
         panelWest.add(textHeader);
         header.add(panelWest,BorderLayout.WEST);
@@ -156,7 +156,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         navigation = new JPanel();
         navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
         navigation.setPreferredSize(new Dimension(300,500));
-        navigation.setBackground(new Color(255,255,255));
+        navigation.setBackground(Color.WHITE);
 
         onglets = new JPanel(new FlowLayout());
         onglets.setBackground(Color.WHITE);
@@ -165,10 +165,12 @@ public class NavigationIHM extends JPanel implements ActionListener {
         contenu.setPreferredSize(new Dimension(300,400));
         contenu.setBackground(Color.WHITE);
         total = new JPanel(new BorderLayout());
-        total.setBackground(Color.WHITE);
+        total.setBackground(Client.BACKGROUND_INV_COLOR);
         total.setPreferredSize(new Dimension(300,70));
-        totalBudget = new JLabel("budget total : 30€");
+        totalBudget = new JLabel("Budget total : 30€");
+        navigationController.persoLabel(totalBudget, Client.BACKGROUND_INV_COLOR);
         selBudget = new JLabel("");
+        navigationController.persoLabel(selBudget, Client.BACKGROUND_INV_COLOR);
         gestionItem = new JPanel(new BorderLayout());
         gestionItem.setPreferredSize(new Dimension(300,70));
         gestionItem.setBackground(Client.BACKGROUND_COLOR);
@@ -227,7 +229,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
             StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
         }
         if(s==deconnection){
-            navigationController.client.disconnect(navigationController.client.userName);
+            Client.getClient(navigationController.controllerLoginInscription).disconnect(Client.getClient(navigationController.controllerLoginInscription).getUserName());
             navigationController.dispose();
         }
         if(s==ButtonListe)
@@ -261,7 +263,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         completePanel.setLayout(new BoxLayout(completePanel,BoxLayout.Y_AXIS));
         JScrollPane scrollFrame = new JScrollPane(completePanel);
         JLabel titre = new JLabel(currentListe);
-        navigationController.persoLabel(titre,navigationController.client.BACKGROUND_INV_COLOR);
+        navigationController.persoLabel(titre,Client.BACKGROUND_INV_COLOR);
         JEditorPane map = new StartItineraire(navigationController,mesListes.get((idCurrentList-1)).getLieu());
         map.setPreferredSize(new Dimension(280,200));
         JPanel paddingPanel = new JPanel();
@@ -271,7 +273,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         description.setColumns(10);
         description.setRows(10);
         description.setBackground(Color.WHITE);
-        description.setBorder(BorderFactory.createLineBorder(navigationController.client.BACKGROUND_COLOR,3,true));
+        description.setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
         Font myFont = new Font("Serif", Font.BOLD, 18);
         description.setFont(myFont);
         description.setForeground(Color.BLACK);
@@ -282,7 +284,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         completePanel.add(paddingPanel);
         completePanel.add(description);
         completePanel.setAutoscrolls(true);
-        completePanel.setBackground(navigationController.client.BACKGROUND_INV_COLOR);
+        completePanel.setBackground(Client.BACKGROUND_INV_COLOR);
         scrollFrame.setPreferredSize(new Dimension(300,440));
         scrollFrame.repaint();
         navigation.add(scrollFrame);

@@ -120,7 +120,7 @@ public class ObjetItem extends JPanel implements ActionListener{
             chosenLabel = new JLabel();
             chosenLabel.setIcon(new ImageIcon("res/Buttons/disableButton.png"));
             chosenLabel.setToolTipText("apporté par "+res.getChosen());
-            if(res.getChosen().equals(navigationController.client.getUserName())){
+            if(res.getChosen().equals(Client.getClient(navigationController.controllerLoginInscription).getUserName())){
                 add(this.isTaken);
             }
             else{

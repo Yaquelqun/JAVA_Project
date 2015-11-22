@@ -2,21 +2,24 @@ package com.company;
 
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 /**
  * Created by Sandjiv on 15/11/2015.
  */
-public class partageListe extends JFrame implements ActionListener {
+public class partageListe extends JFrame implements ActionListener, FocusListener {
     ArrayList<ListeCourse> mesListes;
     NavigationController navigationController;
     JComboBox<String> comboListes;
-    JButton Valider = new JButton("valider");
-    JButton Annuler = new JButton("annuler");
-    JTextField login = new JTextField("avec qui partager ?");
+    JButton Valider = new JButton();
+    JButton Annuler = new JButton();
+    JTextField login = new JTextField("Avec qui partager ?");
 
     public partageListe(NavigationController navigationController, ArrayList<ListeCourse> mesListes) {
         this.mesListes = mesListes;
@@ -33,6 +36,7 @@ public class partageListe extends JFrame implements ActionListener {
         total.add(comboListes);
         navigationController.persoButton("OKButton.png",Valider);
         navigationController.persoButton("CancelButton.png",Annuler);
+        login.addFocusListener(this);
         total.add(login);
         boutonPanel.add(Annuler);
         boutonPanel.add(Valider);
@@ -67,5 +71,27 @@ public class partageListe extends JFrame implements ActionListener {
             navigationController.setVisible(true);
             dispose();
         }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        Object s = e.getSource();
+        if(s==login){
+            if(login.getText().equals("Avec qui partager ?")){
+                login.setText("");
+            }
+        }
+        ((JTextField) s).setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        Object s = e.getSource();
+        if(s == login){
+            if(login.getText().equals("")){
+                login.setText("Avec qui partager ?");
+            }
+        }
+        ((JTextField) s).setBorder(new MatteBorder(1,1,1,1,Color.gray));
     }
 }

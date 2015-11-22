@@ -1,16 +1,19 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * Created by Sandjiv on 11/11/2015.
  */
-public class AjoutListe  extends JFrame implements ActionListener {
+public class AjoutListe  extends JFrame implements ActionListener, FocusListener {
     private NavigationController navigationController;
-    JTextField nomListe, descriptionListe, dateListe, endroitListe;
+    JTextField nomListe, descriptionListe, endroitListe, dateListe;
     JButton valider = new JButton();
     JButton confirmer;
     JButton annuler = new JButton();
@@ -18,15 +21,14 @@ public class AjoutListe  extends JFrame implements ActionListener {
     String createdListe;
 
     public AjoutListe(NavigationController navigationController) {
-        setPreferredSize(new Dimension(300,200));
+        setPreferredSize(new Dimension(300,130));
         this.navigationController = navigationController;
         setUndecorated(true);
         setLocationRelativeTo(null);
         JPanel nomListePanel = new JPanel();
         nomListePanel.setLayout(new BoxLayout(nomListePanel,BoxLayout.Y_AXIS));
-        JLabel expl = new JLabel("entrez le nom de votre liste");
+        JLabel expl = new JLabel("Entrez le nom de votre liste");
         navigationController.persoLabel(expl,Client.BACKGROUND_INV_COLOR);
-        expl.setFont(new Font("Serif", Font.BOLD, 14));
         nomListePanel.setBackground(Client.BACKGROUND_INV_COLOR);
         nomListe = new JTextField(50);
         nomListePanel.add(expl);
@@ -52,21 +54,25 @@ public class AjoutListe  extends JFrame implements ActionListener {
     }
 
     private void toMapAndDetailPanel() {
+        setPreferredSize(new Dimension(300,200));
         global.removeAll();
         global.setBackground(Client.BACKGROUND_INV_COLOR);
         global.setLayout(new BoxLayout(global,BoxLayout.Y_AXIS));
-        JLabel labelDescription = new JLabel("entrez une description");
+        JLabel labelDescription = new JLabel("Entrez une description");
         navigationController.persoLabel(labelDescription,Client.BACKGROUND_INV_COLOR);
         descriptionListe = new JTextField(60);
-        descriptionListe.setText("description");
-        JLabel labelDate = new JLabel("choisissez une date");
+        descriptionListe.setText("Description");
+        descriptionListe.addFocusListener(this);
+        JLabel labelDate = new JLabel("Choisissez une date");
         navigationController.persoLabel(labelDate,Client.BACKGROUND_INV_COLOR);
         dateListe = new JTextField(60);
-        dateListe.setText("date");
-        JLabel labelLieux = new JLabel("choississez une adresse pour votre écènement");
+        dateListe.setText("Date");
+        dateListe.addFocusListener(this);
+        JLabel labelLieux = new JLabel("Choississez une adresse");
         navigationController.persoLabel(labelLieux,Client.BACKGROUND_INV_COLOR);
         endroitListe = new JTextField(60);
-        endroitListe.setText("lieu");
+        endroitListe.setText("Lieu");
+        endroitListe.addFocusListener(this);
 
         JPanel boutonsPanel = new JPanel(new FlowLayout());
         boutonsPanel.setBackground(Client.BACKGROUND_INV_COLOR);
@@ -112,4 +118,39 @@ public class AjoutListe  extends JFrame implements ActionListener {
     }
 
 
+    @Override
+    public void focusGained(FocusEvent e) {
+        Object s = e.getSource();
+        if (s == descriptionListe) {
+            if(descriptionListe.getText().equals("Description")){
+                descriptionListe.setText("");
+            }
+        }
+        if (s == dateListe) {
+            if (dateListe.getText().equals("Date")) {
+                dateListe.setText("");
+            }
+        }
+        if (s == endroitListe) {
+            if(endroitListe.getText().equals("Lieu")){
+                endroitListe.setText("");
+            }
+        }
+        ((JTextField) s).setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        Object s = e.getSource();
+        if(((JTextField) s).getText().equals("")) {
+            if (s == descriptionListe) {
+                descriptionListe.setText("Description");
+            } else if (s == dateListe) {
+                dateListe.setText("Date");
+            } else if (s == endroitListe) {
+                endroitListe.setText("Lieu");
+            }
+        }
+        ((JTextField) s).setBorder(new MatteBorder(1,1,1,1,Color.gray));
+    }
 }

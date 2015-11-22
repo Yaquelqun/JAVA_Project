@@ -14,37 +14,35 @@ import static com.company.Constants.PORT;
 /**
  * Created by Loriane on 10/11/2015.
  */
-public class Client {
+final public class Client {
     public static final Color BACKGROUND_COLOR = new Color(253,175,112), BACKGROUND_INV_COLOR = new Color(68, 154, 151);
-    ControllerLoginInscription controllerLoginInscription;
-    Socket sock;
-    DataInputStream curIn ;
-    DataOutputStream curOut ;
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    String userName;
+    private static Client client;
+    private ControllerLoginInscription controllerLoginInscription;
+    private Socket sock;
+    private DataInputStream curIn ;
+    private DataOutputStream curOut ;
+    private String userName;
     private ListeCourse listeCourse;
-    boolean connected = false ;
+    private boolean connected = false ;
 
+    public static Client getClient (ControllerLoginInscription controllerLoginInscription) { // récup de la référence unique
+        if (client == null){
+            client = new Client(controllerLoginInscription) ;
+        }
+        return client ;
+    }
     /**
      * connect to the server
      **/
 
-    Client(ControllerLoginInscription controllerLoginInscription) {
+    private Client(ControllerLoginInscription controllerLoginInscription) {
         this.controllerLoginInscription = controllerLoginInscription;
     }
 
     /**
      * start socket
      */
-    boolean connect(String nickName) {
+    public boolean connect(String nickName) {
         try {
             System.out.println(nickName+" tente de se connecter");
             sock = new Socket("localhost", PORT);
@@ -80,7 +78,7 @@ public class Client {
      *
      * @param nickName
      */
-    void disconnect(String nickName) {
+    public void disconnect(String nickName) {
         try {
             curOut.writeUTF("disconnect/1/"+nickName);
             connected = false ;
@@ -93,7 +91,7 @@ public class Client {
         }
     }
 
-    void inscription(String login, String psw){
+    public void inscription(String login, String psw){
         JSONObject nouveauinscrit = new JSONObject();
         nouveauinscrit.accumulate("login",login);
         nouveauinscrit.accumulate("psw",psw);
@@ -117,12 +115,12 @@ public class Client {
         }
     }
 
-    void inscriptionAbort(){
+    public void inscriptionAbort(){
         if(!sock.isClosed()) disconnect("pouet");
         controllerLoginInscription.pageLogin();
     }
 
-    void login(String login, String psw){
+    public void login(String login, String psw){
         connect(login);
         JSONObject nouveaumonsieur = new JSONObject();
         nouveaumonsieur.accumulate("login",login);
@@ -147,6 +145,13 @@ public class Client {
         }
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public void keepLogin(String login, String psw) {
         FileWriter fw;
@@ -287,5 +292,52 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public ListeCourse getListeCourse() {
+        return listeCourse;
+    }
+
+    public void setListeCourse(ListeCourse listeCourse) {
+        this.listeCourse = listeCourse;
+    }
+
+    public DataOutputStream getCurOut() {
+        return curOut;
+    }
+
+    public void setCurOut(DataOutputStream curOut) {
+        this.curOut = curOut;
+    }
+
+    public DataInputStream getCurIn() {
+        return curIn;
+    }
+
+    public void setCurIn(DataInputStream curIn) {
+        this.curIn = curIn;
+    }
+
+    public Socket getSock() {
+        return sock;
+    }
+
+    public void setSock(Socket sock) {
+        this.sock = sock;
+    }
+
+    public ControllerLoginInscription getControllerLoginInscription() {
+        return controllerLoginInscription;
+    }
+
+    public void setControllerLoginInscription(ControllerLoginInscription controllerLoginInscription) {
+        this.controllerLoginInscription = controllerLoginInscription;
     }
 }
