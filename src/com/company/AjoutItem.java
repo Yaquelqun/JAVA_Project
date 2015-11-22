@@ -20,7 +20,7 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
     JButton valider = new JButton();
     JButton annuler = new JButton();
     JPanel global = new JPanel();
-    JPanel recherche;
+    JPanel recherche, boutons;
     JScrollPane scrollFrame;
 
 
@@ -45,7 +45,7 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
         recherche.setLayout(new BoxLayout(recherche,BoxLayout.Y_AXIS));
         scrollFrame = new JScrollPane(recherche);
         scrollFrame.setBackground(Color.WHITE);
-        JPanel boutons = new JPanel();
+        boutons = new JPanel();
         boutons.setBackground(Client.BACKGROUND_INV_COLOR);
         boutons.setPreferredSize(new Dimension(300,70));
         annuler.addActionListener(this);
@@ -57,8 +57,6 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
 
         global.setBackground(Client.BACKGROUND_INV_COLOR);
         global.add(nomListePanel);
-        global.add(scrollFrame);
-        global.add(boutons);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(global);
         pack();
@@ -94,8 +92,10 @@ public class AjoutItem  extends JFrame implements ActionListener, FocusListener 
             }
 
             recherche.setAutoscrolls(true);
+            global.add(scrollFrame);
+            global.add(boutons);
             scrollFrame.setPreferredSize(new Dimension( 300,400));
-            setLocation(0,0);
+            setLocation(100,50);
             scrollFrame.repaint();
             repaint();
             pack();
