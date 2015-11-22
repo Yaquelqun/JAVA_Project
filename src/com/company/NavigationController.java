@@ -66,7 +66,7 @@ public class NavigationController extends JFrame {
 
     public void persoLabel(JLabel jLabel, Color backgroundColor){
         jLabel.setBackground(backgroundColor);
-        Font myFont = new Font("Serif", Font.BOLD, 18);
+    Font myFont = new Font("Arial", Font.BOLD, 18);
         jLabel.setFont(myFont);
         jLabel.setForeground(Color.WHITE);
     }

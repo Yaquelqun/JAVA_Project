@@ -13,7 +13,7 @@ import java.awt.event.FocusListener;
 public class InscriptionIHM extends JPanel implements ActionListener, FocusListener {
 
     ControllerLoginInscription controllerLoginInscription;
-    Dimension fenSize = new Dimension(300,120);//TODO : chercher comment faire ça élegamment
+    Dimension fenSize = new Dimension(300,140);//TODO : chercher comment faire ça élegamment
     JTextField login;
     JTextField psw;
     JTextField psw2;
@@ -30,22 +30,21 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
         setBackground(controllerLoginInscription.client.BACKGROUND_INV_COLOR);
 
         login = new JTextField(20);
-        login.setText("votre Login");
+        login.setText("Votre Login");
         psw = new JTextField(20);
-        psw.setText("votre mot de passe");
+        psw.setText("Votre mot de passe");
         psw2 = new JTextField(20);
-        psw2.setText("votre mot de passe");
+        psw2.setText("Votre mot de passe");
 
-        login.addActionListener(this);
         login.addFocusListener(this);
-        psw.addActionListener(this);
         psw.addFocusListener(this);
-        psw2.addActionListener(this);
         psw2.addFocusListener(this);
 
-        Confirm = new JButton("Confirmer");
+        Confirm = new JButton();
         Confirm.addActionListener(this);
-        Cancel = new JButton("Annuler");
+        controllerLoginInscription.persoButton("OKButton.png",Confirm);
+        Cancel = new JButton();
+        controllerLoginInscription.persoButton("CancelButton.png",Cancel);
         Cancel.addActionListener(this);
 
         panelChamps = new JPanel();
@@ -55,6 +54,7 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
         panelChamps.add(psw);
         panelChamps.add(psw2);
         panelBoutons = new JPanel(new FlowLayout());
+        panelBoutons.setPreferredSize(new Dimension(300,70));
         panelBoutons.setBackground(controllerLoginInscription.client.BACKGROUND_INV_COLOR);
         panelBoutons.add(Confirm);
         panelBoutons.add(Cancel);
@@ -72,16 +72,27 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
         if(s == Cancel){
             controllerLoginInscription.client.inscriptionAbort();
         }
-        if (s.getClass().equals(login.getClass())){
-            System.out.println("mouallez");
-        }
     }
 
     @Override
     public void focusGained(FocusEvent e) {
         Object s = e.getSource();
-        ((JTextField) s).setText("");
-        ((JTextField) s).setBorder(BorderFactory.createLineBorder(controllerLoginInscription.client.BACKGROUND_COLOR,3,true));
+        if (s == login) {
+            if(login.getText().equals("Votre Login")){
+                login.setText("");
+            }
+        }
+        if (s == psw) {
+            if (psw.getText().equals("Votre mot de passe")) {
+                psw.setText("");
+            }
+        }
+        if (s == psw2) {
+            if(psw2.getText().equals("Votre mot de passe")){
+                psw2.setText("");
+            }
+        }
+        ((JTextField) s).setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
 
     }
 
@@ -91,14 +102,12 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
         if(((JTextField) s).getText().equals("")) {
             if (s == login) {
                 login.setText("Votre Login");
-                login.setBorder(new MatteBorder(1,1,1,1,Color.gray));
             } else if (s == psw) {
-                psw.setText("Votre Mot de passe");
-                psw.setBorder(new MatteBorder(1,1,1,1,Color.gray));
+                psw.setText("Votre mot de passe");
             } else if (s == psw2) {
                 psw2.setText("Votre mot de passe");
-                psw2.setBorder(new MatteBorder(1,1,1,1,Color.gray));
             }
         }
+        ((JTextField) s).setBorder(new MatteBorder(1,1,1,1,Color.gray));
     }
 }

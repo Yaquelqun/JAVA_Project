@@ -16,11 +16,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
     JButton ButtonListe = new JButton();
     JButton ButtonBudget = new JButton();
     JButton ButtonInfos = new JButton();
-    JButton ButtonNewItem = new JButton("Ajouter un produit");
+    JButton ButtonNewItem = new JButton();
     String currentListe = null;
-    JButton ButtonNew = new JButton("Nouvelle Liste");
-    JButton buttonShare = new JButton("partager");
-    JButton ButtonGo = new JButton("Allons-y !");
+    JButton ButtonNew = new JButton();
+    JButton buttonShare = new JButton();
+    JButton ButtonGo = new JButton();
     JMenuBar parametre;
     JMenuItem deconnection = new JMenuItem("disconnect");
     int idCurrentList =0;
@@ -101,7 +101,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         imageHeader = new JLabel(new ImageIcon((new ImageIcon("butGreen.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT))));
         imageHeader.setBackground(Client.BACKGROUND_COLOR);
         textHeader = new JLabel(navigationController.client.userName);
-        textHeader.setBackground(Client.BACKGROUND_COLOR);
+        navigationController.persoLabel(textHeader,Client.BACKGROUND_COLOR);
         panelWest.add(imageHeader);
         panelWest.add(textHeader);
         header.add(panelWest,BorderLayout.WEST);
@@ -156,7 +156,7 @@ public class NavigationIHM extends JPanel implements ActionListener {
         navigation = new JPanel();
         navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
         navigation.setPreferredSize(new Dimension(300,500));
-        navigation.setBackground(new Color(255,255,255));
+        navigation.setBackground(Color.WHITE);
 
         onglets = new JPanel(new FlowLayout());
         onglets.setBackground(Color.WHITE);
@@ -165,10 +165,12 @@ public class NavigationIHM extends JPanel implements ActionListener {
         contenu.setPreferredSize(new Dimension(300,400));
         contenu.setBackground(Color.WHITE);
         total = new JPanel(new BorderLayout());
-        total.setBackground(Color.WHITE);
+        total.setBackground(Client.BACKGROUND_INV_COLOR);
         total.setPreferredSize(new Dimension(300,70));
-        totalBudget = new JLabel("budget total : 30€");
+        totalBudget = new JLabel("Budget total : 30€");
+        navigationController.persoLabel(totalBudget, Client.BACKGROUND_INV_COLOR);
         selBudget = new JLabel("");
+        navigationController.persoLabel(selBudget, Client.BACKGROUND_INV_COLOR);
         gestionItem = new JPanel(new BorderLayout());
         gestionItem.setPreferredSize(new Dimension(300,70));
         gestionItem.setBackground(Client.BACKGROUND_COLOR);

@@ -71,7 +71,7 @@ public class ControllerLoginInscription extends JFrame {
 
     public void persoLabel(Component component, Color backgroundColor){
         component.setBackground(backgroundColor);
-        Font myFont = new Font("Serif", Font.BOLD, 18);
+        Font myFont = new Font("Arial", Font.BOLD, 18);
         component.setFont(myFont);
         component.setForeground(Color.WHITE);
     }

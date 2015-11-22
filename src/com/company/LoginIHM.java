@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -109,6 +110,7 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
                 passWord.setText("");
             }
         }
+        ((JTextField) s).setBorder(BorderFactory.createLineBorder(Client.BACKGROUND_COLOR,3,true));
     }
 
     @Override
@@ -124,5 +126,6 @@ public class LoginIHM extends JPanel implements ActionListener,FocusListener{
                 passWord.setText("Password");
             }
         }
+        ((JTextField) s).setBorder(new MatteBorder(1,1,1,1,Color.gray));
     }
 }
