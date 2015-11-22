@@ -14,11 +14,12 @@ import java.net.URL;
  */
 public class ObjetItem extends JPanel implements ActionListener{
 
-    JTextArea nom;
-    JTextArea prix;
+    JLabel nom;
+    JLabel prix;
     JCheckBox isTaken;
     JButton infosButton = new JButton();
     JLabel imageItem;
+    JLabel chosenLabel;
     AjoutItem ajoutItem;
     ItemCourse res;
     boolean taken, disable;
@@ -48,8 +49,8 @@ public class ObjetItem extends JPanel implements ActionListener{
     public void setModeSearch(AjoutItem ajoutItem){
         this.ajoutItem = ajoutItem;
         mode = "search";
-        this.nom = new JTextArea(dataName);
-        this.prix = new JTextArea(dataPrice+"€");
+        this.nom = new JLabel(dataName);
+        this.prix = new JLabel(dataPrice+"€");
         isTaken = new JCheckBox();
         isTaken.addActionListener(this);
 
@@ -68,16 +69,26 @@ public class ObjetItem extends JPanel implements ActionListener{
         }
 
         add(this.nom);
-        add(this.prix);
+        //add(this.prix);
         add(this.isTaken);
     }
 
     public void setModeSelect(){
         mode = "select";
-        this.nom = new JTextArea(dataName.substring(0,10)+"...");
+        if(dataName.length()>10) {
+            this.nom = new JLabel(dataName.substring(0, 10) + "...");
+        }
+        else
+        {
+            this.nom = new JLabel(dataName);
+        }
+        navigationController.persoLabel(nom,Client.BACKGROUND_INV_COLOR);
         this.nom.setToolTipText(dataName);
-        this.prix = new JTextArea(dataPrice+"€");
+        this.prix = new JLabel(dataPrice+"€");
+        navigationController.persoLabel(prix,Client.BACKGROUND_INV_COLOR);
+        setBackground(Client.BACKGROUND_INV_COLOR);
         isTaken = new JCheckBox();
+        isTaken.setBackground(Client.BACKGROUND_INV_COLOR);
         isTaken.setSelected(disable);
         if(disable == false) {
             isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
@@ -100,10 +111,28 @@ public class ObjetItem extends JPanel implements ActionListener{
             e.printStackTrace();
         }
         add(this.imageItem);
-        add(this.isTaken);
+        if(disable == false) {
+            isTaken.setIcon(new ImageIcon("res/Buttons/disableCheck.png"));
+            add(this.isTaken);
+        }
+        else{
+            isTaken.setIcon(new ImageIcon("res/Buttons/enableCheck.png"));
+            chosenLabel = new JLabel();
+            chosenLabel.setIcon(new ImageIcon("res/Buttons/disableButton.png"));
+            chosenLabel.setToolTipText("apporté par "+res.getChosen());
+            if(res.getChosen().equals(navigationController.client.getUserName())){
+                add(this.isTaken);
+            }
+            else{
+                add(chosenLabel);
+            }
+        }
+
+
+
         add(this.nom);
         add(this.prix);
-        add(this.infosButton);
+        //add(this.infosButton);
     }
     @Override
     public void actionPerformed(ActionEvent e) {

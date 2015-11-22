@@ -79,6 +79,8 @@ public class ControleurOrdres {
                     JSONObject tmp = new JSONObject(contenu.getJSONObject(i).toString());
                     contenu.remove(i);
                     tmp.remove("disable");
+                    tmp.remove("chosen_by");
+                    tmp.put("chosen_by","");
                     tmp.put("disable", false);
                     contenu.put(tmp);
                     FileWriter fw = new FileWriter("bdd/liste"+numList+".json", false);
@@ -111,6 +113,9 @@ public class ControleurOrdres {
                     contenu.remove(i);
                     tmp.remove("disable");
                     tmp.put("disable", true);
+                    tmp.remove("chosen_by");
+                    System.out.println(con.name);
+                    tmp.put("chosen_by",con.name);
                     contenu.put(tmp);
                     FileWriter fw = new FileWriter("bdd/liste"+numList+".json", false);
                     BufferedWriter output = new BufferedWriter(fw);
@@ -243,9 +248,12 @@ public class ControleurOrdres {
             BufferedReader input = new BufferedReader(fr);
             JSONArray tableauListe = new JSONArray(input.readLine());
             JSONObject liste = new JSONObject();
-            liste.put("nomListe",parametreOrdre);
+            JSONObject parametres = new JSONObject(parametreOrdre);
+            liste.put("nomListe",parametres.getString("nomListe"));
             liste.put("BudgetListe","");
-            liste.put("dateListe", "maintenant");
+            liste.put("description",parametres.getString("description"));
+            liste.put("endroit",parametres.getString("endroit"));
+            liste.put("date", parametres.getString("date"));
             liste.put("logins",new JSONArray("[{\"noms\":\""+con.name+"\"}]"));
             liste.put("id",tableauListe.length());
             tableauListe.put(liste);

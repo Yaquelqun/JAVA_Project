@@ -20,6 +20,15 @@ public class Client {
     Socket sock;
     DataInputStream curIn ;
     DataOutputStream curOut ;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     String userName;
     private ListeCourse listeCourse;
     boolean connected = false ;

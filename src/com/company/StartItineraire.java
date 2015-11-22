@@ -32,7 +32,9 @@ public class StartItineraire extends JEditorPane {
         HTMLDocument htmlDoc = (HTMLDocument) kit.createDefaultDocument();
 
         for (int i =0; i< currentList.size();i++){
-            diffchaines.add(currentList.get(i).getChainId());
+            if(currentList.get(i).getChosen().equals(navigationController.client.userName)) {
+                diffchaines.add(currentList.get(i).getChainId());
+            }
         }
         setgeoloc();
         this.setEditable(false);
@@ -60,16 +62,13 @@ public class StartItineraire extends JEditorPane {
         frame.setLocationRelativeTo(null);
         frame.add(this);
         frame.setSize(400, 420);
-        frame.setLocation(200, 200);
         frame.setVisible(true);
 
 
     }
 
-    public StartItineraire(NavigationController navigationController,double lat, double longi) {
+    public StartItineraire(NavigationController navigationController,String location) {
         this.navigationController = navigationController;
-        currentlat = lat;
-        currentlong = longi;
         HTMLEditorKit kit = new HTMLEditorKit();
         HTMLDocument htmlDoc = (HTMLDocument) kit.createDefaultDocument();
         this.setEditable(false);
@@ -80,8 +79,9 @@ public class StartItineraire extends JEditorPane {
             setApiKey("AIzaSyCWmERAAh3Xy-3i7_9ZibdwM52wmZeeCn4");
             //setRoadmap(viewHybrid);
             setZoom(10);
-            //showLocation("gardanne", "france", 390, 400);
-            showCoordinate(String.valueOf(currentlat),String.valueOf(currentlong),300, 200);
+            location = location.replace(" ","+");
+            showLocation(location, "", 300, 200);
+            //showCoordinate(String.valueOf(currentlat),String.valueOf(currentlong),300, 200);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
