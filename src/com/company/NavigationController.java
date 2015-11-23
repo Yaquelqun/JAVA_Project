@@ -191,6 +191,7 @@ public class NavigationController extends JFrame {
     public String execRequeteChaineLoc(Integer integer,double lat,double longi) {
         String requete = "https://www.mastercourses.com/api2/chains/"+integer+"/stores/locator/?lat="+lat+"&lon="+longi+"&scope=min&mct=hieCaig6Oth2thiem7eiRiechufooWix";
         JSONArray resul =Client.getClient(controllerLoginInscription).execRequete(requete);
+        System.out.println("le plus proche se trouve au "+resul.getJSONObject(0).toString());
         return resul.getJSONObject(0).toString();
     }
 }

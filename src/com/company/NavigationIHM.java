@@ -264,11 +264,18 @@ public class NavigationIHM extends JPanel implements ActionListener {
         JScrollPane scrollFrame = new JScrollPane(completePanel);
         JLabel titre = new JLabel(currentListe);
         navigationController.persoLabel(titre,Client.BACKGROUND_INV_COLOR);
-        JEditorPane map = new StartItineraire(navigationController,mesListes.get((idCurrentList-1)).getLieu());
+        JEditorPane map = null;
+        JTextArea description = null;
+        for(int i=0;i<mesListes.size();i++){
+            if(mesListes.get(i).getIdListe()==idCurrentList){
+                map = new StartItineraire(navigationController,mesListes.get(i).getLieu());
+                description = new JTextArea(mesListes.get(i).getDescription());
+            }
+        }
+
         map.setPreferredSize(new Dimension(280,200));
         JPanel paddingPanel = new JPanel();
         paddingPanel.setPreferredSize(new Dimension(300,20));
-        JTextArea description = new JTextArea(mesListes.get(idCurrentList-1).getDescription());
         description.setLineWrap(true);
         description.setColumns(10);
         description.setRows(10);
