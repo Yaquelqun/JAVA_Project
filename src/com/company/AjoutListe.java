@@ -70,6 +70,7 @@ public class AjoutListe  extends JFrame implements ActionListener, FocusListener
         dateListe.addFocusListener(this);
         JLabel labelLieux = new JLabel("Choississez une adresse");
         navigationController.persoLabel(labelLieux,Client.BACKGROUND_INV_COLOR);
+        labelLieux.setAlignmentX(LEFT_ALIGNMENT);
         endroitListe = new JTextField(60);
         endroitListe.setText("Lieu");
         endroitListe.addFocusListener(this);

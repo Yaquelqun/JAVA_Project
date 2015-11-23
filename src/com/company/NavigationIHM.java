@@ -164,6 +164,8 @@ public class NavigationIHM extends JPanel implements ActionListener {
         contenu = new JPanel();
         contenu.setPreferredSize(new Dimension(300,400));
         contenu.setBackground(Color.WHITE);
+        JScrollPane scrollFrame = new JScrollPane(contenu);
+
         total = new JPanel(new BorderLayout());
         total.setBackground(Client.BACKGROUND_INV_COLOR);
         total.setPreferredSize(new Dimension(300,70));
@@ -199,8 +201,11 @@ public class NavigationIHM extends JPanel implements ActionListener {
         ButtonNewItem.addActionListener(this);
         gestionItem.add(ButtonNewItem, BorderLayout.EAST);
 
+        contenu.setAutoscrolls(true);
+        //scrollFrame.setPreferredSize(new Dimension(300,440));
+        scrollFrame.repaint();
         navigation.add(onglets);
-        navigation.add(contenu);
+        navigation.add(scrollFrame);
         navigation.add(total);
         navigation.add(gestionItem);
 

@@ -206,6 +206,7 @@ public class ControleurOrdres {
             System.out.println("j'ajoute donc "+ roger.toString());
             output.write(contenu.toString());
             output.close();
+            con.out.writeBoolean(true);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
