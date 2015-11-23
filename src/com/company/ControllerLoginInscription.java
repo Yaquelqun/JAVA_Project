@@ -2,8 +2,6 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class ControllerLoginInscription extends JFrame {
 
@@ -35,7 +33,7 @@ public class ControllerLoginInscription extends JFrame {
     }
 
     public void pageInscription(){
-        if(Client.getClient(this).connect("pouet")) {
+        if(Client.getClient().connect("pouet")) {
             InscriptionIHM inscriptionPage = new InscriptionIHM(this);
             setContentPane(inscriptionPage);
             pack();
@@ -54,7 +52,9 @@ public class ControllerLoginInscription extends JFrame {
     public void verifInscription(String psw1,String psw2, String login) {
         if (psw2.equals(psw1)) {
             System.out.println("les psw sont égaux");
-            Client.getClient(this).inscription(login, psw1);
+            if(Client.getClient().inscription(login, psw1)){
+                pageLogin();
+            }
         }
         else{
             infoBox("Les mots de passe sont différents", "Erreur");
@@ -86,7 +86,7 @@ public class ControllerLoginInscription extends JFrame {
     }
 
     public void nextFen() {
-        NavigationController cousteau = new NavigationController(this);
+        NavigationController cousteau = new NavigationController();
         this.dispose();
     }
 }

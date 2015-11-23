@@ -3,6 +3,7 @@ package com.company;
 import JSONLibrary.JSONArray;
 import JSONLibrary.JSONObject;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -17,7 +18,6 @@ import static com.company.Constants.PORT;
 final public class Client {
     public static final Color BACKGROUND_COLOR = new Color(253,175,112), BACKGROUND_INV_COLOR = new Color(68, 154, 151);
     private static Client client;
-    private ControllerLoginInscription controllerLoginInscription;
     private Socket sock;
     private DataInputStream curIn ;
     private DataOutputStream curOut ;
@@ -25,9 +25,9 @@ final public class Client {
     private ListeCourse listeCourse;
     private boolean connected = false ;
 
-    public static Client getClient (ControllerLoginInscription controllerLoginInscription) { // récup de la référence unique
+    public static Client getClient () { // récup de la référence unique
         if (client == null){
-            client = new Client(controllerLoginInscription) ;
+            client = new Client() ;
         }
         return client ;
     }
@@ -35,8 +35,7 @@ final public class Client {
      * connect to the server
      **/
 
-    private Client(ControllerLoginInscription controllerLoginInscription) {
-        this.controllerLoginInscription = controllerLoginInscription;
+    private Client() {
     }
 
     /**
@@ -54,7 +53,7 @@ final public class Client {
             System.out.println("done, j'attends un ordre via "+sock.toString());
             if(!curIn.readBoolean()){
                 //TODO ya un problème là, faudrait renvoyer un false sinon le programme continue comme si de rien était
-                controllerLoginInscription.infoBox("cette personne est déjà connectée","illegal Login");
+                infoBox("cette personne est déjà connectée","illegal Login");
                 connected = false;
                 sock.close();
                 return false;
@@ -67,7 +66,7 @@ final public class Client {
 
         }
         catch (IOException e) {
-            controllerLoginInscription.infoBox("problème à la connexion","erreur");
+            infoBox("problème à la connexion","erreur");
             e.printStackTrace();
         }
         return false;
@@ -86,12 +85,12 @@ final public class Client {
             sock.close();
 
         } catch (IOException e1) {
-            controllerLoginInscription.infoBox("problème à la fermeture","erreur");
+            infoBox("problème à la fermeture","erreur");
             e1.printStackTrace();
         }
     }
 
-    public void inscription(String login, String psw){
+    public boolean inscription(String login, String psw){
         JSONObject nouveauinscrit = new JSONObject();
         nouveauinscrit.accumulate("login",login);
         nouveauinscrit.accumulate("psw",psw);
@@ -102,25 +101,26 @@ final public class Client {
             System.out.println("c'est fait !");
             if(!unique){
                 System.out.println("login existe déjà !!!");
-                controllerLoginInscription.infoBox("ce login est déjà pris","dommage");
+                infoBox("ce login est déjà pris","dommage");
+                return false;
             }
             else{
                 System.out.println("je déconnecte pouet");
-                controllerLoginInscription.infoBox("inscription réussie","félicitation");
+                infoBox("inscription réussie","félicitation");
                 disconnect("pouet");
-                controllerLoginInscription.pageLogin();
+                return true;
             }
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+        return true;
     }
 
     public void inscriptionAbort(){
         if(!sock.isClosed()) disconnect("pouet");
-        controllerLoginInscription.pageLogin();
     }
 
-    public void login(String login, String psw){
+    public boolean login(String login, String psw){
         connect(login);
         JSONObject nouveaumonsieur = new JSONObject();
         nouveaumonsieur.accumulate("login",login);
@@ -133,16 +133,18 @@ final public class Client {
             System.out.println("c'est fait !");
             if(!unique){
                 System.out.println("login existe déjà !!!");
-                controllerLoginInscription.infoBox("erreur login/mdp","dommage");
+                infoBox("erreur login/mdp","dommage");
+                return false;
             }
             else{
                 System.out.println("on passe sur login");
                 userName = login;
-                controllerLoginInscription.nextFen();
+                return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     public String getUserName() {
@@ -293,6 +295,11 @@ final public class Client {
             e.printStackTrace();
         }
     }
+
+    public void infoBox(String infoMessage, String titleBar){
+        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public boolean isConnected() {
         return connected;
     }
@@ -333,11 +340,5 @@ final public class Client {
         this.sock = sock;
     }
 
-    public ControllerLoginInscription getControllerLoginInscription() {
-        return controllerLoginInscription;
-    }
 
-    public void setControllerLoginInscription(ControllerLoginInscription controllerLoginInscription) {
-        this.controllerLoginInscription = controllerLoginInscription;
-    }
 }

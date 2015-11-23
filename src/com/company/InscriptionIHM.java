@@ -70,7 +70,8 @@ public class InscriptionIHM extends JPanel implements ActionListener, FocusListe
             controllerLoginInscription.verifInscription(psw.getText(),psw2.getText(),login.getText());
         }
         if(s == Cancel){
-            Client.getClient(controllerLoginInscription).inscriptionAbort();
+            Client.getClient().inscriptionAbort();
+            controllerLoginInscription.pageLogin();
         }
     }
 
