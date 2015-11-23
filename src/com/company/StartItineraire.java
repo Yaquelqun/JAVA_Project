@@ -38,6 +38,7 @@ public class StartItineraire extends JEditorPane {
 
         for (int i =0; i< currentList.size();i++){
             if(currentList.get(i).getChosen().equals(Client.getClient().getUserName())) {
+                System.out.println("j'ai sélectionné un objet de l'id-chain"+currentList.get(i).getChainId());
                 diffchaines.add(currentList.get(i).getChainId());
             }
         }
@@ -62,7 +63,7 @@ public class StartItineraire extends JEditorPane {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.add(jean);
-        frame.setSize(400, 420);
+        frame.setSize(400, 800);
         frame.setVisible(true);
         repaint();
 
@@ -175,7 +176,7 @@ public class StartItineraire extends JEditorPane {
         String url = "https://www.google.fr/maps/dir/";
 ///https://www.google.fr/maps/dir/879+Avenue+de+Mimet,+13120+Gardanne/920+Chemin+de+Roman,+13120+Gardanne/Aix-en-Provence/@43.4878312,5.4084481,13z
         ArrayList<Integer> pouet = new ArrayList<>(diffchaines);
-        url+=x+","+y+"/";
+        url+=currentlat+","+currentlong+"/";
 
         for (int j =0;j<pouet.size();j++){;
             JSONObject Objet = new JSONObject(navigationController.execRequeteChaineLoc(pouet.get(j),currentlat,currentlong));

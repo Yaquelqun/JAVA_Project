@@ -226,7 +226,13 @@ public class NavigationIHM extends JPanel implements ActionListener {
             partageListe nouveauPartage = new partageListe(navigationController,mesListes);
         }
         if(s==ButtonGo){
-            StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
+            Thread map = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    StartItineraire nouvelItineraire = new StartItineraire(navigationController,currentList);
+                }
+            });
+        map.start();
         }
         if(s==deconnection){
             Client.getClient().disconnect(Client.getClient().getUserName());

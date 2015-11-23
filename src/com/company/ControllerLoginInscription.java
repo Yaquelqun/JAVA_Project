@@ -2,8 +2,6 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class ControllerLoginInscription extends JFrame {
 
