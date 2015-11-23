@@ -138,6 +138,7 @@ public class NavigationController extends JFrame {
                 String requete = "addItem/"+navigationIHM.idCurrentList+"/"+tmp.toString();
                 System.out.println("j'écris : "+requete);
                 Client.getClient().getCurOut().writeUTF(requete);
+                Client.getClient().getCurIn().readBoolean();
             } catch (IOException e) {
                 e.printStackTrace();
             }
